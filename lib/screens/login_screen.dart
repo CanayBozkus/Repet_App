@@ -1,53 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/double_circle_background.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Hoşgeldin',
-              style: TextStyle(
-                fontSize: 50.0,
-                fontWeight: FontWeight.w600,
-              ),
+      resizeToAvoidBottomInset: false,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: DoubleCircleBackground(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.1,
             ),
-            Text('Devam etmek için lütfen giriş yap',
-            style: TextStyle(
-              fontSize: 20,
-              color: Color(0xffd0d0d0),
-            ),
-            ),
-            TextField(
-              decoration: InputDecoration(hintText: 'Email'),
-            ),
-            TextField(
-              decoration: InputDecoration(hintText: 'Password'),
-            ),
-            Text('Şifremi unuttum'),
-            FlatButton(
-              onPressed: () {},
-              child: Text('Giriş yap'),
-            ),
-            Text('Diğer Oturum Açma Yöntemleri'),
-            Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                FlatButton(
-                  onPressed: () {},
-                  child: Text('Facebook'),
+                Theme(
+                  data: Theme.of(context).copyWith(primaryColor: kPrimaryColor),
+                  child: TextField(
+                    style: TextStyle(
+                        color: kPrimaryColor, decoration: TextDecoration.none),
+                    decoration: kTextFieldDecoration.copyWith(
+                      labelText: 'Email',
+                      prefixIcon: Icon(Icons.mail_outline),
+                    ),
+                    onSubmitted: (value) {},
+                  ),
                 ),
-                FlatButton(
-                  onPressed: () {},
-                  child: Text('Google'),
+                Theme(
+                  data: Theme.of(context).copyWith(primaryColor: kPrimaryColor),
+                  child: TextField(
+                    obscureText: true,
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                    ),
+                    decoration: kTextFieldDecoration.copyWith(
+                      labelText: 'Password',
+                      prefixIcon: Icon(Icons.lock_outline),
+                    ),
+                    onSubmitted: (value) {},
+                  ),
+                ),
+                Text(
+                  'Şifremi Unuttum?',
+
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
