@@ -3,8 +3,9 @@ import 'package:repetapp/utilities/constants.dart';
 
 List<Widget> backgroundHalfCircles(width) {
   return [
-    Align(
-      alignment: Alignment.topLeft,
+    Positioned(
+      top: width*0.05,
+      left: 0,
       child: Container(
         width: width * 0.5,
         height: width,
@@ -17,8 +18,9 @@ List<Widget> backgroundHalfCircles(width) {
         ),
       ),
     ),
-    Align(
-      alignment: Alignment.bottomRight,
+    Positioned(
+      bottom: width*0.05,
+      right: 0,
       child: Container(
         width: width * 0.5,
         height: width,

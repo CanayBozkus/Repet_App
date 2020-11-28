@@ -16,3 +16,7 @@ const kTextFieldDecoration = InputDecoration(
     Icons.mail_outline,
   ),
 );
+
+const kTextFieldLabelStyle = TextStyle(
+  color: kPrimaryColor,
+);
