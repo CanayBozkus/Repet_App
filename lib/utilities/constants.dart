@@ -20,3 +20,9 @@ const kTextFieldDecoration = InputDecoration(
 const kTextFieldLabelStyle = TextStyle(
   color: kPrimaryColor,
 );
+
+const kDefaultTextStyle = TextStyle(
+  fontSize: 16.0,
+  color: kPrimaryColor,
+  fontWeight: FontWeight.w500,
+);

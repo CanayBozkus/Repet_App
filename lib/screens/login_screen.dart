@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/button_leading_svg.dart';
+import 'package:repetapp/widgets/custom_input_field.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -24,84 +25,107 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 3,
+                  Container(
+                    height: height * 0.15,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         'Hoşgeldiniz',
                         style: TextStyle(
-                          fontSize: 30.0,
+                          fontSize: height * 0.05,
                         ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(primaryColor: kPrimaryColor),
-                      child: TextField(
-                        style: kTextFieldLabelStyle,
-                        decoration: kTextFieldDecoration.copyWith(
-                          labelText: 'Email',
-                          prefixIcon: Icon(Icons.mail_outline),
+                  SizedBox(
+                    height: height * .2,
+                  ),
+                  CustomInputField(
+                    label: 'Email',
+                    icon: Icons.mail_outline,
+                    onSubmitted: (value) {},
+                  ),
+                  SizedBox(
+                    height: height * .04,
+                  ),
+                  CustomInputField(
+                    label: 'Password',
+                    icon: Icons.lock_outline,
+                    onSubmitted: (value) {},
+                    obsecure: true,
+                  ),
+                  SizedBox(
+                    height: height * .02,
+                  ),
+                  Text(
+                    'Şifremi Unuttum?',
+                  ),
+                  SizedBox(
+                    height: height * .02,
+                  ),
+                  Material(
+                    shadowColor: Colors.grey.shade400,
+                    elevation: 10,
+                    child: FlatButton(
+                      color: kPrimaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 10.0),
+                      minWidth: double.infinity,
+                      child: Text(
+                        'Giriş Yap',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
                         ),
-                        onSubmitted: (value) {},
+                        textAlign: TextAlign.center,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ),
+                  SizedBox(
+                    height: height * .02,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: 'Hesabın yok mu?  ',
+                        style: kDefaultTextStyle,
+                        children: [
+                          TextSpan(
+                            text: 'Kayıt Ol',
+                            style:
+                                kDefaultTextStyle.copyWith(color: Colors.black),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Theme(
-                      data: Theme.of(context)
-                          .copyWith(primaryColor: kPrimaryColor),
-                      child: TextField(
-                        obscureText: true,
-                        style: kTextFieldLabelStyle,
-                        decoration: kTextFieldDecoration.copyWith(
-                          labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock_outline),
-                        ),
-                        onSubmitted: (value) {},
-                      ),
-                    ),
+                  SizedBox(
+                    height: height * .02,
                   ),
-                  Expanded(
+                  Container(
+                    width: double.infinity,
                     child: Text(
-                      'Şifremi Unuttum?',
-                    ),
-                  ),
-                  FlatButton(
-                    color: kPrimaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 15.0),
-                    minWidth: double.infinity,
-                    child: Text(
-                      'Giriş Yap',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                      ),
+                      'Diğer Oturum Açma Yöntemleri',
                       textAlign: TextAlign.center,
                     ),
-                    onPressed: () {},
                   ),
-                  Text(
-                    'Hesabın yok mu? Kayıt Ol',
-                  ),
-                  Text(
-                    'Diğer Oturum Açma Yöntemleri',
+                  SizedBox(
+                    height: height * .02,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ButtonLeadingSvg(
-                        width: width*0.35,
+                        width: width * 0.35,
                         svg: 'assets/icons/iconmonstr-facebook-1.svg',
                         label: 'Facebook',
                         color: Color(0xff345ea1),
                         onPressed: () {},
                       ),
                       ButtonLeadingSvg(
-                        width: width*0.35,
+                        width: width * 0.35,
                         svg: 'assets/icons/google.svg',
                         label: 'Google',
                         onPressed: () {},
