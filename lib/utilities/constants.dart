@@ -7,7 +7,7 @@ const kTextFieldDecoration = InputDecoration(
   labelStyle: TextStyle(
     color: Color(0xffd0d0d0),
     fontWeight: FontWeight.w500,
-    fontSize: 22.0,
+    fontSize: 18.0,
   ),
   border: InputBorder.none,
   filled: true,
