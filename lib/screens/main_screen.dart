@@ -10,7 +10,11 @@ class MainScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
-        child: Text('Text'),
+        child: Container(
+          color: Colors.red,
+          width: double.infinity,
+          height: height,
+        ),
       ),
       bottomNavigationBar: CircularBottomBar(height: height, width: width),
     );
