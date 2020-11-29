@@ -26,3 +26,4 @@ const kDefaultTextStyle = TextStyle(
   color: kPrimaryColor,
   fontWeight: FontWeight.w500,
 );
+

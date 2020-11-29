@@ -33,6 +33,7 @@ class LoginScreen extends StatelessWidget {
                         'Hoşgeldiniz',
                         style: TextStyle(
                           fontSize: height * 0.05,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),

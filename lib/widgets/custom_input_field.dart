@@ -12,7 +12,7 @@ class CustomInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       shadowColor: Colors.grey.shade400,
-      elevation: 10,
+      elevation: 5,
       child: Theme(
         data: Theme.of(context)
             .copyWith(primaryColor: kPrimaryColor),
