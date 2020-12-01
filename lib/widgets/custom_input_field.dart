@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/default_elevation.dart';
 
 class CustomInputField extends StatelessWidget {
   CustomInputField({this.label, this.icon, this.obsecure, this.onSubmitted});
@@ -10,9 +11,7 @@ class CustomInputField extends StatelessWidget {
   final Function onSubmitted;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      shadowColor: Colors.grey.shade400,
-      elevation: 5,
+    return DefaultElevation(
       child: Theme(
         data: Theme.of(context)
             .copyWith(primaryColor: kPrimaryColor),
