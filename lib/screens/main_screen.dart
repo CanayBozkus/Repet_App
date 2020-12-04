@@ -4,6 +4,8 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/circular_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/widgets/remainder_row.dart';
 
 class MainScreen extends StatelessWidget {
   @override
@@ -22,8 +24,13 @@ class MainScreen extends StatelessWidget {
           ),
         ),
         actions: [
-          Icon(Icons.menu, color: kPrimaryColor,),
-          SizedBox(width: 15.0,),
+          Icon(
+            Icons.menu,
+            color: kPrimaryColor,
+          ),
+          SizedBox(
+            width: 15.0,
+          ),
         ],
       ),
       body: DoubleCircleBackground(
@@ -31,18 +38,19 @@ class MainScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: height*0.3,
+              height: height * 0.3,
               width: double.infinity,
               child: Stack(
                 children: [
                   Positioned(
                     bottom: 0,
-                    left: width*0.08,
+                    left: width * 0.08,
                     child: DefaultElevation(
                       child: Container(
-                        width: width*0.84,
-                        height: height*0.15,
-                        padding: EdgeInsets.symmetric(horizontal: width*0.08, vertical: height*0.03),
+                        width: width * 0.84,
+                        height: height * 0.15,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.08, vertical: height * 0.03),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -69,7 +77,8 @@ class MainScreen extends StatelessWidget {
                                     color: Color(0xff7654ff),
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 16),
                                 ),
                               ],
                             ),
@@ -87,64 +96,79 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: width*0.03,
-                    bottom: height*0.025,
+                    left: width * 0.03,
+                    bottom: height * 0.025,
                     child: DefaultElevation(
                       child: Container(
-                        width: width*0.08,
-                        height: height*0.1,
+                        width: width * 0.08,
+                        height: height * 0.1,
                         child: IconButton(
                           icon: Icon(Icons.arrow_back_ios),
                           color: kPrimaryColor,
-                          onPressed: (){},
+                          onPressed: () {},
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    right: width*0.03,
-                    bottom: height*0.025,
+                    right: width * 0.03,
+                    bottom: height * 0.025,
                     child: DefaultElevation(
                       child: Container(
-                        width: width*0.08,
-                        height: height*0.1,
+                        width: width * 0.08,
+                        height: height * 0.1,
                         child: IconButton(
                           icon: Icon(Icons.arrow_forward_ios),
                           color: kPrimaryColor,
-                          onPressed: (){},
+                          onPressed: () {},
                         ),
                       ),
                     ),
                   ),
                   Positioned(
-                    top: height*0.03,
-                    left: width*0.36,
+                    top: height * 0.03,
+                    left: width * 0.36,
                     child: DefaultElevation(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: width*0.13,
+                      child: Container(
+                        width: width * 0.26,
+                        height: width * 0.26,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: SvgPicture.asset(
+                          'assets/icons/dog.svg',
+                          color: Color(0xffba892b),
+                        ),
                       ),
                       isCircular: true,
                     ),
                   ),
                   Positioned(
-                    top: height*0.02,
-                    left: width*0.1,
+                    top: height * 0.02,
+                    left: width * 0.1,
                     child: DefaultElevation(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: width*0.1,
+                      child: Container(
+                        width: width * 0.2,
+                        height: width * 0.2,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: SvgPicture.asset(
+                          'assets/icons/fish.svg',
+                          color: Color(0xff6da3d9),
+                        ),
                       ),
                       isCircular: true,
                     ),
                   ),
                   Positioned(
-                    top: height*0.02,
-                    right: width*0.1,
+                    top: height * 0.02,
+                    right: width * 0.1,
                     child: DefaultElevation(
-                      child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        radius: width*0.1,
+                      child: Container(
+                        width: width * 0.2,
+                        height: width * 0.2,
+                        decoration: BoxDecoration(shape: BoxShape.circle),
+                        child: SvgPicture.asset(
+                          'assets/icons/cat.svg',
+                          color: Color(0xffe86868),
+                        ),
                       ),
                       isCircular: true,
                     ),
@@ -152,11 +176,61 @@ class MainScreen extends StatelessWidget {
                 ],
               ),
             ),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: height * 0.01,
+                ),
+                child: ListView(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.08, vertical: height * 0.02),
+                  children: [
+                    RemainderRow(
+                      height: height,
+                      width: width,
+                      mainText: 'Beslenme',
+                      subText: 'Günde 2 defa',
+                      svg: 'assets/icons/dog.svg',
+                    ),
+                    RemainderRow(
+                      height: height,
+                      width: width,
+                      mainText: 'Beslenme',
+                      subText: 'Günde 2 defa',
+                      svg: 'assets/icons/dog.svg',
+                    ),
+                    RemainderRow(
+                      height: height,
+                      width: width,
+                      mainText: 'Beslenme',
+                      subText: 'Günde 2 defa',
+                      svg: 'assets/icons/dog.svg',
+                    ),
+                    RemainderRow(
+                      height: height,
+                      width: width,
+                      mainText: 'Beslenme',
+                      subText: 'Günde 2 defa',
+                      svg: 'assets/icons/dog.svg',
+                    ),
+                    RemainderRow(
+                      height: height,
+                      width: width,
+                      mainText: 'Beslenme',
+                      subText: 'Günde 2 defa',
+                      svg: 'assets/icons/dog.svg',
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: CircularBottomBar(height: height, width: width,),
+      bottomNavigationBar: CircularBottomBar(
+        height: height,
+        width: width,
+      ),
     );
   }
 }
-
