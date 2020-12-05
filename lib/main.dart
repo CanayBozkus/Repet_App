@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/calendar_screen.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/registration_screen.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
           ),
         )
       ),
-      home: MainScreen(),
+      home: CalendarScreen(),
     );
   }
 }
