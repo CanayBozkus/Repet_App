@@ -24,7 +24,7 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height:  widget.height * 0.02 + widget.width*0.16,
+      height:  widget.height * 0.03 + widget.width*0.16,
       child: Stack(
         children: [
           Align(
