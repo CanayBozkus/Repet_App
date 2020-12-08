@@ -101,6 +101,7 @@ class CalendarScreen extends StatelessWidget {
       bottomNavigationBar: CircularBottomBar(
         height: height,
         width: width,
+        pageNumber: 2,
       ),
     );
   }

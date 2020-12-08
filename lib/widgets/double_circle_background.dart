@@ -7,15 +7,20 @@ class DoubleCircleBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    return Stack(
-      children: [
-        ...backgroundHalfCircles(width),
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: child,
-        ),
-      ],
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      color: Colors.white,
+      child: Stack(
+        children: [
+          ...backgroundHalfCircles(width),
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: child,
+          ),
+        ],
+      ),
     );
   }
 }

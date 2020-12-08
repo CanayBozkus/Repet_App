@@ -1,4 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/calendar_screen.dart';
+import 'package:repetapp/screens/main_screen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repetapp/screens/training_screen.dart';
+
+const bottomNavigationBarRoutes = {
+  1:MainScreen.routeName,
+  2:CalendarScreen.routeName,
+  3:null,
+  4:null,
+  5:TrainingScreen.routeName,
+};
+
+const bottomNavigationBarIcons = {
+  1:Icons.home_outlined,
+  2:Icons.date_range,
+  3:FontAwesomeIcons.trophy,
+  4:Icons.messenger_rounded,
+  5:Icons.school,
+};
 
 const kPrimaryColor = Color(0xFFFDA15A);
 

@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/screens/calendar_screen.dart';
-import 'package:repetapp/screens/main_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CircularBottomBar extends StatefulWidget {
   CircularBottomBar({
     Key key,
     @required this.height,
     @required this.width,
+    @required this.pageNumber,
   });
 
   final double height;
   final double width;
+  final int pageNumber;
 
   @override
   _CircularBottomBarState createState() => _CircularBottomBarState();
@@ -25,6 +24,25 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    switch(widget.pageNumber){
+      case 1:
+        selectedLinePosition = 0.08;
+        break;
+      case 2:
+        selectedLinePosition = 0.26;
+        break;
+      case 3:
+        showSelectedLine = false;
+        break;
+      case 4:
+        selectedLinePosition = 1 - 0.26 - 0.08;
+        break;
+      case 5:
+        selectedLinePosition = 1 - 0.08 - 0.08;
+        break;
+      default:
+        selectedLinePosition = 0.08;
+    }
     return Container(
       height:  widget.height * 0.03 + widget.width*0.16,
       child: Stack(
@@ -51,10 +69,12 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, MainScreen.routeName);
+                if(widget.pageNumber != 1){
+                  Navigator.pushNamed(context, bottomNavigationBarRoutes[1]);
+                }
               },
               child: Icon(
-                Icons.home_outlined,
+                bottomNavigationBarIcons[1],
                 size: widget.width*0.08,
                 color: kPrimaryColor,
               ),
@@ -65,10 +85,12 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                Navigator.pushNamed(context, CalendarScreen.routeName);
+                if(widget.pageNumber != 2){
+                  Navigator.pushNamed(context, bottomNavigationBarRoutes[2]);
+                }
               },
               child: Icon(
-                Icons.date_range,
+                bottomNavigationBarIcons[2],
                 size: widget.width*0.08,
                 color: kPrimaryColor,
               ),
@@ -79,9 +101,10 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                setState(() {
-                  showSelectedLine = false;
-                },);
+                //TODO: Navigate to LeaderBoardScreen
+                if(widget.pageNumber != 3){
+                  //Navigator.pushNamed(context, bottomNavigationBarRoutes[3]);
+                }
               },
               child: Container(
                 width: widget.width*0.16,
@@ -98,7 +121,7 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
                   ],
                 ),
                 child: Icon(
-                  FontAwesomeIcons.trophy,
+                  bottomNavigationBarIcons[3],
                   size: widget.width*0.08,
                   color: !showSelectedLine ? Colors.white : kPrimaryColor,
                 ),
@@ -110,13 +133,13 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                setState(() {
-                  selectedLinePosition = 1 - 0.26 - 0.08;
-                  showSelectedLine = true;
-                },);
+                //TODO: Navigate to ForumScreen
+                if(widget.pageNumber != 4){
+                  //Navigator.pushNamed(context, bottomNavigationBarRoutes[4]);
+                }
               },
               child: Icon(
-                Icons.messenger_rounded,
+                bottomNavigationBarIcons[4],
                 size: widget.width*0.08,
                 color: kPrimaryColor,
               ),
@@ -127,13 +150,12 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                setState(() {
-                  selectedLinePosition = 1 - 0.08 - 0.08;
-                  showSelectedLine = true;
-                },);
+                if(widget.pageNumber != 5){
+                  Navigator.pushNamed(context, bottomNavigationBarRoutes[5]);
+                }
               },
               child: Icon(
-                Icons.school,
+                bottomNavigationBarIcons[5],
                 size: widget.width*0.08,
                 color: kPrimaryColor,
               ),
