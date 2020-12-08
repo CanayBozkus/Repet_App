@@ -4,13 +4,12 @@ import 'package:repetapp/utilities/widget_functions.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
 class TrainingDetailRow extends StatelessWidget {
-  const TrainingDetailRow({
-    Key key,
-    @required this.height,
-    @required this.width,
-    this.text,
-    this.status
-  });
+  const TrainingDetailRow(
+      {Key key,
+      @required this.height,
+      @required this.width,
+      this.text,
+      this.status});
 
   final double height;
   final double width;
@@ -24,16 +23,16 @@ class TrainingDetailRow extends StatelessWidget {
         child: Container(
           height: height * 0.07,
           width: double.infinity,
-          padding: EdgeInsets.only(
-              left: width * 0.1, right: width * 0.02),
+          padding: EdgeInsets.only(left: width * 0.1, right: width * 0.02),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 text,
                 style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400),
+                  color: Colors.black,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               trainingStatus(height: height, status: status),
             ],
