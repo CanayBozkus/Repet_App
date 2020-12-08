@@ -8,6 +8,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
 
 class MainScreen extends StatelessWidget {
+  static const routeName = 'MainScreen';
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

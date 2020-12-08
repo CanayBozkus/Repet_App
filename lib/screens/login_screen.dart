@@ -6,6 +6,7 @@ import 'package:repetapp/widgets/double_circle_background.dart';
 
 
 class LoginScreen extends StatelessWidget {
+  static const routeName = 'LoginScreen';
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

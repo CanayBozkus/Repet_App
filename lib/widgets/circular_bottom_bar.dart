@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/calendar_screen.dart';
+import 'package:repetapp/screens/main_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -49,10 +51,7 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                setState(() {
-                  selectedLinePosition = 0.08;
-                  showSelectedLine = true;
-                },);
+                Navigator.pushNamed(context, MainScreen.routeName);
               },
               child: Icon(
                 Icons.home_outlined,
@@ -66,10 +65,7 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                setState(() {
-                  selectedLinePosition = 0.26;
-                  showSelectedLine = true;
-                },);
+                Navigator.pushNamed(context, CalendarScreen.routeName);
               },
               child: Icon(
                 Icons.date_range,

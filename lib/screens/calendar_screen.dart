@@ -7,6 +7,7 @@ import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 
 class CalendarScreen extends StatelessWidget {
+  static const routeName = 'CalendarScreen';
   bool checkBoxValue = true;
   @override
   Widget build(BuildContext context) {

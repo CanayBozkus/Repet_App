@@ -5,6 +5,8 @@ import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RegistrationScreen extends StatelessWidget {
+  static const routeName = 'RegistrationScreen';
+
   Widget _listViewContentGenerator(label, icon, {obsecure}){
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

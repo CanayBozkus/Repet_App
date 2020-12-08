@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/screens/calendar_screen.dart';
-import 'package:repetapp/screens/login_screen.dart';
-import 'package:repetapp/screens/registration_screen.dart';
-
-import 'screens/main_screen.dart';
+import 'package:repetapp/route_generator.dart';
 import 'utilities/constants.dart';
 
 void main() => runApp(MyApp());
@@ -22,7 +18,8 @@ class MyApp extends StatelessWidget {
           ),
         )
       ),
-      home: CalendarScreen(),
+      initialRoute: 'MainScreen',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
