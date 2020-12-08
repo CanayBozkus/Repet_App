@@ -20,6 +20,12 @@ const bottomNavigationBarIcons = {
   5:Icons.school,
 };
 
+enum TrainingStatus {
+  repeat,
+  done,
+  notStarted,
+}
+
 const kPrimaryColor = Color(0xFFFDA15A);
 
 const kTextFieldDecoration = InputDecoration(

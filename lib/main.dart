@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
             color: kPrimaryColor,
             fontWeight: FontWeight.w500,
           ),
-        )
+        ),
+        scaffoldBackgroundColor: Colors.white,
       ),
       initialRoute: 'MainScreen',
       onGenerateRoute: RouteGenerator.generateRoute,
