@@ -101,9 +101,8 @@ class _CircularBottomBarState extends State<CircularBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                //TODO: Navigate to LeaderBoardScreen
                 if(widget.pageNumber != 3){
-                  //Navigator.pushNamed(context, bottomNavigationBarRoutes[3]);
+                  Navigator.pushNamed(context, bottomNavigationBarRoutes[3]);
                 }
               },
               child: Container(
