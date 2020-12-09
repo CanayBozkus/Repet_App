@@ -15,19 +15,12 @@ class CalendarScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: Text(
           'Takvim',
-          style: TextStyle(
-            color: kPrimaryColor,
-          ),
         ),
         actions: [
           Icon(
             Icons.menu,
-            color: kPrimaryColor,
           ),
           SizedBox(
             width: 15.0,
@@ -63,10 +56,6 @@ class CalendarScreen extends StatelessWidget {
                           children: [
                             Text(
                               '9 Nisan',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w400,
-                              ),
                             ),
                             Container(
                               height: height * 0.03,

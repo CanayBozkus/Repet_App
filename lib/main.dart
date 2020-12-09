@@ -13,11 +13,27 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           bodyText2: TextStyle(
             fontSize: 16.0,
-            color: kPrimaryColor,
-            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
           ),
         ),
         scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          iconTheme: IconThemeData(
+            color: kPrimaryColor,
+            size: 28
+          ),
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
       ),
       initialRoute: 'MainScreen',
       onGenerateRoute: RouteGenerator.generateRoute,

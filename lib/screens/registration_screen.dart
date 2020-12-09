@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/custom_input_field.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
@@ -47,6 +49,7 @@ class RegistrationScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: height * 0.05,
                           fontWeight: FontWeight.w700,
+                          color: kPrimaryColor,
                         ),
                       ),
                     ),
@@ -103,6 +106,9 @@ class RegistrationScreen extends StatelessWidget {
                             text: 'Giriş Yap',
                             style:
                             kDefaultTextStyle.copyWith(color: Colors.black),
+                            recognizer: TapGestureRecognizer()..onTap = (){
+                              Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                            },
                           ),
                         ],
                       ),

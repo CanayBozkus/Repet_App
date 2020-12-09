@@ -37,7 +37,6 @@ class CalendarDetailRow extends StatelessWidget {
             todoText,
             style: TextStyle(
               color: Colors.grey.shade500,
-              fontWeight: FontWeight.w400,
               decoration: TextDecoration.lineThrough,
             ),
           ),
@@ -52,10 +51,6 @@ class CalendarDetailRow extends StatelessWidget {
               color: Colors.white,
               child: Text(
                 hour,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                ),
               ),
             ),
           ),

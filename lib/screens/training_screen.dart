@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/training_detail_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/circular_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
-import 'package:repetapp/widgets/training_detail_row.dart';
+import 'package:repetapp/widgets/training_builder_row.dart';
 
 class TrainingScreen extends StatelessWidget {
   static const routeName = 'TrainingScreen';
@@ -14,19 +15,12 @@ class TrainingScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: Text(
           'Eğitim',
-          style: TextStyle(
-            color: kPrimaryColor,
-          ),
         ),
         actions: [
           Icon(
             Icons.menu,
-            color: kPrimaryColor,
           ),
           SizedBox(
             width: 15.0,
@@ -70,23 +64,28 @@ class TrainingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  TrainingDetailRow(
+                  TrainingBuilderRow(
                     height: height,
                     width: width,
                     text: 'Gezdirme Eğitimi',
                     status: TrainingStatus.done,
+                    onTap: (){
+                      Navigator.pushNamed(context, TrainingDetailScreen.routeName);
+                    },
                   ),
-                  TrainingDetailRow(
+                  TrainingBuilderRow(
                     height: height,
                     width: width,
                     text: 'Taramaya Alıştırma',
                     status: TrainingStatus.repeat,
+                    onTap: (){},
                   ),
-                  TrainingDetailRow(
+                  TrainingBuilderRow(
                     height: height,
                     width: width,
                     text: 'Banyoya Alıştırma',
                     status: TrainingStatus.notStarted,
+                    onTap: (){},
                   ),
                 ],
               ),

@@ -38,7 +38,6 @@ class RemainderRow extends StatelessWidget {
                     Text(
                       mainText,
                       style: TextStyle(
-                        color: Colors.black,
                         fontSize: height * 0.03,
                         fontWeight: FontWeight.w800,
                       ),
@@ -46,8 +45,6 @@ class RemainderRow extends StatelessWidget {
                     Text(
                       subText,
                       style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
                         fontSize: height * 0.02,
                       ),
                     ),

@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/registration_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/button_leading_svg.dart';
 import 'package:repetapp/widgets/custom_input_field.dart';
@@ -61,6 +63,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Text(
                     'Şifremi Unuttum?',
+                    style: kDefaultTextStyle,
                   ),
                   SizedBox(
                     height: height * .02,
@@ -98,6 +101,9 @@ class LoginScreen extends StatelessWidget {
                             text: 'Kayıt Ol',
                             style:
                                 kDefaultTextStyle.copyWith(color: Colors.black),
+                            recognizer: TapGestureRecognizer()..onTap = (){
+                              Navigator.pushNamed(context, RegistrationScreen.routeName);
+                            },
                           ),
                         ],
                       ),
@@ -111,6 +117,7 @@ class LoginScreen extends StatelessWidget {
                     child: Text(
                       'Diğer Oturum Açma Yöntemleri',
                       textAlign: TextAlign.center,
+                      style: kDefaultTextStyle,
                     ),
                   ),
                   SizedBox(

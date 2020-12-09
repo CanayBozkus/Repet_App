@@ -16,19 +16,12 @@ class MainScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
         title: Text(
           'Hatırlatıcı',
-          style: TextStyle(
-            color: kPrimaryColor,
-          ),
         ),
         actions: [
           Icon(
             Icons.menu,
-            color: kPrimaryColor,
           ),
           SizedBox(
             width: 15.0,
