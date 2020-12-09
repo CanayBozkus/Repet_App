@@ -84,32 +84,72 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
                   width: width * 0.9,
                   height: height * 0.08,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.01),
-                        height: height * 0.025,
-                        width: height * 0.025,
+                        width: width * 0.15,
+                        height: height * 0.05,
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: kPrimaryColor,
+                          color: Color(0xffffe500),
+                          borderRadius: BorderRadius.circular(width * 0.05),
+                        ),
+                        child: Transform.rotate(
+                          angle: 20.0,
+                          child: Transform(
+                            transform: Matrix4.rotationY(3.141),
+                            alignment: Alignment.center,
+                            child: Icon(
+                              Icons.replay,
+                              color: Colors.white,
+                              size: height * 0.04,
+                            ),
+                          ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.01),
-                        height: height * 0.025,
-                        width: height * 0.025,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey.shade500,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: width * 0.01),
-                        height: height * 0.025,
-                        width: height * 0.025,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.grey.shade500,
+                        height: height * 0.08,
+                        width: width*0.4,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: width * 0.01),
+                              height: height * 0.025,
+                              width: height * 0.025,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: kPrimaryColor,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: width * 0.01),
+                              height: height * 0.025,
+                              width: height * 0.025,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: width * 0.01),
+                              height: height * 0.025,
+                              width: height * 0.025,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: width * 0.01),
+                              height: height * 0.025,
+                              width: height * 0.025,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
