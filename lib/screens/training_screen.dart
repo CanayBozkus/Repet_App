@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/training_detail_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/circular_bottom_bar.dart';
+import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/training_builder_row.dart';
@@ -93,7 +93,7 @@ class TrainingScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CircularBottomBar(
+      bottomNavigationBar: BaseBottomBar(
         width: width,
         height: height,
         pageNumber: 5,

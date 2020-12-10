@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 
-class CircularBottomBar extends StatefulWidget {
-  CircularBottomBar({
+class BaseBottomBar extends StatefulWidget {
+  BaseBottomBar({
     Key key,
     @required this.height,
     @required this.width,
@@ -14,10 +14,10 @@ class CircularBottomBar extends StatefulWidget {
   final int pageNumber;
 
   @override
-  _CircularBottomBarState createState() => _CircularBottomBarState();
+  _BaseBottomBarState createState() => _BaseBottomBarState();
 }
 
-class _CircularBottomBarState extends State<CircularBottomBar> {
+class _BaseBottomBarState extends State<BaseBottomBar> {
 
   double selectedLinePosition = 0.08;
   bool showSelectedLine = true;

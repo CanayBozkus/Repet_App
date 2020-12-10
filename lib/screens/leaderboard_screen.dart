@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/widgets/circular_bottom_bar.dart';
+import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class LeaderBoardScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CircularBottomBar(
+      bottomNavigationBar: BaseBottomBar(
         height: height,
         width: width,
         pageNumber: 3,

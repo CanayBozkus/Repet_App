@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/circular_bottom_bar.dart';
+import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -84,7 +84,7 @@ class MainScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: CircularBottomBar(
+      bottomNavigationBar: BaseBottomBar(
         height: height,
         width: width,
         pageNumber: 1,

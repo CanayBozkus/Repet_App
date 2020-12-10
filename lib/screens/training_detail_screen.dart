@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/circular_bottom_bar.dart';
+import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
 class TrainingDetailScreen extends StatefulWidget {
@@ -173,7 +173,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CircularBottomBar(
+      bottomNavigationBar: BaseBottomBar(
         height: height,
         width: width,
         pageNumber: 5,
