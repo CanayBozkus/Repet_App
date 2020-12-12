@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
@@ -9,19 +10,7 @@ class LeaderBoardScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Leader Board',
-        ),
-        actions: [
-          Icon(
-            Icons.menu,
-          ),
-          SizedBox(
-            width: 15.0,
-          ),
-        ],
-      ),
+      appBar: BaseAppBar(title: 'LeaderBoard', context: context,),
       body: Container(
         width: width,
         height: height*0.8,

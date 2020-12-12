@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/profile_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
@@ -15,24 +17,16 @@ class MainScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Hatırlatıcı',
-        ),
-        actions: [
-          Icon(
-            Icons.menu,
-          ),
-          SizedBox(
-            width: 15.0,
-          ),
-        ],
-      ),
+      appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
       body: DoubleCircleBackground(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            PetNavigator(height: height, width: width, showDetail: true,),
+            PetNavigator(
+              height: height,
+              width: width,
+              showDetail: true,
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -92,4 +86,3 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
-

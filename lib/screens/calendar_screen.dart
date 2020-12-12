@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/calendar.dart';
 import 'package:repetapp/widgets/calendar_detail_row.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
@@ -14,19 +15,7 @@ class CalendarScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Takvim',
-        ),
-        actions: [
-          Icon(
-            Icons.menu,
-          ),
-          SizedBox(
-            width: 15.0,
-          ),
-        ],
-      ),
+      appBar: BaseAppBar(title: 'Takvim', context: context,),
       body: DoubleCircleBackground(
         child: Column(
           children: [

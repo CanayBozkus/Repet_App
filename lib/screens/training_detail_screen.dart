@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
@@ -15,20 +16,7 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Eğitim',
-        ),
-        actions: [
-          Icon(
-            Icons.menu,
-            color: kPrimaryColor,
-          ),
-          SizedBox(
-            width: 15.0,
-          ),
-        ],
-      ),
+      appBar: BaseAppBar(title: 'Eğitim', context: context,),
       body: Padding(
         padding: EdgeInsets.symmetric(
             vertical: height * 0.038, horizontal: width * 0.05),

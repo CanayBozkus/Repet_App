@@ -19,7 +19,7 @@ class PetNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: showDetail ? height * 0.3 : height * 0.2,
+      height: showDetail ? height * 0.30 : height * 0.2,
       width: double.infinity,
       child: Stack(
         children: [
@@ -106,9 +106,25 @@ class PetNavigator extends StatelessWidget {
               ),
             ),
           ) : SizedBox.shrink(),
+          /*
+          Positioned(
+            right: width * 0.05,
+            bottom: height * 0.14,
+            child: DefaultElevation(
+              child: Container(
+                width: width * 0.15,
+                height: height * 0.05,
+                child: IconButton(
+                  icon: Icon(Icons.edit),
+                  color: kPrimaryColor,
+                  onPressed: () {},
+                ),
+              ),
+            ),
+          ),*/
           Positioned(
             top: height * 0.03,
-            left: width * 0.36,
+            left: width * 0.37,
             child: DefaultElevation(
               child: Container(
                 width: width * 0.26,
@@ -123,8 +139,8 @@ class PetNavigator extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: height * 0.02,
-            left: width * 0.1,
+            top: height * 0.005,
+            left: width * 0.12,
             child: DefaultElevation(
               child: Container(
                 width: width * 0.2,
@@ -139,8 +155,8 @@ class PetNavigator extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: height * 0.02,
-            right: width * 0.1,
+            top: height * 0.005,
+            right: width * 0.12,
             child: DefaultElevation(
               child: Container(
                 width: width * 0.2,

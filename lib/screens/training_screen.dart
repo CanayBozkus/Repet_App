@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/training_detail_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
@@ -14,19 +15,7 @@ class TrainingScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          'Eğitim',
-        ),
-        actions: [
-          Icon(
-            Icons.menu,
-          ),
-          SizedBox(
-            width: 15.0,
-          ),
-        ],
-      ),
+      appBar: BaseAppBar(title: 'Eğitim', context: context,),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
