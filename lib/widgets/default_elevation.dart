@@ -8,6 +8,7 @@ class DefaultElevation extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Material(
       shadowColor: Colors.grey.shade400,
+      color: Colors.white,
       elevation: 5,
       child: child,
       shape: isCircular ? CircleBorder() : null,

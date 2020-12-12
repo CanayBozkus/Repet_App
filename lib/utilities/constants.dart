@@ -54,3 +54,7 @@ const kDefaultTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
 );
 
+const kProfileBuilderTextStyle = TextStyle(
+    color: Color(0xff636363),
+    fontWeight: FontWeight.w700
+);

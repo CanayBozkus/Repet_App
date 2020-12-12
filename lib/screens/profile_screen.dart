@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
+import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
+import 'package:repetapp/widgets/shadow_divider.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = 'ProfileScreen';
@@ -16,7 +19,81 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          PetNavigator(height: height, width: width, showDetail: true,),
+          PetNavigator(
+            height: height,
+            width: width,
+            showDetail: true,
+          ),
+          SizedBox(height: height*0.04,),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.only(top: 8),
+              children: [
+                ShadowDivider(),
+                DefaultElevation(
+                  child: Column(
+                    children: [
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text(
+                          'Kişisel Bilgiler',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                      Divider(height: 3, color: Colors.grey.shade600,),
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text('Adreslerim',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                      Divider(height: 3, color: Colors.grey.shade600,),
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text('Ödeme Yöntemi',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                      Divider(height: 3, color: Colors.grey.shade600,),
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text('Dil',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                      Divider(height: 3, color: Colors.grey.shade600,),
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text('Yardım',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                      Divider(height: 3, color: Colors.grey.shade600,),
+                      ListTile(
+                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                        title: Text('Çıkış',
+                          style: kProfileBuilderTextStyle,
+                        ),
+                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                      ),
+                    ],
+                  ),
+                ),
+                ListTile(
+                  contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
+                  title: Text('Versiyon 1.0.0',
+                    style: kProfileBuilderTextStyle.copyWith(color: Colors.grey.shade400),
+                  ),
+                ),
+                Divider(height: 3, color: Colors.grey.shade400,),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: BaseBottomBar(
