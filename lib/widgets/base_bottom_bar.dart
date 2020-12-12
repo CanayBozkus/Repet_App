@@ -41,7 +41,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
         selectedLinePosition = 1 - 0.08 - 0.08;
         break;
       default:
-        selectedLinePosition = 0.08;
+        showSelectedLine = false;
     }
     return Container(
       height:  widget.height * 0.03 + widget.width*0.16,
@@ -110,7 +110,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
                 height: widget.width*0.16,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: !showSelectedLine ? kPrimaryColor : Colors.white,
+                  color: widget.pageNumber == 3 ? kPrimaryColor : Colors.white,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.shade200,
@@ -122,7 +122,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
                 child: Icon(
                   bottomNavigationBarIcons[3],
                   size: widget.width*0.08,
-                  color: !showSelectedLine ? Colors.white : kPrimaryColor,
+                  color: widget.pageNumber == 3 ? Colors.white : kPrimaryColor,
                 ),
               ),
             ),
