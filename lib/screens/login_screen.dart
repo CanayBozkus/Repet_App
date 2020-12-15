@@ -1,14 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/main_screen.dart';
 import 'package:repetapp/screens/registration_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/button_leading_svg.dart';
 import 'package:repetapp/widgets/custom_input_field.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = 'LoginScreen';
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -47,7 +51,9 @@ class LoginScreen extends StatelessWidget {
                   CustomInputField(
                     label: 'Email',
                     icon: Icons.mail_outline,
-                    onSubmitted: (value) {},
+                    onChanged: (value) {
+                      email = value;
+                    },
                   ),
                   SizedBox(
                     height: height * .04,
@@ -55,7 +61,9 @@ class LoginScreen extends StatelessWidget {
                   CustomInputField(
                     label: 'Password',
                     icon: Icons.lock_outline,
-                    onSubmitted: (value) {},
+                    onChanged: (value) {
+                      password = value;
+                    },
                     obsecure: true,
                   ),
                   SizedBox(
@@ -83,7 +91,12 @@ class LoginScreen extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+                        if(user != null){
+                          Navigator.pushNamed(context, MainScreen.routeName);
+                        }
+                      },
                     ),
                   ),
                   SizedBox(

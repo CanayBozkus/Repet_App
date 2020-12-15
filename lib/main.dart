@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/route_generator.dart';
 import 'utilities/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() => runApp(MyApp());
 
 
 class MyApp extends StatelessWidget {
+  void initialize() async {
+    await Firebase.initializeApp();
+  }
   @override
   Widget build(BuildContext context) {
+    initialize();
     return MaterialApp(
       theme: ThemeData(
         textTheme: TextTheme(
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: 'MainScreen',
+      initialRoute: 'RegistrationScreen',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }

@@ -3,19 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/custom_input_field.dart';
+import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
 
-  Widget _listViewContentGenerator(label, icon, {obsecure}){
+  @override
+  _RegistrationScreenState createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  String name;
+
+  String email;
+
+  String password;
+
+  String phoneNumber;
+
+  String age;
+
+  String gender = 'Female';
+  final _auth = FirebaseAuth.instance;
+  final _fireStore = FirebaseFirestore.instance;
+  Widget _listViewContentGenerator(label, icon, onChanged, {obsecure}){
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: CustomInputField(
         label: label,
         icon: icon,
-        onSubmitted: (value) {},
+        onChanged: onChanged,
         obsecure: obsecure,
       ),
     );
@@ -61,12 +82,70 @@ class RegistrationScreen extends StatelessWidget {
                     height: height*0.5,
                     child: ListView(
                       children: [
-                        _listViewContentGenerator('Ad Soyad', FontAwesomeIcons.userAlt),
-                        _listViewContentGenerator('Email', Icons.mail),
-                        _listViewContentGenerator('Şifre', Icons.lock_outline, obsecure: true),
-                        _listViewContentGenerator('Tel No', Icons.phone_android),
-                        _listViewContentGenerator('Cinsiyet', FontAwesomeIcons.transgenderAlt,),
-                        _listViewContentGenerator('Yaş', Icons.cake_outlined),
+                        _listViewContentGenerator('Ad Soyad', FontAwesomeIcons.userAlt, (value)=> name = value,),
+                        _listViewContentGenerator('Email', Icons.mail, (value)=> email = value,),
+                        _listViewContentGenerator('Şifre', Icons.lock_outline, (value)=> password = value, obsecure: true),
+                        _listViewContentGenerator('Tel No', Icons.phone_android, (value)=> phoneNumber = value,),
+                        _listViewContentGenerator('Yaş', Icons.cake_outlined, (value)=> age = value,),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: DefaultElevation(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    height: height*0.09,
+                                    padding: EdgeInsets.symmetric(horizontal: 12),
+                                    child: Row(
+                                      children: [
+                                        Icon(FontAwesomeIcons.transgenderAlt, color: Colors.grey,),
+                                        SizedBox(width: 12,),
+                                        Text(
+                                          'Cinsiyet',
+                                          style: TextStyle(
+                                            color: Color(0xffd0d0d0),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 18.0,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                ),
+                                Container(
+                                  height: height*0.09,
+                                  width: 1,
+                                  color: Colors.grey.shade400,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    height: height*0.09,
+                                    padding: EdgeInsets.symmetric(horizontal: width*0.05),
+                                    alignment: Alignment.center,
+                                    child: DropdownButton<String>(
+                                      isExpanded: true,
+                                      underline: Container(),
+                                      iconEnabledColor: kPrimaryColor,
+                                      value: gender,
+                                      icon: Icon(Icons.arrow_downward),
+                                      onChanged: (String newValue){
+                                        setState(() {
+                                          gender = newValue;
+                                        });
+                                      },
+                                      items: <String>['Female', 'Male', 'Other'].map<DropdownMenuItem<String>>((String value){
+                                        return DropdownMenuItem<String>(
+                                          child: Text(value),
+                                          value: value,
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -88,7 +167,24 @@ class RegistrationScreen extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        try{
+                          final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+                          if(newUser != null){
+                            await _fireStore.collection('UserInfo').add({
+                              'name_surname': name,
+                              'age': age,
+                              'phone_number': phoneNumber,
+                              'gender': gender,
+                              'id': newUser.user.uid,
+                            });
+                            Navigator.pushNamed(context, LoginScreen.routeName);
+                          }
+                        }
+                        catch(e){
+                          print(e);
+                        }
+                      },
                     ),
                   ),
                   SizedBox(

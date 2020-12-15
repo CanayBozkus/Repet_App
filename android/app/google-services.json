@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "744833585145",
+    "project_id": "repet-5e818",
+    "storage_bucket": "repet-5e818.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:744833585145:android:5086ca44d755ce7f27f728",
+        "android_client_info": {
+          "package_name": "com.repet.repetapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "744833585145-7lcv8me93j9cn81ssabl8054387776a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM25ClLlCNMqsUPUKA7dT1c8tic3YkjxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "744833585145-7lcv8me93j9cn81ssabl8054387776a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

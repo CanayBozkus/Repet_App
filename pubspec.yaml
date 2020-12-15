@@ -35,6 +35,9 @@ dev_dependencies:
   flutter_svg: ^0.19.1
   font_awesome_flutter: ^8.10.0
   table_calendar: ^2.3.1
+  firebase_core: ^0.5.3
+  firebase_auth: ^0.18.4+1
+  cloud_firestore: ^0.14.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
