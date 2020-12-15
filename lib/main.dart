@@ -3,16 +3,15 @@ import 'package:repetapp/route_generator.dart';
 import 'utilities/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() => runApp(MyApp());
-
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
-  void initialize() async {
-    await Firebase.initializeApp();
-  }
   @override
   Widget build(BuildContext context) {
-    initialize();
     return MaterialApp(
       theme: ThemeData(
         textTheme: TextTheme(
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: 'RegistrationScreen',
+      initialRoute: 'LoginScreen',
       onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
