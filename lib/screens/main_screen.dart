@@ -8,15 +8,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MainScreen extends StatelessWidget {
   static const routeName = 'MainScreen';
- void someMethod() async {
-   User user = await FirebaseAuth.instance.currentUser;
-   print(user.email);
- }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    someMethod();
     return Scaffold(
       appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
       body: DoubleCircleBackground(

@@ -41,6 +41,7 @@ class LoginScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: height * 0.05,
                           fontWeight: FontWeight.w700,
+                          color: kPrimaryColor,
                         ),
                       ),
                     ),
@@ -51,6 +52,7 @@ class LoginScreen extends StatelessWidget {
                   CustomInputField(
                     label: 'Email',
                     icon: Icons.mail_outline,
+                    keyboardType: KeyboardTypes.emailAddress,
                     onChanged: (value) {
                       email = value;
                     },

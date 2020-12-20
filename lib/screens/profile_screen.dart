@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/shadow_divider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = 'ProfileScreen';
@@ -80,6 +82,10 @@ class ProfileScreen extends StatelessWidget {
                           style: kProfileBuilderTextStyle,
                         ),
                         trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushNamed(context, LoginScreen.routeName);
+                        },
                       ),
                     ],
                   ),
