@@ -3,12 +3,13 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
 class CustomInputField extends StatelessWidget {
-  CustomInputField({this.label, this.icon, this.obsecure, this.onChanged});
+  CustomInputField({this.label, this.icon, this.obsecure, this.onChanged, this.keyboardType = KeyboardTypes.text});
 
   final String label;
   final IconData icon;
   final bool obsecure;
   final Function onChanged;
+  final keyboardType;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -25,6 +26,7 @@ class CustomInputField extends StatelessWidget {
               labelText: label,
               prefixIcon: Icon(icon),
             ),
+            keyboardType: keyBoards[keyboardType],
             onChanged: onChanged,
           ),
         ),

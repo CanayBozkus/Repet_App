@@ -27,6 +27,18 @@ enum TrainingStatus {
   notStarted,
 }
 
+enum KeyboardTypes {
+  emailAddress,
+  number,
+  text,
+}
+
+const keyBoards = {
+  KeyboardTypes.emailAddress: TextInputType.emailAddress,
+  KeyboardTypes.text: TextInputType.text,
+  KeyboardTypes.number: TextInputType.number,
+};
+
 const kPrimaryColor = Color(0xFFFDA15A);
 
 const kTextFieldDecoration = InputDecoration(

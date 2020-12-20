@@ -1,13 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/custom_input_field.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
@@ -17,20 +16,9 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
-  String name;
+  UserModel _newUser = UserModel();
 
-  String email;
-
-  String password;
-
-  String phoneNumber;
-
-  String age;
-
-  String gender = 'Female';
-  final _auth = FirebaseAuth.instance;
-  final _fireStore = FirebaseFirestore.instance;
-  Widget _listViewContentGenerator(label, icon, onChanged, {obsecure}){
+  Widget _listViewContentGenerator(label, icon, onChanged, {obsecure, keyBoardType}){
     return  Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: CustomInputField(
@@ -38,6 +26,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         icon: icon,
         onChanged: onChanged,
         obsecure: obsecure,
+        keyboardType: keyBoardType ?? KeyboardTypes.text,
       ),
     );
   }
@@ -82,11 +71,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     height: height*0.5,
                     child: ListView(
                       children: [
-                        _listViewContentGenerator('Ad Soyad', FontAwesomeIcons.userAlt, (value)=> name = value,),
-                        _listViewContentGenerator('Email', Icons.mail, (value)=> email = value,),
-                        _listViewContentGenerator('Şifre', Icons.lock_outline, (value)=> password = value, obsecure: true),
-                        _listViewContentGenerator('Tel No', Icons.phone_android, (value)=> phoneNumber = value,),
-                        _listViewContentGenerator('Yaş', Icons.cake_outlined, (value)=> age = value,),
+                        _listViewContentGenerator('Ad Soyad', FontAwesomeIcons.userAlt, (value)=> _newUser.nameSurname = value,),
+                        _listViewContentGenerator('Email', Icons.mail, (value)=> _newUser.email = value, keyBoardType: KeyboardTypes.emailAddress),
+                        _listViewContentGenerator('Şifre', Icons.lock_outline, (value)=> _newUser.password = value, obsecure: true),
+                        _listViewContentGenerator('Tel No', Icons.phone_android, (value)=> _newUser.phoneNumber = value, keyBoardType: KeyboardTypes.number),
+                        _listViewContentGenerator('Yaş', Icons.cake_outlined, (value)=> _newUser.age = value, keyBoardType: KeyboardTypes.number),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: DefaultElevation(
@@ -126,11 +115,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       isExpanded: true,
                                       underline: Container(),
                                       iconEnabledColor: kPrimaryColor,
-                                      value: gender,
+                                      value: _newUser.gender,
                                       icon: Icon(Icons.arrow_downward),
                                       onChanged: (String newValue){
                                         setState(() {
-                                          gender = newValue;
+                                          _newUser.gender = newValue;
                                         });
                                       },
                                       items: <String>['Female', 'Male', 'Other'].map<DropdownMenuItem<String>>((String value){
@@ -168,21 +157,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         textAlign: TextAlign.center,
                       ),
                       onPressed: () async {
-                        try{
-                          final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-                          if(newUser != null){
-                            await _fireStore.collection('UserInfo').add({
-                              'name_surname': name,
-                              'age': age,
-                              'phone_number': phoneNumber,
-                              'gender': gender,
-                              'id': newUser.user.uid,
-                            });
-                            Navigator.pushNamed(context, LoginScreen.routeName);
-                          }
-                        }
-                        catch(e){
-                          print(e);
+                        bool response = await _newUser.createUser();
+                        if(response){
+                          Navigator.pushNamed(context, LoginScreen.routeName);
                         }
                       },
                     ),
