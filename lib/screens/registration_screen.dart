@@ -74,8 +74,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _listViewContentGenerator('Ad Soyad', FontAwesomeIcons.userAlt, (value)=> _newUser.nameSurname = value,),
                         _listViewContentGenerator('Email', Icons.mail, (value)=> _newUser.email = value, keyBoardType: KeyboardTypes.emailAddress),
                         _listViewContentGenerator('Şifre', Icons.lock_outline, (value)=> _newUser.password = value, obsecure: true),
-                        _listViewContentGenerator('Tel No', Icons.phone_android, (value)=> _newUser.phoneNumber = value, keyBoardType: KeyboardTypes.number),
-                        _listViewContentGenerator('Yaş', Icons.cake_outlined, (value)=> _newUser.age = value, keyBoardType: KeyboardTypes.number),
+                        _listViewContentGenerator('Tel No', Icons.phone_android, (value)=> _newUser.phoneNumber = int.parse(value), keyBoardType: KeyboardTypes.number),
+                        _listViewContentGenerator('Yaş', Icons.cake_outlined, (value)=> _newUser.age = int.parse(value), keyBoardType: KeyboardTypes.number),
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: DefaultElevation(

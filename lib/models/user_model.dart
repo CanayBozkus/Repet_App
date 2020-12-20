@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
-  UserModel(){
+  UserModel({this.email, this.age, this.phoneNumber, this.gender, this.nameSurname}){
     _auth = FirebaseAuth.instance;
     _fireStore = FirebaseFirestore.instance;
   }
@@ -10,8 +10,8 @@ class UserModel {
   String email;
   String password;
   String nameSurname;
-  String age;
-  String phoneNumber;
+  int age;
+  int phoneNumber;
   String gender = 'Female';
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
@@ -35,5 +35,13 @@ class UserModel {
       print(e);
       return false;
     }
+  }
+
+  void getUserData() async {
+    if(FirebaseAuth.instance.currentUser != null){
+      final user = await _fireStore.collection('UserModel').where('id', isEqualTo: _auth.currentUser.uid).get();
+      print(user.docs[0].data());
+    }
+
   }
 }

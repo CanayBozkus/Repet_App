@@ -1,0 +1,3 @@
+class PetModel {
+  String name;
+}
