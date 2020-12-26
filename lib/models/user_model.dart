@@ -7,12 +7,16 @@ class UserModel {
     _fireStore = FirebaseFirestore.instance;
   }
 
+  String id;
   String email;
   String password;
   String nameSurname;
   int age;
   int phoneNumber;
   String gender = 'Female';
+  List addresses;
+  List pets;
+  int callendar;
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
 
