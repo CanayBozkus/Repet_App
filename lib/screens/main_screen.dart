@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/models/user_model.dart';
+import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
+
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  UserModel user = UserModel();
+  Future dataFuture;
+
+  @override
+  void initState() {
+    dataFuture = user.getUserData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,65 +30,80 @@ class MainScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
-      body: DoubleCircleBackground(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            PetNavigator(
-              height: height,
-              width: width,
-              showDetail: true,
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: height * 0.01,
+      body: FutureBuilder(
+        builder: (context, snapshots){
+          if (snapshots.connectionState == ConnectionState.none &&
+              snapshots.hasData == null) {
+            //print('project snapshot data is: ${projectSnap.data}');
+            return ErrorScreen();
+          }
+          else if(snapshots.connectionState == ConnectionState.waiting){
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return DoubleCircleBackground(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PetNavigator(
+                  height: height,
+                  width: width,
+                  showDetail: true,
                 ),
-                child: ListView(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.08, vertical: height * 0.02),
-                  children: [
-                    RemainderRow(
-                      height: height,
-                      width: width,
-                      mainText: 'Beslenme',
-                      subText: 'Günde 2 defa',
-                      svg: 'assets/icons/dog.svg',
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: height * 0.01,
                     ),
-                    RemainderRow(
-                      height: height,
-                      width: width,
-                      mainText: 'Beslenme',
-                      subText: 'Günde 2 defa',
-                      svg: 'assets/icons/dog.svg',
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.08, vertical: height * 0.02),
+                      children: [
+                        RemainderRow(
+                          height: height,
+                          width: width,
+                          mainText: 'Beslenme',
+                          subText: 'Günde 2 defa',
+                          svg: 'assets/icons/dog.svg',
+                        ),
+                        RemainderRow(
+                          height: height,
+                          width: width,
+                          mainText: 'Beslenme',
+                          subText: 'Günde 2 defa',
+                          svg: 'assets/icons/dog.svg',
+                        ),
+                        RemainderRow(
+                          height: height,
+                          width: width,
+                          mainText: 'Beslenme',
+                          subText: 'Günde 2 defa',
+                          svg: 'assets/icons/dog.svg',
+                        ),
+                        RemainderRow(
+                          height: height,
+                          width: width,
+                          mainText: 'Beslenme',
+                          subText: 'Günde 2 defa',
+                          svg: 'assets/icons/dog.svg',
+                        ),
+                        RemainderRow(
+                          height: height,
+                          width: width,
+                          mainText: 'Beslenme',
+                          subText: 'Günde 2 defa',
+                          svg: 'assets/icons/dog.svg',
+                        ),
+                      ],
                     ),
-                    RemainderRow(
-                      height: height,
-                      width: width,
-                      mainText: 'Beslenme',
-                      subText: 'Günde 2 defa',
-                      svg: 'assets/icons/dog.svg',
-                    ),
-                    RemainderRow(
-                      height: height,
-                      width: width,
-                      mainText: 'Beslenme',
-                      subText: 'Günde 2 defa',
-                      svg: 'assets/icons/dog.svg',
-                    ),
-                    RemainderRow(
-                      height: height,
-                      width: width,
-                      mainText: 'Beslenme',
-                      subText: 'Günde 2 defa',
-                      svg: 'assets/icons/dog.svg',
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
+        future: dataFuture,
       ),
       bottomNavigationBar: BaseBottomBar(
         height: height,
