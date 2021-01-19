@@ -3,11 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class ButtonLeadingSvg extends StatelessWidget {
   const ButtonLeadingSvg({
-    @required this.width,
+    this.width = double.infinity,
     @required this.svg,
     @required this.label,
     @required this.onPressed,
     @required this.color,
+    this.fontSize = 18.0,
   }) ;
 
   final double width;
@@ -15,32 +16,38 @@ class ButtonLeadingSvg extends StatelessWidget {
   final String label;
   final Function onPressed;
   final Color color;
+  final fontSize;
   @override
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: onPressed,
       padding: EdgeInsets.zero,
       color: color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Container(
         width: width,
-        padding: EdgeInsets.all(8),
-        child: Row(
+        padding: EdgeInsets.all(10),
+        child: Stack(
           children: [
             SvgPicture.asset(
               svg,
               color: Colors.white,
             ),
-            SizedBox(
-              width: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                  ),
+                )
+              ],
             ),
-            Text(
-              label,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: width*0.12
-              ),
-            )
-          ],
+          ]
         ),
       ),
     );

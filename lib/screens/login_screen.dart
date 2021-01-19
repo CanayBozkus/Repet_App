@@ -1,12 +1,11 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/main_screen.dart';
 import 'package:repetapp/screens/registration_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/button_leading_svg.dart';
-import 'package:repetapp/widgets/custom_input_field.dart';
-import 'package:repetapp/widgets/double_circle_background.dart';
+import 'package:repetapp/widgets/base_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = 'LoginScreen';
@@ -24,141 +23,129 @@ class LoginScreen extends StatelessWidget {
           onTap: () {
             FocusScope.of(context).unfocus();
           },
-          child: DoubleCircleBackground(
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: width * 0.1,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: height * 0.15,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        'Hoşgeldiniz',
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: width * 0.05,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  height: height * 0.30,
+                  width: double.infinity,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/icons/paw.svg',
+                        color: kPrimaryColor,
+                        height: height*0.15,
+                      ),
+                      SizedBox(height: height*0.02,),
+                      Text(
+                        'RePet',
                         style: TextStyle(
-                          fontSize: height * 0.05,
+                          fontSize: height*0.05,
                           fontWeight: FontWeight.w700,
                           color: kPrimaryColor,
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .2,
-                  ),
-                  CustomInputField(
-                    label: 'Email',
-                    icon: Icons.mail_outline,
-                    keyboardType: KeyboardTypes.emailAddress,
-                    onChanged: (value) {
-                      email = value;
-                    },
-                  ),
-                  SizedBox(
-                    height: height * .04,
-                  ),
-                  CustomInputField(
-                    label: 'Password',
-                    icon: Icons.lock_outline,
-                    onChanged: (value) {
-                      password = value;
-                    },
-                    obsecure: true,
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Text(
-                    'Şifremi Unuttum?',
-                    style: kDefaultTextStyle,
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Material(
-                    shadowColor: Colors.grey.shade400,
-                    elevation: 10,
-                    child: FlatButton(
-                      color: kPrimaryColor,
-                      padding: EdgeInsets.symmetric(vertical: 10.0),
-                      minWidth: double.infinity,
-                      child: Text(
-                        'Giriş Yap',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      onPressed: () async {
-                        final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-                        if(user != null){
-                          Navigator.pushNamed(context, MainScreen.routeName);
-                        }
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        text: 'Hesabın yok mu?  ',
-                        style: kDefaultTextStyle,
-                        children: [
-                          TextSpan(
-                            text: 'Kayıt Ol',
-                            style:
-                                kDefaultTextStyle.copyWith(color: Colors.black),
-                            recognizer: TapGestureRecognizer()..onTap = (){
-                              Navigator.pushNamed(context, RegistrationScreen.routeName);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Container(
-                    width: double.infinity,
-                    child: Text(
-                      'Diğer Oturum Açma Yöntemleri',
-                      textAlign: TextAlign.center,
-                      style: kDefaultTextStyle,
-                    ),
-                  ),
-                  SizedBox(
-                    height: height * .02,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ButtonLeadingSvg(
-                        width: width * 0.35,
-                        svg: 'assets/icons/iconmonstr-facebook-1.svg',
-                        label: 'Facebook',
-                        color: Color(0xff345ea1),
-                        onPressed: () {},
-                      ),
-                      ButtonLeadingSvg(
-                        width: width * 0.35,
-                        svg: 'assets/icons/google.svg',
-                        label: 'Google',
-                        onPressed: () {},
-                        color: Color(0xffdb3522),
-                      ),
+                      )
                     ],
+                  )
+                ),
+                BaseInputField(
+                  label: 'Email',
+                  keyboardType: KeyboardTypes.emailAddress,
+                  onChanged: (value) {
+                    email = value;
+                  },
+                ),
+                SizedBox(height: height*0.035,),
+                BaseInputField(
+                  label: 'Password',
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  obsecure: true,
+                ),
+                SizedBox(height: height*0.035,),
+                Material(
+                  shadowColor: Colors.grey.shade400,
+                  elevation: 5,
+                  borderRadius: BorderRadius.circular(5),
+                  child: FlatButton(
+                    color: kPrimaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
+                    minWidth: double.infinity,
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    onPressed: () async {
+                      final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+                      if(user != null){
+                        Navigator.pushNamed(context, MainScreen.routeName);
+                      }
+                    },
                   ),
-                ],
-              ),
+                ),
+                SizedBox(height: height*0.02,),
+                Text(
+                  'Forgot password ?',
+                  style: TextStyle(
+                    color: kPrimaryColor,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: height*0.02,),
+                ButtonLeadingSvg(
+                  svg: 'assets/icons/iconmonstr-facebook-1.svg',
+                  label: 'Login with Facebook',
+                  color: Color(0xff345ea1),
+                  onPressed: () {},
+                ),
+                SizedBox(height: height*0.02,),
+                ButtonLeadingSvg(
+                  svg: 'assets/icons/google.svg',
+                  label: 'Login with Google',
+                  onPressed: () {},
+                  color: Color(0xffdb3522),
+                ),
+                SizedBox(height: height*0.02,),
+                FlatButton(
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: kPrimaryColor,
+                      width: 1.5,
+                      style: BorderStyle.solid,
+                    ),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 14.0),
+                  minWidth: double.infinity,
+                  child: Text(
+                    'Register',
+                    style: TextStyle(
+                      color: kPrimaryColor,
+                      fontSize: 18,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () async {
+                    final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
+                    if(user != null){
+                      Navigator.pushNamed(context, RegistrationScreen.routeName);
+                    }
+                  },
+                ),
+              ],
             ),
           ),
         ),

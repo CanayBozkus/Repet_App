@@ -3,7 +3,6 @@ import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/double_circle_background.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
 
@@ -42,65 +41,63 @@ class _MainScreenState extends State<MainScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          return DoubleCircleBackground(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                PetNavigator(
-                  height: height,
-                  width: width,
-                  showDetail: true,
-                ),
-                Expanded(
-                  child: Padding(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              PetNavigator(
+                height: height,
+                width: width,
+                showDetail: true,
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: height * 0.01,
+                  ),
+                  child: ListView(
                     padding: EdgeInsets.symmetric(
-                      vertical: height * 0.01,
-                    ),
-                    child: ListView(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.08, vertical: height * 0.02),
-                      children: [
-                        RemainderRow(
-                          height: height,
-                          width: width,
-                          mainText: 'Beslenme',
-                          subText: 'Günde 2 defa',
-                          svg: 'assets/icons/dog.svg',
-                        ),
-                        RemainderRow(
-                          height: height,
-                          width: width,
-                          mainText: 'Beslenme',
-                          subText: 'Günde 2 defa',
-                          svg: 'assets/icons/dog.svg',
-                        ),
-                        RemainderRow(
-                          height: height,
-                          width: width,
-                          mainText: 'Beslenme',
-                          subText: 'Günde 2 defa',
-                          svg: 'assets/icons/dog.svg',
-                        ),
-                        RemainderRow(
-                          height: height,
-                          width: width,
-                          mainText: 'Beslenme',
-                          subText: 'Günde 2 defa',
-                          svg: 'assets/icons/dog.svg',
-                        ),
-                        RemainderRow(
-                          height: height,
-                          width: width,
-                          mainText: 'Beslenme',
-                          subText: 'Günde 2 defa',
-                          svg: 'assets/icons/dog.svg',
-                        ),
-                      ],
-                    ),
+                        horizontal: width * 0.08, vertical: height * 0.02),
+                    children: [
+                      RemainderRow(
+                        height: height,
+                        width: width,
+                        mainText: 'Beslenme',
+                        subText: 'Günde 2 defa',
+                        svg: 'assets/icons/dog.svg',
+                      ),
+                      RemainderRow(
+                        height: height,
+                        width: width,
+                        mainText: 'Beslenme',
+                        subText: 'Günde 2 defa',
+                        svg: 'assets/icons/dog.svg',
+                      ),
+                      RemainderRow(
+                        height: height,
+                        width: width,
+                        mainText: 'Beslenme',
+                        subText: 'Günde 2 defa',
+                        svg: 'assets/icons/dog.svg',
+                      ),
+                      RemainderRow(
+                        height: height,
+                        width: width,
+                        mainText: 'Beslenme',
+                        subText: 'Günde 2 defa',
+                        svg: 'assets/icons/dog.svg',
+                      ),
+                      RemainderRow(
+                        height: height,
+                        width: width,
+                        mainText: 'Beslenme',
+                        subText: 'Günde 2 defa',
+                        svg: 'assets/icons/dog.svg',
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
         future: dataFuture,
