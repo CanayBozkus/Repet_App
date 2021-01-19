@@ -138,11 +138,8 @@ class LoginScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () async {
-                    final user = await _auth.signInWithEmailAndPassword(email: email, password: password);
-                    if(user != null){
-                      Navigator.pushNamed(context, RegistrationScreen.routeName);
-                    }
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegistrationScreen.routeName);
                   },
                 ),
               ],
