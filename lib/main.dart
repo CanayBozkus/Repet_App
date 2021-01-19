@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        primaryColor: kPrimaryColor,
         textTheme: TextTheme(
           bodyText2: TextStyle(
             fontSize: 16.0,
