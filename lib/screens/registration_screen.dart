@@ -1,11 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/user_model.dart';
-import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/base_input_field.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repetapp/utilities/form_generator.dart';
+
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
@@ -17,6 +14,15 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   UserModel _newUser = UserModel();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+
+  String _mailValidator(String text){
+    if(!text.contains('@')){
+      return "Please enter a mail";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -40,17 +46,90 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.05,
             ),
+            alignment: Alignment.center,
             child: Form(
-                child: ListView(
-                  children: [
-                    TextFormField(
-
+              key: _formKey,
+              child: ListView(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Mail',
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: kPrimaryColor,
+                        ),
+                      ),
                     ),
-                    TextFormField(),
-                    TextFormField(),
-                    TextFormField(),
-                  ],
-                ),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    keyboardType: TextInputType.emailAddress,
+                    obscureText: true,
+                    autocorrect: false,
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      labelText: 'Password',
+                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                        borderSide: BorderSide(
+                          color: kPrimaryColor,
+                        ),
+                      ),
+                    ),
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    obscureText: true,
+                    autocorrect: false,
+                  ),
+                  Material(
+                    elevation: 3,
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Name',
+                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1.5
+                          ),
+                        ),
+                      ),
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
