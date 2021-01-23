@@ -14,8 +14,8 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   UserModel _newUser = UserModel();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
-
+  final _formGen = FormGenerator();
+  Function _trigger;
   String _mailValidator(String text){
     if(!text.contains('@')){
       return "Please enter a mail";
@@ -47,89 +47,16 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               horizontal: width * 0.05,
             ),
             alignment: Alignment.center,
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Mail',
-                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: true,
-                    autocorrect: false,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide(
-                          color: kPrimaryColor,
-                        ),
-                      ),
-                    ),
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    obscureText: true,
-                    autocorrect: false,
-                  ),
-                  Material(
-                    elevation: 3,
-                    borderRadius: BorderRadius.circular(10.0),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Name',
-                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: kPrimaryColor,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1.5
-                          ),
-                        ),
-                      ),
-                      style: TextStyle(
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: _formGen.userRegisterForm(userModel: _newUser, key: _formKey, stateController: setState),
+                ),
+                RaisedButton(onPressed: (){
+                  _formKey.currentState.save();
+                  print(_newUser.nameSurname);
+                })
+              ],
             ),
           ),
         ),

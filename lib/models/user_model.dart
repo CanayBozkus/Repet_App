@@ -23,6 +23,7 @@ class UserModel {
   CalendarModel calendar;
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
+  bool newsSetterConfirmation = true;
 
   Future<bool> createUser() async {
     try{
