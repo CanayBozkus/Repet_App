@@ -49,17 +49,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.05,
+              vertical: height*0.1,
             ),
             alignment: Alignment.center,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Expanded(
+                Container(
+                  height: height*0.5,
                   child: _formGen.userRegisterForm(
                       userModel: _newUser,
                       key: _formKey,
                       stateController: setState),
                 ),
-                BaseButton(text: 'Ileri', onPressed: (){}, width: 120,),
+                SizedBox(height: height*0.02,),
+                BaseButton(
+                  text: 'Ileri',
+                  onPressed: (){
+                   if(_formKey.currentState.validate()){
+                     _formKey.currentState.save();
+                   }
+                    print(_newUser.nameSurname);
+                    print(_newUser.email);
+                    print(_newUser.password);
+                  },
+                  width: 120,
+                ),
               ],
             ),
           ),
