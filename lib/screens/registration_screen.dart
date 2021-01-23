@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
-
+import 'package:repetapp/widgets/base_button.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
@@ -16,8 +16,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final _formGen = FormGenerator();
   Function _trigger;
-  String _mailValidator(String text){
-    if(!text.contains('@')){
+  String _mailValidator(String text) {
+    if (!text.contains('@')) {
       return "Please enter a mail";
     }
     return null;
@@ -31,8 +31,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-            'Register',
-          style: Theme.of(context).appBarTheme.textTheme.headline6.copyWith(color: Colors.white),
+          'Register',
+          style: Theme.of(context)
+              .appBarTheme
+              .textTheme
+              .headline6
+              .copyWith(color: Colors.white),
         ),
         leading: Container(),
         backgroundColor: Theme.of(context).primaryColor,
@@ -50,12 +54,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Column(
               children: [
                 Expanded(
-                  child: _formGen.userRegisterForm(userModel: _newUser, key: _formKey, stateController: setState),
+                  child: _formGen.userRegisterForm(
+                      userModel: _newUser,
+                      key: _formKey,
+                      stateController: setState),
                 ),
-                RaisedButton(onPressed: (){
-                  _formKey.currentState.save();
-                  print(_newUser.nameSurname);
-                })
+                BaseButton(text: 'Ileri', onPressed: (){}, width: 120,),
               ],
             ),
           ),
@@ -64,3 +68,4 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 }
+

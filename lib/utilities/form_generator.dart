@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/widgets/base_checkbox.dart';
 import 'constants.dart';
 
 class FormGenerator{
@@ -69,12 +70,22 @@ class FormGenerator{
           ),
           Row(
             children: [
-              Checkbox(value: userModel.newsSetterConfirmation,
-                onChanged: (value){
-                  stateController((){
-                    userModel.newsSetterConfirmation = value;
-                  });
-                },
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: BaseCheckBox(
+                  value: userModel.newsSetterConfirmation,
+                  onChanged: (value){
+                    stateController((){
+                      userModel.newsSetterConfirmation = value;
+                    });
+                  },
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  "Repet\’in bana özel kampanya, tanıtım ve fırsatlarından haberdar olmak istiyorum",
+                  overflow: TextOverflow.clip,
+                ),
               )
             ],
           ),
