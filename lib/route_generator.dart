@@ -5,6 +5,7 @@ import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/screens/leaderboard_screen.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/main_screen.dart';
+import 'package:repetapp/screens/pet_registration_screen.dart';
 import 'package:repetapp/screens/profile_screen.dart';
 import 'package:repetapp/screens/registration_screen.dart';
 import 'package:repetapp/screens/training_detail_screen.dart';
@@ -25,6 +26,7 @@ class RouteGenerator {
       case RegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => RegistrationScreen());
       case LeaderBoardScreen.routename: return MaterialPageRoute(builder: (_) => LeaderBoardScreen());
       case ProfileScreen.routeName: return MaterialPageRoute(builder: (_) => ProfileScreen());
+      case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen(newUser: args,));
       default: return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }

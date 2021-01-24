@@ -34,7 +34,7 @@ class FormGenerator{
     return null;
   }
 
-  Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved}){
+  Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Material(
@@ -66,6 +66,7 @@ class FormGenerator{
           obscureText: obsecure ?? false,
           validator: validator,
           onSaved: onsaved,
+          onChanged: onchanged,
         ),
       ),
     );
@@ -88,10 +89,13 @@ class FormGenerator{
               userModel.password = value;
             },
             validator: _passwordValidator,
+            onchanged: (value)=> userModel.password=value,
           ),
           this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
             validator: (String value){
               if(value != userModel.password){
+                print(value);
+                print(userModel.password);
                 return "Passwords does not match!";
               }
               return null;

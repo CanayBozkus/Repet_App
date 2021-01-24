@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/user_model.dart';
+import 'package:repetapp/screens/pet_registration_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
@@ -68,10 +69,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   onPressed: (){
                    if(_formKey.currentState.validate()){
                      _formKey.currentState.save();
+                     Navigator.pushNamed(context, PetRegistrationScreen.routeName, arguments: _newUser);
                    }
-                    print(_newUser.nameSurname);
-                    print(_newUser.email);
-                    print(_newUser.password);
                   },
                   width: 120,
                 ),
