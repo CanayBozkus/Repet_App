@@ -4,8 +4,37 @@ import 'constants.dart';
 
 class FormGenerator{
 
+  String _mailValidator(String value){
+    if(value.isEmpty){
+      return 'Please enter a email!';
+    }
+    if(!value.contains('@')){
+      return 'Invalid email.';
+    }
+    return null;
+  }
+
+  String _passwordValidator(String value){
+    if(value.isEmpty){
+      return 'Please enter a password!';
+    }
+    if(value.length < 8){
+      return 'Password cannot less than 8 character.';
+    }
+    return null;
+  }
+
+  String _nameValidator(String value){
+    if(value.isEmpty){
+      return 'Please enter your name!';
+    }
+    if(value.contains(RegExp(r'[0-9]'))){
+      return 'Name cannot contain number.';
+    }
+    return null;
+  }
+
   Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved}){
-    FocusNode focusNode = FocusNode();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Material(
@@ -14,7 +43,6 @@ class FormGenerator{
         child: TextFormField(
           decoration: InputDecoration(
             labelText: label,
-
             focusColor: kPrimaryColor,
             contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             focusedBorder: OutlineInputBorder(
@@ -53,29 +81,13 @@ class FormGenerator{
             onsaved: (String value){
               userModel.email = value;
             },
-            validator: (String value){
-              if(value.isEmpty){
-                return 'Please enter a email!';
-              }
-              if(!value.contains('@')){
-                return 'Invalid email.';
-              }
-              return null;
-            },
+            validator: _mailValidator,
           ),
           this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
             onsaved: (String value){
               userModel.password = value;
             },
-            validator: (String value){
-              if(value.isEmpty){
-                return 'Please enter a password!';
-              }
-              if(value.length < 8){
-                return 'Password cannot less than 8 character.';
-              }
-              return null;
-            },
+            validator: _passwordValidator,
           ),
           this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
             validator: (String value){
@@ -89,15 +101,7 @@ class FormGenerator{
             onsaved: (String value){
               userModel.nameSurname = value;
             },
-            validator: (String value){
-              if(value.isEmpty){
-                return 'Please enter your name!';
-              }
-              if(value.contains(RegExp(r'[0-9]'))){
-                return 'Name cannot contain number.';
-              }
-              return null;
-            },
+            validator: _nameValidator,
           ),
           SizedBox(height: 8,),
           Row(
