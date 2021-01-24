@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
+import 'package:repetapp/widgets/default_elevation.dart';
 import 'constants.dart';
 
 class FormGenerator{
@@ -170,6 +171,112 @@ class FormGenerator{
               ],
             ),
           )
+        ],
+      ),
+    );
+  }
+
+  Widget petRegisterForm({@required final petModel, @required final key, stateController}){
+    return Form(
+      key: key,
+      child: ListView(
+        padding: EdgeInsets.symmetric(horizontal: 2),
+        children: [
+         /* Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              DefaultElevation(
+                isCircular: true,
+                child: FlatButton(
+                  onPressed: (){
+                    stateController(() {
+                      isDog = !isDog;
+                    });
+                  },
+                  shape: CircleBorder(),
+                  child: Container(
+                    width: width * 0.3,
+                    height: width * 0.3,
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: SvgPicture.asset(
+                      'assets/icons/dog.svg',
+                      color: isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
+                    ),
+                  ),
+                ),
+              ),
+              DefaultElevation(
+                isCircular: true,
+                child: FlatButton(
+                  onPressed: (){
+                    setState(() {
+                      isDog = !isDog;
+                    });
+                  },
+                  shape: CircleBorder(),
+                  child: Container(
+                    width: width * 0.3,
+                    height: width * 0.3,
+                    decoration: BoxDecoration(shape: BoxShape.circle),
+                    child: SvgPicture.asset(
+                      'assets/icons/cat.svg',
+                      color: !isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),*/
+          this.addInput(label: 'Name', keyboard: KeyboardTypes.text,
+            onsaved: (String value){
+              petModel.name = value;
+            },
+            validator: _nameValidator,
+          ),
+          this.addInput(label: 'Cinsiyet', keyboard: KeyboardTypes.text,
+            onsaved: (String value){
+              petModel.name = value;
+            },
+            validator: _nameValidator,
+          ),
+          this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number,
+            onsaved: (String value){
+              petModel.name = value;
+            },
+            validator: (String value){},
+          ),
+          this.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number,
+            onsaved: (String value){
+              petModel.name = value;
+            },
+            validator: (String value){},
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: this.addInput(label: 'Yıl', keyboard: KeyboardTypes.number,
+                  onsaved: (String value){
+                    petModel.name = value;
+                  },
+                  validator: (String value){},
+                ),
+              ),
+              Expanded(
+                child: this.addInput(label: 'Ay', keyboard: KeyboardTypes.number,
+                  onsaved: (String value){
+                    petModel.name = value;
+                  },
+                  validator: (String value){},
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8,),
+
+          SizedBox(height: 3,),
+
+          SizedBox(height: 3,),
+
         ],
       ),
     );

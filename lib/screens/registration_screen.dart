@@ -16,14 +16,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   UserModel _newUser = UserModel();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final _formGen = FormGenerator();
-  Function _trigger;
-  String _mailValidator(String text) {
-    if (!text.contains('@')) {
-      return "Please enter a mail";
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
