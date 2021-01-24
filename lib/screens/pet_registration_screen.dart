@@ -45,16 +45,15 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
           child: Container(
             padding: EdgeInsets.symmetric(
               horizontal: width * 0.05,
-              vertical: height*0.08,
+              vertical: height*0.05,
             ),
             color: Color(0xfffffbf8),
             alignment: Alignment.center,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-
                 Expanded(
-                  child: _formGen.petRegisterForm(petModel: _petModel, key: _formKey, stateController: setState),
+                  child: _formGen.petRegisterForm(petModel: _petModel, key: _formKey, stateController: setState, width: width, height: height),
                 )
               ],
             ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FormGenerator{
 
@@ -37,7 +38,7 @@ class FormGenerator{
 
   Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged}){
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Material(
         elevation: 3,
         borderRadius: BorderRadius.circular(10.0),
@@ -69,6 +70,45 @@ class FormGenerator{
           onSaved: onsaved,
           onChanged: onchanged,
         ),
+      ),
+    );
+  }
+
+  Widget addDropdown({List categories, Function onChanged}){
+    return Material(
+      elevation: 3,
+      borderRadius: BorderRadius.circular(10.0),
+      child: DropdownButtonFormField(
+        hint: Text('Cinsiyet'),
+        style: TextStyle(
+          fontSize: 18.0,
+        ),
+        items: categories.map((e){
+          return DropdownMenuItem(
+            value: e,
+            child: Text(e),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          focusColor: kPrimaryColor,
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+              color: kPrimaryColor,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: 1.5
+            ),
+          ),
+        ),
+        icon: Icon(Icons.arrow_drop_down, color: kPrimaryColor,),
+        iconSize: 30,
       ),
     );
   }
@@ -176,13 +216,13 @@ class FormGenerator{
     );
   }
 
-  Widget petRegisterForm({@required final petModel, @required final key, stateController}){
+  Widget petRegisterForm({@required final petModel, @required final key, stateController, width, height}){
     return Form(
       key: key,
       child: ListView(
         padding: EdgeInsets.symmetric(horizontal: 2),
         children: [
-         /* Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               DefaultElevation(
@@ -190,7 +230,7 @@ class FormGenerator{
                 child: FlatButton(
                   onPressed: (){
                     stateController(() {
-                      isDog = !isDog;
+                      petModel.isDog = !petModel.isDog;
                     });
                   },
                   shape: CircleBorder(),
@@ -200,7 +240,7 @@ class FormGenerator{
                     decoration: BoxDecoration(shape: BoxShape.circle),
                     child: SvgPicture.asset(
                       'assets/icons/dog.svg',
-                      color: isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
+                      color: petModel.isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
                     ),
                   ),
                 ),
@@ -209,8 +249,8 @@ class FormGenerator{
                 isCircular: true,
                 child: FlatButton(
                   onPressed: (){
-                    setState(() {
-                      isDog = !isDog;
+                    stateController(() {
+                      petModel.isDog = !petModel.isDog;
                     });
                   },
                   shape: CircleBorder(),
@@ -220,63 +260,88 @@ class FormGenerator{
                     decoration: BoxDecoration(shape: BoxShape.circle),
                     child: SvgPicture.asset(
                       'assets/icons/cat.svg',
-                      color: !isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
+                      color: !petModel.isDog ? Color(0xffe86868) : Color(0xffd0d0d0),
                     ),
                   ),
                 ),
               ),
             ],
-          ),*/
+          ),
+          SizedBox(height: 12,),
           this.addInput(label: 'Name', keyboard: KeyboardTypes.text,
             onsaved: (String value){
               petModel.name = value;
             },
             validator: _nameValidator,
           ),
-          this.addInput(label: 'Cinsiyet', keyboard: KeyboardTypes.text,
-            onsaved: (String value){
-              petModel.name = value;
-            },
-            validator: _nameValidator,
-          ),
+          this.addDropdown(categories:['Erkek', 'Dişi'], onChanged: (value){
+            petModel.gender = value;
+          },),
           this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number,
             onsaved: (String value){
-              petModel.name = value;
+              petModel.weight = double.parse(value);
             },
-            validator: (String value){},
+            validator: (String value){
+              if(value.isEmpty){
+                return 'Please enter a weight!';
+              }
+              if(double.parse(value) < 1){
+                return 'Invalid weight';
+              }
+              return null;
+            },
           ),
           this.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number,
             onsaved: (String value){
-              petModel.name = value;
+              petModel.height = double.parse(value);
             },
-            validator: (String value){},
+            validator: (String value){
+              if(value.isEmpty){
+                return 'Please enter a height!';
+              }
+              if(double.parse(value) < 0.3){
+                return 'Invalid height';
+              }
+              return null;
+            },
           ),
           Row(
             children: [
               Expanded(
                 child: this.addInput(label: 'Yıl', keyboard: KeyboardTypes.number,
                   onsaved: (String value){
-                    petModel.name = value;
+                    petModel.year = int.parse(value);
                   },
-                  validator: (String value){},
+                  validator: (String value){
+                    if(value.isEmpty){
+                      return 'Please enter a year!';
+                    }
+                    if(double.parse(value) < 1995){
+                      return 'Invalid year';
+                    }
+                    return null;
+                  },
                 ),
               ),
+              SizedBox(width: 16,),
               Expanded(
                 child: this.addInput(label: 'Ay', keyboard: KeyboardTypes.number,
                   onsaved: (String value){
-                    petModel.name = value;
+                    petModel.month = int.parse(value);
                   },
-                  validator: (String value){},
+                  validator: (String value){
+                    if(value.isEmpty){
+                      return 'Please enter a month!';
+                    }
+                    if(double.parse(value) > 12 || double.parse(value) < 0){
+                      return 'Invalid month';
+                    }
+                    return null;
+                  },
                 ),
               ),
             ],
           ),
-          SizedBox(height: 8,),
-
-          SizedBox(height: 3,),
-
-          SizedBox(height: 3,),
-
         ],
       ),
     );

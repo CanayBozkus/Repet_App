@@ -8,11 +8,12 @@ class PetModel {
   String id;
   String ownerId;
   String name;
-  String catalog;
+  bool isDog = true;
   String species;
   double weight;
   double height;
-  int age;
+  int year;
+  int month;
   List allergies;
   List disabilities;
   List sicknesses;
@@ -27,11 +28,12 @@ class PetModel {
         'id': id,
         'owner_id': ownerId,
         'name': name,
-        'catalog': catalog,
+        'catalog': isDog ? 'Dog' : 'Cat',
         'species': species,
         'weight': weight,
         'height': height,
-        'age': age,
+        'year': year,
+        'month': month,
         'allergies': [],
         'disabilities': [],
         'sicknesses': [],
