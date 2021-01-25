@@ -342,6 +342,13 @@ class FormGenerator{
               ),
             ],
           ),
+          SizedBox(height: 6,),
+          Text(
+            'Evcil Hayvanınızın yaşı',
+            style: TextStyle(
+              fontSize: 12,
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -54,7 +55,17 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
               children: [
                 Expanded(
                   child: _formGen.petRegisterForm(petModel: _petModel, key: _formKey, stateController: setState, width: width, height: height),
-                )
+                ),
+                BaseButton(
+                  text: 'Ileri',
+                  onPressed: (){
+                    if(_formKey.currentState.validate()){
+                      _formKey.currentState.save();
+
+                    }
+                  },
+                  width: 120,
+                ),
               ],
             ),
           ),
