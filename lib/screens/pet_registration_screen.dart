@@ -20,6 +20,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
   bool isDog = true;
   final _formGen = FormGenerator();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  String _formName = 'pet';
   int _formIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -55,16 +56,51 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
-                  child: _formGen.petHealthForm(petModel: _petModel, key: _formKey, formIndex: _formIndex, stateController: setState, width: width, height: height),
+                  child: _formName == 'pet' ?
+                _formGen.petRegisterForm(petModel: _petModel, key: _formKey, stateController: setState, width: width, height: height)
+                  : _formGen.petHealthForm(petModel: _petModel, key: _formKey, formIndex: _formIndex, stateController: setState, width: width, height: height),
                 ),
-                BaseButton(
-                  text: 'Ileri',
-                  onPressed: (){
-                    setState(() {
-                      _formIndex = 1;
-                    });
-                  },
-                  width: 120,
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _formName == 'health' ? BaseButton(
+                      text: 'Geri',
+                      onPressed: (){
+                        setState(() {
+                          if(_formIndex == 1){
+                            _formIndex = 0;
+                          }
+                          else if(_formIndex == 0 && _formName == 'health'){
+                            _formName = 'pet';
+                          }
+                        });
+                      },
+                      width: 120,
+                    ) : SizedBox.shrink(),
+                    BaseButton(
+                      text: _formName == 'pet' || _formIndex == 0 ? 'Ileri' : 'Bitir',
+                      onPressed: (){
+                        setState(() {
+                          if(_formName == 'pet'){
+                            if(_formKey.currentState.validate()){
+                              _formKey.currentState.save();
+                              _formName = 'health';
+                            }
+                          }
+                          else {
+                            if(_formIndex == 0){
+                              _formIndex = 1;
+                            }
+                            else {
+                              print('save');
+                            }
+                          }
+                        });
+                      },
+                      width: 120,
+                    ),
+                  ],
                 ),
               ],
             ),

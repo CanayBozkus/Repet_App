@@ -9,6 +9,7 @@ class PetModel {
   String id;
   String ownerId;
   String name;
+  String gender;
   bool isDog = true;
   String species;
   double weight;
@@ -29,6 +30,7 @@ class PetModel {
         'id': id,
         'owner_id': ownerId,
         'name': name,
+        'gender': gender,
         'catalog': isDog ? 'Dog' : 'Cat',
         'species': species,
         'weight': weight,

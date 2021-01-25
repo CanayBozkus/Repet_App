@@ -28,23 +28,26 @@ class FormGenerator{
     return null;
   }
 
-  String _nameValidator(String value){
-    if(value.isEmpty){
-      return 'Please enter your name!';
-    }
-    if(value.contains(RegExp(r'[0-9]'))){
-      return 'Name cannot contain number.';
-    }
-    return null;
+  Function _nameValidatorGenerator(name){
+    return (String value){
+      if(value.isEmpty){
+        return 'Please enter $name name!';
+      }
+      if(value.contains(RegExp(r'[0-9]'))){
+        return 'Name cannot contain number.';
+      }
+      return null;
+    };
   }
 
-  Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged}){
+  Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged, initialValue}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Material(
         elevation: 3,
         borderRadius: BorderRadius.circular(10.0),
         child: TextFormField(
+          initialValue: initialValue,
           decoration: InputDecoration(
             labelText: label,
             focusColor: kPrimaryColor,
@@ -76,19 +79,28 @@ class FormGenerator{
     );
   }
 
-  Widget addDropdown({List categories, Function onChanged}){
+  Widget addDropdown({List categories, Function onChanged, String hint, Function validator, value}){
     return Material(
       elevation: 3,
       borderRadius: BorderRadius.circular(10.0),
       child: DropdownButtonFormField(
-        hint: Text('Cinsiyet'),
+        hint: Text(hint),
         style: TextStyle(
           fontSize: 18.0,
+          color: Color(0xFF6f6f6f),
         ),
+        value: value,
         items: categories.map((e){
           return DropdownMenuItem(
             value: e,
-            child: Text(e),
+            child: Container(
+              child: Text(
+                e,
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+            ),
           );
         }).toList(),
         onChanged: onChanged,
@@ -109,6 +121,7 @@ class FormGenerator{
             ),
           ),
         ),
+
         icon: Icon(Icons.arrow_drop_down, color: kPrimaryColor,),
         iconSize: 30,
       ),
@@ -168,7 +181,7 @@ class FormGenerator{
             onsaved: (String value){
               userModel.nameSurname = value;
             },
-            validator: _nameValidator,
+            validator: _nameValidatorGenerator('your'),
           ),
           SizedBox(height: 8,),
           Row(
@@ -290,16 +303,22 @@ class FormGenerator{
             ],
           ),
           SizedBox(height: 12,),
-          this.addInput(label: 'Name', keyboard: KeyboardTypes.text,
+          this.addInput(label: 'Name', keyboard: KeyboardTypes.text, initialValue: petModel.name,
             onsaved: (String value){
               petModel.name = value;
             },
-            validator: _nameValidator,
+            validator: _nameValidatorGenerator('your pet\'s'),
           ),
-          this.addDropdown(categories:['Erkek', 'Dişi'], onChanged: (value){
+          this.addDropdown(categories:['Erkek', 'Dişi'], hint: 'Cinsiyet', value: petModel.gender, onChanged: (value){
             petModel.gender = value;
-          },),
-          this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number,
+          },
+            validator: (value){
+              if(value == null){
+                return 'Please select a gender!';
+              }
+            }
+          ),
+          this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number, initialValue: petModel.weight != null ? petModel.weight.toString() : null,
             onsaved: (String value){
               petModel.weight = double.parse(value);
             },
@@ -313,7 +332,7 @@ class FormGenerator{
               return null;
             },
           ),
-          this.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number,
+          this.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number, initialValue: petModel.height != null ? petModel.height.toString() :null,
             onsaved: (String value){
               petModel.height = double.parse(value);
             },
@@ -330,7 +349,7 @@ class FormGenerator{
           Row(
             children: [
               Expanded(
-                child: this.addInput(label: 'Yıl', keyboard: KeyboardTypes.number,
+                child: this.addInput(label: 'Yıl', keyboard: KeyboardTypes.number, initialValue: petModel.year != null ? petModel.year.toString() : null,
                   onsaved: (String value){
                     petModel.year = int.parse(value);
                   },
@@ -347,7 +366,7 @@ class FormGenerator{
               ),
               SizedBox(width: 16,),
               Expanded(
-                child: this.addInput(label: 'Ay', keyboard: KeyboardTypes.number,
+                child: this.addInput(label: 'Ay', keyboard: KeyboardTypes.number, initialValue:  petModel.month != null ? petModel.month.toString() : null,
                   onsaved: (String value){
                     petModel.month = int.parse(value);
                   },
