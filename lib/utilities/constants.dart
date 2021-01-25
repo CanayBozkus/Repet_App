@@ -41,6 +41,24 @@ const keyBoards = {
 
 const kPrimaryColor = Color(0xFFFDA15A);
 
+const allergies = [
+  'Kaşıntılı cilt',
+  'Hapşırma',
+  'Deri Döküntüleri',
+  'Pullu veya yağlı cilt',
+  'Pigmentli Cilt',
+  'Göz Akıntısı',
+];
+
+const disabilities = [
+  'Körlük',
+  'Sağırlık',
+  'Felç',
+  'Epilepsi',
+  'Astım',
+  'Nöbetler',
+];
+
 const kTextFieldLabelStyle = TextStyle(
   color: kPrimaryColor,
 );

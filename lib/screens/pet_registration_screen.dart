@@ -20,6 +20,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
   bool isDog = true;
   final _formGen = FormGenerator();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  int _formIndex = 0;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -54,15 +55,14 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Expanded(
-                  child: _formGen.petRegisterForm(petModel: _petModel, key: _formKey, stateController: setState, width: width, height: height),
+                  child: _formGen.petHealthForm(petModel: _petModel, key: _formKey, formIndex: _formIndex, stateController: setState, width: width, height: height),
                 ),
                 BaseButton(
                   text: 'Ileri',
                   onPressed: (){
-                    if(_formKey.currentState.validate()){
-                      _formKey.currentState.save();
-
-                    }
+                    setState(() {
+                      _formIndex = 1;
+                    });
                   },
                   width: 120,
                 ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:repetapp/utilities/constants.dart' as constants;
 
 class PetModel {
   PetModel(){
@@ -14,9 +15,9 @@ class PetModel {
   double height;
   int year;
   int month;
-  List allergies;
-  List disabilities;
-  List sicknesses;
+  List allergies = [];
+  List disabilities = [];
+  List sicknesses = [];
   List routines;
   int petTrainingModelId;
   FirebaseFirestore _fireStore;
@@ -46,5 +47,13 @@ class PetModel {
       print(e);
       return false;
     }
+  }
+
+  List getAllergies(){
+    return constants.allergies;
+  }
+
+  List getDisabilities(){
+    return constants.disabilities;
   }
 }

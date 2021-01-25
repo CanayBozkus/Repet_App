@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'constants.dart';
@@ -113,6 +115,26 @@ class FormGenerator{
     );
   }
 
+  Widget addListTile({String text, Function onTap, bool checked}){
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical:6.0),
+      child: Material(
+        elevation: 3,
+        borderRadius: BorderRadius.circular(10.0),
+        child: ListTile(
+          title: Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          trailing: BaseCheckBox(size: 30.0, value: checked, onChanged: (_) => onTap(), color: Color(0xff79c624),),
+          onTap: onTap,
+        ),
+      ),
+    );
+  }
+
   Widget userRegisterForm({@required final userModel, @required final key, stateController}){
     return Form(
       key: key,
@@ -216,7 +238,7 @@ class FormGenerator{
     );
   }
 
-  Widget petRegisterForm({@required final petModel, @required final key, stateController, width, height}){
+  Widget petRegisterForm({@required final petModel, @required final key, stateController, double width, double height}){
     return Form(
       key: key,
       child: ListView(
@@ -352,5 +374,82 @@ class FormGenerator{
         ],
       ),
     );
+  }
+
+  Widget petHealthForm({@required key, @required PetModel petModel, Function stateController, double width, double height, @required int formIndex}){
+    return Form(
+      child: ListView(
+        padding: EdgeInsets.all(4),
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: width*0.08),
+            child: Row(
+              children: [
+                Expanded(
+                  child: BaseButton(
+                    text: 'Alerji',
+                    onPressed: (){
+                    },
+                    empty: !(formIndex == 0),
+                  ),
+                ),
+                Expanded(
+                  child: BaseButton(
+                    text: 'Engel',
+                    onPressed: (){
+
+                    },
+                    empty: formIndex == 0,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 20,),
+          Text(
+            'Seçin',
+            style: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: 10,),
+          ...(formIndex == 0 ?
+          this._allergiesForm(petModel: petModel, stateController: stateController)
+              : this._disabilitiesForm(petModel: petModel, stateController: stateController)),
+        ],
+      ),
+    );
+  }
+
+  List _allergiesForm({@required petModel, stateController}){
+    return petModel.getAllergies().map((e) => this.addListTile(text: e, onTap: (){
+      if(petModel.allergies.contains(e)){
+        petModel.allergies.remove(e);
+      }
+      else {
+        petModel.allergies.add(e);
+      }
+      stateController((){});
+      print(petModel.allergies);
+    },
+      checked: petModel.allergies.contains(e),
+    )).toList();
+  }
+
+  List _disabilitiesForm({@required petModel, stateController}){
+    return petModel.getDisabilities().map((e) => this.addListTile(text: e, onTap: (){
+      if(petModel.disabilities.contains(e)){
+        petModel.disabilities.remove(e);
+      }
+      else {
+        petModel.disabilities.add(e);
+      }
+      stateController((){});
+      print(petModel.disabilities);
+    },
+      checked: petModel.disabilities.contains(e),
+    )).toList();
   }
 }

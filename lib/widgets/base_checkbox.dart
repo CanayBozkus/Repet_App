@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 
 class BaseCheckBox extends StatelessWidget {
-  BaseCheckBox({this.value, this.size = 40.0, this.onChanged});
+  BaseCheckBox({this.value, this.size = 40.0, this.onChanged, this.color = kPrimaryColor});
   final bool value;
-  final size;
+  final double size;
   final Function onChanged;
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -17,7 +18,7 @@ class BaseCheckBox extends StatelessWidget {
         width: size ,
         height: size,
         decoration: BoxDecoration(
-          color: value ? kPrimaryColor : Colors.white,
+          color: value ? color : Colors.white,
           borderRadius: BorderRadius.circular(5),
           border: !value ? Border.all(
               color: Colors.grey.shade300,
