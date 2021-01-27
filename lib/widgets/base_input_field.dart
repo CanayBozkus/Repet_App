@@ -17,7 +17,7 @@ class BaseInputField extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Material(
       elevation: 5,
-      borderRadius: BorderRadius.all(Radius.circular(5)),
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       child: Container(
         height: height * 0.09,
         child: TextField(
@@ -30,13 +30,21 @@ class BaseInputField extends StatelessWidget {
               fontWeight: FontWeight.w500,
               fontSize: 18.0,
             ),
-            border: InputBorder.none,
             filled: true,
             fillColor: Colors.white,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 1.5
+              ),
+            ),
             focusColor: kPrimaryColor,
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: kPrimaryColor),
-              borderRadius: BorderRadius.all(Radius.circular(5)),
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide(
+                color: kPrimaryColor,
+              ),
             ),
           ),
           keyboardType: keyBoards[keyboardType],

@@ -31,6 +31,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                //TODO: bu kısmı FormGenerator.loginForm() içerisinden al
                 Container(
                     height: height * 0.30,
                     width: double.infinity,
@@ -78,6 +79,8 @@ class LoginScreen extends StatelessWidget {
                 BaseButton(
                   text: 'Login',
                   onPressed: () async {
+                    //TODO: login kısmını UserModel üzerinden gerçekleştir (?) ve provider üzerinde currenUser olarak assign et
+                    //TODO: spinner ekle
                     final user = await _auth.signInWithEmailAndPassword(
                         email: email, password: password);
                     if (user != null) {

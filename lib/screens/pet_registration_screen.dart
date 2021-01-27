@@ -23,6 +23,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   String _formName = 'pet';
   int _formIndex = 0;
+  //TODO: UserModel.createUser() sırasında spinner gösterecek şekilde ayarla
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
