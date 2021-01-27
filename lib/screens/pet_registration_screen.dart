@@ -102,6 +102,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                          if(create){
                            bool userResult = await widget.newUser.createUser();
                            if(userResult){
+                             //TODO: ilk eklenecek hayvanı UserModel.createUser() içerisinde gerçekleşecek şekilde ayarla
                              bool petResult = await widget.newUser.addPet(_petModel, true);
                              if(petResult){
                                widget.newUser.signOut();
