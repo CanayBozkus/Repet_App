@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:repetapp/models/calendar_model.dart';
+import 'package:repetapp/models/pet_model.dart';
 
 class UserModel {
   UserModel({this.email, this.age, this.phoneNumber, this.gender = 'Female', this.nameSurname}){
@@ -18,7 +20,7 @@ class UserModel {
   int phoneNumber;
   String gender;
   List addresses;
-  List pets;
+  List pets = [];
   String calendarId;
   CalendarModel calendar;
   FirebaseAuth _auth;
@@ -37,24 +39,24 @@ class UserModel {
           'gender': gender,
           'id': newUser.user.uid,
           'addresses': [],
-          'pets': [],
-          'calendar_ıd': await CalendarModel.createCalendar(newUser.user.uid),
+          'pets': pets,
+          'calendar_id': await CalendarModel.createCalendar(newUser.user.uid),
         });
-
-        await FirebaseAuth.instance.signOut();
+        this.id = newUser.user.uid;
         return true;
       }
       return false;
     }
     catch(e){
       print(e);
+      await _deleteUser();
       return false;
     }
   }
 
   Future<bool> getUserData() async {
     if(FirebaseAuth.instance.currentUser != null){
-      final user = await _fireStore.collection('UserModel').doc( _auth.currentUser.uid).get();
+      DocumentSnapshot user = await _fireStore.collection('UserModel').doc( _auth.currentUser.uid).get();
       Map userData = user.data();
       nameSurname = userData['name_surname'];
       gender = userData['gender'];
@@ -76,7 +78,43 @@ class UserModel {
     await calendar.getCalendarData(id);
   }
 
-  void addPet(){
+  Future<bool> addPet(PetModel newPet, bool isUserRegistration) async {
+    try {
+      newPet.id = this.id + newPet.name;
+      newPet.ownerId = this.id;
+      bool result = await newPet.createPet();
+      if(result){
+        this.pets.add(newPet.id);
+        DocumentReference userModel = await _fireStore.collection('UserModel').doc(this.id);
+        userModel.update({
+          'pets': this.pets,
+        });
+      }
+      else {
+        isUserRegistration ? await _deleteUser() : null;
+      }
+      return result;
+    }
 
+    catch(e){
+      print(e);
+      isUserRegistration ? await _deleteUser() : null;
+      return false;
+    }
+  }
+
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  Future<void> _deleteUser() async {
+    User user = _auth.currentUser;
+    await user.delete();
+    await _fireStore.collection('UserModel').doc(user.uid).delete();
+    for(int i=0; i<pets.length; i++){
+      //TODO: PetModel.deletePet() yazılacak ve böylelikle pet'e bağlı olan collectionlar da silinecek.
+      await _fireStore.collection('PetModel').doc(pets[i]).delete();
+    }
+    await _fireStore.collection('CalendarModel').doc(user.uid).delete();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
@@ -80,8 +81,9 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                     ) : SizedBox.shrink(),
                     BaseButton(
                       text: _formName == 'pet' || _formIndex == 0 ? 'Ileri' : 'Bitir',
-                      onPressed: (){
-                        setState(() {
+                      onPressed: () async {
+                        bool create = false;
+                         setState(() {
                           if(_formName == 'pet'){
                             if(_formKey.currentState.validate()){
                               _formKey.currentState.save();
@@ -93,10 +95,20 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                               _formIndex = 1;
                             }
                             else {
-                              print('save');
+                              create = true;
                             }
                           }
                         });
+                         if(create){
+                           bool userResult = await widget.newUser.createUser();
+                           if(userResult){
+                             bool petResult = await widget.newUser.addPet(_petModel, true);
+                             if(petResult){
+                               widget.newUser.signOut();
+                               Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                             }
+                           }
+                         }
                       },
                       width: 120,
                     ),

@@ -19,13 +19,13 @@ class PetModel {
   List allergies = [];
   List disabilities = [];
   List sicknesses = [];
-  List routines;
+  List routines = [];
   int petTrainingModelId;
   FirebaseFirestore _fireStore;
   
   Future<bool> createPet() async {
     try{
-      DocumentReference newPet = await _fireStore.collection('PetModel').doc(id);
+      DocumentReference newPet =  _fireStore.collection('PetModel').doc(id);
       await newPet.set({
         'id': id,
         'owner_id': ownerId,
@@ -37,10 +37,10 @@ class PetModel {
         'height': height,
         'year': year,
         'month': month,
-        'allergies': [],
-        'disabilities': [],
-        'sicknesses': [],
-        'routines': [],
+        'allergies': allergies,
+        'disabilities': disabilities,
+        'sicknesses': sicknesses,
+        'routines': routines,
         'petTrainingModelId': -1,
       });
       return true;
