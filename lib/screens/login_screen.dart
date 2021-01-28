@@ -7,6 +7,8 @@ import 'package:repetapp/widgets/button_leading_svg.dart';
 import 'package:repetapp/widgets/base_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   static const routeName = 'LoginScreen';
@@ -84,7 +86,8 @@ class LoginScreen extends StatelessWidget {
                     final user = await _auth.signInWithEmailAndPassword(
                         email: email, password: password);
                     if (user != null) {
-                      Navigator.pushNamed(context, MainScreen.routeName);
+                      await context.read<ProvidedData>().getUserData();
+                      Navigator.pushReplacementNamed(context, MainScreen.routeName);
                     }
                   },
                 ),

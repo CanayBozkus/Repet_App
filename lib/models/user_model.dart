@@ -53,7 +53,7 @@ class UserModel {
       return false;
     }
   }
-
+  //TODO: static method haline getir, return olarak UserModel() döndür.
   Future<bool> getUserData() async {
     if(FirebaseAuth.instance.currentUser != null){
       DocumentSnapshot user = await _fireStore.collection('UserModel').doc( _auth.currentUser.uid).get();
@@ -116,5 +116,17 @@ class UserModel {
       await _fireStore.collection('PetModel').doc(pets[i]).delete();
     }
     await _fireStore.collection('CalendarModel').doc(user.uid).delete();
+  }
+
+  Future<Map<String,PetModel>> getPets() async {
+    Map petModels = {};
+
+    for(int i=0; i<pets.length; i++){
+      PetModel pet = PetModel();
+      bool result = await pet.getPetData(pets[i]);
+      petModels[pets[i]] = result ? pet : null;
+    }
+
+    return petModels;
   }
 }

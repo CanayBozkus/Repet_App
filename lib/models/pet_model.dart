@@ -10,7 +10,7 @@ class PetModel {
   String ownerId;
   String name;
   String gender;
-  bool isDog = true;
+  bool isDog = true; //TODO: isDog şeklinde alımı değiştir
   String species;
   double weight;
   double height;
@@ -43,6 +43,32 @@ class PetModel {
         'routines': routines,
         'petTrainingModelId': -1,
       });
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+  }
+
+  Future<bool> getPetData(id) async {
+    try {
+      DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
+      Map petData = pet.data();
+      name = petData['name'];
+      ownerId = petData['owner_id'];
+      gender = petData['gender'];
+      isDog = petData['catalog'] == 'Dog' ? true : false;
+      species = petData['species'];
+      weight = petData['weight'];
+      height = petData['height'];
+      year = petData['year'];
+      month = petData['month'];
+      allergies = petData['allergies'];
+      disabilities = petData['disabilities'];
+      sicknesses = petData['sicknesses'];
+      routines = petData['routines'];
+
       return true;
     }
     catch(e){

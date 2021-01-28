@@ -5,6 +5,8 @@ import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
@@ -27,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    print(context.read<ProvidedData>().currentUser.nameSurname);
     return Scaffold(
       appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
       body: FutureBuilder(
@@ -100,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
             ],
           );
         },
-        future: dataFuture,
+        future: context.read<ProvidedData>().getPets(),
       ),
       bottomNavigationBar: BaseBottomBar(
         height: height,
