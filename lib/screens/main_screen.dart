@@ -61,32 +61,176 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
+            Expanded(
+              child: ListView(
+                children: [
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          )
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '07:30',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Switch(
+                          value: false,
+                          onChanged: (value){},
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          )
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '07:30',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Switch(
+                          value: false,
+                          onChanged: (value){},
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          )
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '07:30',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Switch(
+                          value: false,
+                          onChanged: (value){},
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          )
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '07:30',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Switch(
+                          value: false,
+                          onChanged: (value){},
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 70,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1,
+                          )
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '07:30',
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        Switch(
+                          value: false,
+                          onChanged: (value){},
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
-              height: 70,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              height: 60,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 5),
               decoration: BoxDecoration(
                 border: Border(
-                    bottom: BorderSide(
+                    top: BorderSide(
                       color: Colors.grey.shade300,
                       width: 1,
                     )
                 ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '07:30',
-                    style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w400,
-                    ),
+              child: Material(
+                elevation: 3,
+                shape: CircleBorder(),
+                child: FlatButton(
+                  shape: CircleBorder(),
+                  child: Container(
+                    child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
+                    padding: EdgeInsets.all(4),
                   ),
-                  Switch(
-                    value: false,
-                    onChanged: (value){},
-                  )
-                ],
+                  onPressed: (){},
+                  padding: EdgeInsets.zero,
+                ),
               ),
             ),
           ],
@@ -94,7 +238,10 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
   }
-
+  Future<void> getMainScreenData() async {
+    await context.read<ProvidedData>().getUserData();
+    await context.read<ProvidedData>().getPets();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -182,7 +329,7 @@ class _MainScreenState extends State<MainScreen> {
             ],
           );
         },
-        future: context.read<ProvidedData>().getPets(),
+        future: getMainScreenData(),
       ),
       bottomNavigationBar: BaseBottomBar(
         height: height,

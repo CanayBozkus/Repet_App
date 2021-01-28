@@ -76,22 +76,6 @@ class PetNavigator extends StatelessWidget {
               ),
             ),
           ) : SizedBox.shrink(),
-          /*
-          Positioned(
-            right: width * 0.05,
-            bottom: height * 0.14,
-            child: DefaultElevation(
-              child: Container(
-                width: width * 0.15,
-                height: height * 0.05,
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  color: kPrimaryColor,
-                  onPressed: () {},
-                ),
-              ),
-            ),
-          ),*/
           Positioned(
             top: height * 0.03,
             left: width * 0.37,
