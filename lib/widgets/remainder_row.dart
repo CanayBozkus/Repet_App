@@ -63,7 +63,12 @@ class RemainderRow extends StatelessWidget {
                   width: 50,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: [Color(0xff79c624), Colors.white],
+                      stops: [0.66, 0]
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
