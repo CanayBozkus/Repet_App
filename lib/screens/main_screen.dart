@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/screens/error_screen.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
@@ -16,13 +17,82 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  UserModel user = UserModel();
-  Future dataFuture;
-
-  @override
-  void initState() {
-    dataFuture = user.getUserData();
-    super.initState();
+  void _openBottomSheet({String headerText, }){
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      context: context,
+      builder: (context){
+        return Column(
+          children: [
+            Container(
+              height: 80,
+              decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    )
+                ),
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    iconSize: 28,
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 50.0),
+                      child: Text(
+                        headerText,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: kPrimaryColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              height: 70,
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    )
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '07:30',
+                    style: TextStyle(
+                      fontSize: 36,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Switch(
+                    value: false,
+                    onChanged: (value){},
+                  )
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -45,7 +115,6 @@ class _MainScreenState extends State<MainScreen> {
             );
           }
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               PetNavigator(
                 height: height,
@@ -62,39 +131,49 @@ class _MainScreenState extends State<MainScreen> {
                         horizontal: width * 0.08, vertical: height * 0.02),
                     children: [
                       RemainderRow(
-                        height: height,
-                        width: width,
-                        mainText: 'Beslenme',
+                        mainText: 'Feeding',
                         subText: 'Günde 2 defa',
-                        svg: 'assets/icons/dog.svg',
+                        svg: 'assets/icons/feeding.svg',
+                        svgColor: Color(0xfff87024),
+                        onTap: (){
+                          _openBottomSheet(headerText: 'Feeding');
+                        },
                       ),
                       RemainderRow(
-                        height: height,
-                        width: width,
-                        mainText: 'Beslenme',
+                        mainText: 'Walking',
                         subText: 'Günde 2 defa',
-                        svg: 'assets/icons/dog.svg',
+                        svg: 'assets/icons/walking.svg',
+                        svgColor: Color(0xff79c619),
+                        onTap: (){
+                          _openBottomSheet(headerText: 'Walking');
+                        },
                       ),
                       RemainderRow(
-                        height: height,
-                        width: width,
-                        mainText: 'Beslenme',
+                        mainText: 'Water',
                         subText: 'Günde 2 defa',
-                        svg: 'assets/icons/dog.svg',
+                        svg: 'assets/icons/water.svg',
+                        svgColor: Color(0xff04a3ff),
+                        onTap: (){
+                          _openBottomSheet(headerText: 'Water');
+                        },
                       ),
                       RemainderRow(
-                        height: height,
-                        width: width,
-                        mainText: 'Beslenme',
+                        mainText: 'Grooming',
                         subText: 'Günde 2 defa',
-                        svg: 'assets/icons/dog.svg',
+                        svg: 'assets/icons/grooming.svg',
+                        svgColor: Color(0xff883404),
+                        onTap: (){
+                          _openBottomSheet(headerText: 'Grooming');
+                        },
                       ),
                       RemainderRow(
-                        height: height,
-                        width: width,
-                        mainText: 'Beslenme',
+                        mainText: 'Playing',
                         subText: 'Günde 2 defa',
-                        svg: 'assets/icons/dog.svg',
+                        svg: 'assets/icons/playing.svg',
+                        svgColor: Color(0xff79c624),
+                        onTap: (){
+                          _openBottomSheet(headerText: 'Playing');
+                        },
                       ),
                     ],
                   ),
