@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class RemainderRow extends StatelessWidget {
   RemainderRow({this.svg, this.mainText, this.subText, this.svgColor, this.onTap});
@@ -12,6 +14,7 @@ class RemainderRow extends StatelessWidget {
   final Function onTap;
   @override
   Widget build(BuildContext context) {
+    final Map routine = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Material(
@@ -40,7 +43,7 @@ class RemainderRow extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
+                routine.isNotEmpty ? Container(
                   padding: EdgeInsets.all(8),
                   height: 50,
                   width: 50,
@@ -56,7 +59,7 @@ class RemainderRow extends StatelessWidget {
                     ],
                   ),
                   child: SvgPicture.asset('assets/icons/clock.svg'),
-                ),
+                ) : SizedBox.shrink(),
                 SizedBox(width: 10,),
                 Container(
                   height: 50,

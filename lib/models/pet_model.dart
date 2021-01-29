@@ -19,7 +19,14 @@ class PetModel {
   List allergies = [];
   List disabilities = [];
   List sicknesses = [];
-  List routines = [];
+  Map routines = {
+    'feeding' : {},
+    'water': {},
+    'walking': {},
+    'grooming': {},
+    'playing': {},
+  };
+
   int petTrainingModelId;
   FirebaseFirestore _fireStore;
   
@@ -52,7 +59,6 @@ class PetModel {
   }
 
   Future<bool> getPetData(id) async {
-    print('-------444----');
     try {
       DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
       Map petData = pet.data();
@@ -69,12 +75,9 @@ class PetModel {
       disabilities = petData['disabilities'];
       sicknesses = petData['sicknesses'];
       routines = petData['routines'];
-      print(name);
-      print('-------445----');
       return true;
     }
     catch(e){
-      print('-------444----');
       print(e);
       return false;
     }

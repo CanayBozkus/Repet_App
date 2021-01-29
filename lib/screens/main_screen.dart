@@ -239,12 +239,8 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Future<bool> getMainScreenData() async {
-    print('-------111-----');
     await context.read<ProvidedData>().getUserData();
-    print('-------111-----');
     await context.read<ProvidedData>().getPets();
-    print('-------111-----');
-    print(context.read<ProvidedData>().pets);
     return true;
   }
   Future<bool> _isLoading;
@@ -257,7 +253,6 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    print(context.read<ProvidedData>().currentUser.nameSurname);
     return Scaffold(
       appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
       body: FutureBuilder(

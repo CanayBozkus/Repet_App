@@ -40,6 +40,7 @@ class UserModel {
           'id': newUser.user.uid,
           'addresses': [],
           'pets': pets,
+          'newsSetterConfirmation': newsSetterConfirmation,
           'calendar_id': await CalendarModel.createCalendar(newUser.user.uid),
         });
         this.id = newUser.user.uid;
@@ -80,7 +81,7 @@ class UserModel {
 
   Future<bool> addPet(PetModel newPet, bool isUserRegistration) async {
     try {
-      newPet.id = this.id + newPet.name;
+      newPet.id = (this.id + newPet.name).replaceAll(' ', '');
       newPet.ownerId = this.id;
       bool result = await newPet.createPet();
       if(result){
@@ -119,20 +120,12 @@ class UserModel {
   }
 
   Future<Map<String,PetModel>> getPets() async {
-    Map petModels = {};
-    print('-------333----');
-    print(pets);
+    Map<String,PetModel> petModels = {};
     for(int i=0; i<pets.length; i++){
       PetModel pet = PetModel();
-      print('-------333----');
       bool result = await pet.getPetData(pets[i]);
-      print(result);
-      print('--'+pet.name);
       petModels[pets[i]] = result ? pet : null;
-      print("---3334----");
     }
-    print("---3335----");
-    print(petModels);
     return petModels;
   }
 }

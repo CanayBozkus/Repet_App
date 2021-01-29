@@ -21,15 +21,8 @@ class ProvidedData with ChangeNotifier {
   }
 
   Future<void> getPets() async {
-    print('-------222----');
     pets = await currentUser.getPets();
-    print('-------223----');
-    print(pets);
     currentShownPetIndex = currentUser.pets[0];
-    print('-------');
-    print(pets);
-    print(currentUser.pets);
-    print('-------');
     notifyListeners();
   }
 }

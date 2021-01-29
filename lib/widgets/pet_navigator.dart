@@ -40,7 +40,7 @@ class PetNavigator extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'name',
+                          context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex].name,
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 24.0,
@@ -77,7 +77,7 @@ class PetNavigator extends StatelessWidget {
             ),
           ) : SizedBox.shrink(),
           Positioned(
-            top: height * 0.03,
+            top: height * 0.02,
             left: width * 0.37,
             child: DefaultElevation(
               child: Container(
