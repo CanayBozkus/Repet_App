@@ -86,7 +86,7 @@ class UserModel {
       if(result){
         this.pets.add(newPet.id);
         DocumentReference userModel = await _fireStore.collection('UserModel').doc(this.id);
-        userModel.update({
+        await userModel.update({
           'pets': this.pets,
         });
       }
@@ -120,13 +120,19 @@ class UserModel {
 
   Future<Map<String,PetModel>> getPets() async {
     Map petModels = {};
-
+    print('-------333----');
+    print(pets);
     for(int i=0; i<pets.length; i++){
       PetModel pet = PetModel();
+      print('-------333----');
       bool result = await pet.getPetData(pets[i]);
+      print(result);
+      print('--'+pet.name);
       petModels[pets[i]] = result ? pet : null;
+      print("---3334----");
     }
-
+    print("---3335----");
+    print(petModels);
     return petModels;
   }
 }

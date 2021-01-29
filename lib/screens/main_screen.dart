@@ -238,9 +238,20 @@ class _MainScreenState extends State<MainScreen> {
       },
     );
   }
-  Future<void> getMainScreenData() async {
+  Future<bool> getMainScreenData() async {
+    print('-------111-----');
     await context.read<ProvidedData>().getUserData();
+    print('-------111-----');
     await context.read<ProvidedData>().getPets();
+    print('-------111-----');
+    print(context.read<ProvidedData>().pets);
+    return true;
+  }
+  Future<bool> _isLoading;
+  @override
+  void initState() {
+    _isLoading = getMainScreenData();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -329,7 +340,7 @@ class _MainScreenState extends State<MainScreen> {
             ],
           );
         },
-        future: getMainScreenData(),
+        future: _isLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
         height: height,

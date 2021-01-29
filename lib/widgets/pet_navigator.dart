@@ -1,9 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class PetNavigator extends StatelessWidget {
   const PetNavigator({
@@ -40,7 +40,7 @@ class PetNavigator extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          'Rıfkı',
+                          'name',
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 24.0,

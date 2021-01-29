@@ -8,7 +8,7 @@ class ProvidedData with ChangeNotifier {
 
   UserModel currentUser = UserModel();
   Map<String, PetModel> pets;
-
+  String currentShownPetIndex;
   void updateWidthHeight(width, height){
     this.width = width;
     this.height = height;
@@ -21,7 +21,15 @@ class ProvidedData with ChangeNotifier {
   }
 
   Future<void> getPets() async {
+    print('-------222----');
     pets = await currentUser.getPets();
+    print('-------223----');
+    print(pets);
+    currentShownPetIndex = currentUser.pets[0];
+    print('-------');
+    print(pets);
+    print(currentUser.pets);
+    print('-------');
     notifyListeners();
   }
 }
