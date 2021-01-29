@@ -6,15 +6,27 @@ import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 
 class RemainderRow extends StatelessWidget {
-  RemainderRow({this.svg, this.mainText, this.subText, this.svgColor, this.onTap});
+  RemainderRow({this.svg, this.mainText, this.svgColor, this.onTap});
   final String svg;
   final String mainText;
-  final String subText;
   final Color svgColor;
   final Function onTap;
+
+  double calculateDailyPercentage(Map routine){
+    double percent = 0;
+    DateTime currentTime = DateTime.now();
+
+    for(int i=0; i<routine.keys.length; i++){
+
+    }
+
+    return percent;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Map routine = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
+    final Map routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
+    double percentage = calculateDailyPercentage(routine);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Material(
@@ -34,7 +46,7 @@ class RemainderRow extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            subText,
+            'Günde ' + routine.length.toString() + ' defa',
             style: TextStyle(
               fontSize: 14,
             ),
@@ -70,7 +82,7 @@ class RemainderRow extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [Color(0xff79c624), Colors.white],
-                      stops: [0.66, 0]
+                      stops: [percentage, 0]
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -82,7 +94,7 @@ class RemainderRow extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    '%100',
+                    '%' + percentage.toInt().toString(),
                     style: TextStyle(
 
                       fontSize: 18,

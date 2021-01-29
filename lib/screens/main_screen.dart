@@ -18,6 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   void _openBottomSheet({String headerText, }){
+    final Map routine = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[headerText.toLowerCase()];
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -64,146 +65,38 @@ class _MainScreenState extends State<MainScreen> {
             Expanded(
               child: ListView(
                 children: [
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          )
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '07:30',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w400,
-                          ),
+                  ...routine.keys.map((e){
+                    return Container(
+                      height: 70,
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(
+                              color: Colors.grey.shade300,
+                              width: 1,
+                            )
                         ),
-                        Switch(
-                          value: false,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          )
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '07:30',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w400,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            e,
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        Switch(
-                          value: false,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
+                          Switch(
+                            value: routine[e],
+                            onChanged: (value){
+                              routine[e] = value;
+                            },
                           )
+                        ],
                       ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '07:30',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Switch(
-                          value: false,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          )
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '07:30',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Switch(
-                          value: false,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 70,
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          )
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '07:30',
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Switch(
-                          value: false,
-                          onChanged: (value){},
-                        )
-                      ],
-                    ),
-                  ),
+                    );
+                  }).toList(),
                 ],
               ),
             ),
@@ -285,7 +178,6 @@ class _MainScreenState extends State<MainScreen> {
                     children: [
                       RemainderRow(
                         mainText: 'Feeding',
-                        subText: 'Günde 2 defa',
                         svg: 'assets/icons/feeding.svg',
                         svgColor: Color(0xfff87024),
                         onTap: (){
@@ -294,7 +186,6 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       RemainderRow(
                         mainText: 'Walking',
-                        subText: 'Günde 2 defa',
                         svg: 'assets/icons/walking.svg',
                         svgColor: Color(0xff79c619),
                         onTap: (){
@@ -303,7 +194,6 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       RemainderRow(
                         mainText: 'Water',
-                        subText: 'Günde 2 defa',
                         svg: 'assets/icons/water.svg',
                         svgColor: Color(0xff04a3ff),
                         onTap: (){
@@ -312,7 +202,6 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       RemainderRow(
                         mainText: 'Grooming',
-                        subText: 'Günde 2 defa',
                         svg: 'assets/icons/grooming.svg',
                         svgColor: Color(0xff883404),
                         onTap: (){
@@ -321,7 +210,6 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       RemainderRow(
                         mainText: 'Playing',
-                        subText: 'Günde 2 defa',
                         svg: 'assets/icons/playing.svg',
                         svgColor: Color(0xff79c624),
                         onTap: (){
