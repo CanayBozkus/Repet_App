@@ -25,4 +25,9 @@ class ProvidedData with ChangeNotifier {
     currentShownPetIndex = currentUser.pets[0];
     notifyListeners();
   }
+
+  Future<void> addNewRemainder(PetModel pet, name, time) async {
+    await pet.addRoutine(name, time);
+    notifyListeners();
+  }
 }

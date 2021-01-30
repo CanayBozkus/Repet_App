@@ -62,6 +62,7 @@ class PetModel {
     try {
       DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
       Map petData = pet.data();
+      this.id = id;
       name = petData['name'];
       ownerId = petData['owner_id'];
       gender = petData['gender'];
@@ -89,5 +90,20 @@ class PetModel {
 
   List getDisabilities(){
     return constants.disabilities;
+  }
+
+  Future<bool> addRoutine(routineName, time) async {
+    this.routines[routineName][time] = true;
+    try{
+      DocumentReference document = await _fireStore.collection('PetModel').doc(id);
+      await document.update({
+        'routines.$routineName': this.routines[routineName],
+      });
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
   }
 }

@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
+import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
 import 'package:repetapp/utilities/provided_data.dart';
@@ -18,115 +20,215 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   void _openBottomSheet({String headerText, }){
-    final Map routine = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[headerText.toLowerCase()];
+    final pet = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex];
+    final Map routine = pet.routines[headerText.toLowerCase()];
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
       ),
       context: context,
       builder: (context){
-        return Column(
-          children: [
-            Container(
-              height: 80,
-              decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: 1,
-                    )
-                ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    iconSize: 28,
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 50.0),
-                      child: Text(
-                        headerText,
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: kPrimaryColor,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState){
+            return Column(
+              children: [
+                Container(
+                  height: 80,
+                  decoration: BoxDecoration(
+                    border: Border(
+                        bottom: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        )
                     ),
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: ListView(
-                children: [
-                  ...routine.keys.map((e){
-                    return Container(
-                      height: 70,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
-                      decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(
-                              color: Colors.grey.shade300,
-                              width: 1,
-                            )
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.close),
+                        iconSize: 28,
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 50.0),
+                          child: Text(
+                            headerText,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: kPrimaryColor,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            e,
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.w400,
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      Container(
+                        height: 100,
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 40,
+                                  child: CupertinoPicker(
+                                    itemExtent: 50,
+                                    onSelectedItemChanged: (value){
+                                      print(value);
+                                    },
+                                    children: [
+                                      ...List<int>.generate(24, (i) => i).map((e){
+                                        return Center(
+                                          child: Text(
+                                            e.toString(),
+                                            style: TextStyle(
+                                              fontSize: 36,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      })
+                                    ],
+                                  ),
+                                ),
+                                Text(
+                                  ':',
+                                  style: TextStyle(
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                Container(
+                                  width: 40,
+                                  child: CupertinoPicker(
+                                    itemExtent: 50,
+                                    onSelectedItemChanged: (value){
+                                      print(value);
+                                    },
+                                    children: [
+                                      ...List<int>.generate(60, (i) => i).map((e){
+                                        return Center(
+                                          child: Text(
+                                            e.toString(),
+                                            style: TextStyle(
+                                              fontSize: 36,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Switch(
+                                  value: true,
+                                  onChanged: (value){
+                                    setState(() {
+
+                                    });
+                                  },
+                                ),
+                                BaseButton(
+                                  text: 'Done',
+                                  onPressed: (){},
+                                  width: 20,
+                                  fontSize: 12,
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      ...routine.keys.map((e){
+                        return Container(
+                          height: 70,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                )
                             ),
                           ),
-                          Switch(
-                            value: routine[e],
-                            onChanged: (value){
-                              routine[e] = value;
-                            },
-                          )
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                ],
-              ),
-            ),
-            Container(
-              height: 60,
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 5),
-              decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(
-                      color: Colors.grey.shade300,
-                      width: 1,
-                    )
-                ),
-              ),
-              child: Material(
-                elevation: 3,
-                shape: CircleBorder(),
-                child: FlatButton(
-                  shape: CircleBorder(),
-                  child: Container(
-                    child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
-                    padding: EdgeInsets.all(4),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                e,
+                                style: TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              Switch(
+                                value: routine[e],
+                                onChanged: (value){
+                                  setState(() {
+                                    routine[e] = value;
+                                    print(routine);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                    ],
                   ),
-                  onPressed: (){},
-                  padding: EdgeInsets.zero,
                 ),
-              ),
-            ),
-          ],
+                Container(
+                  height: 60,
+                  width: double.infinity,
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  decoration: BoxDecoration(
+                    border: Border(
+                        top: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        )
+                    ),
+                  ),
+                  child: Material(
+                    elevation: 3,
+                    shape: CircleBorder(),
+                    child: FlatButton(
+                      shape: CircleBorder(),
+                      child: Container(
+                        child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
+                        padding: EdgeInsets.all(4),
+                      ),
+                      onPressed: () async {
+
+                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText.toLowerCase(), '17:35');
+                        setState(() {
+                          print(routine);
+                        });
+                      },
+                      padding: EdgeInsets.zero,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );
