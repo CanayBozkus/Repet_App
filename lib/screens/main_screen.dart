@@ -241,9 +241,18 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Future<bool> getMainScreenData() async {
-    await context.read<ProvidedData>().getUserData();
-    await context.read<ProvidedData>().getPets();
-    return true;
+    if(context.read<ProvidedData>().isDataFetched){
+      return true;
+    }
+    try{
+      await context.read<ProvidedData>().getData();
+      return true;
+    }
+
+    catch(e){
+      print(e);
+      return false;
+    }
   }
   Future<bool> _isLoading;
   @override

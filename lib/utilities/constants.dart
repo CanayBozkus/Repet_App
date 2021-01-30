@@ -3,6 +3,7 @@ import 'package:repetapp/screens/calendar_screen.dart';
 import 'package:repetapp/screens/leaderboard_screen.dart';
 import 'package:repetapp/screens/main_screen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repetapp/screens/profile_screen.dart';
 import 'package:repetapp/screens/training_screen.dart';
 
 const bottomNavigationBarRoutes = {
@@ -10,7 +11,7 @@ const bottomNavigationBarRoutes = {
   2:CalendarScreen.routeName,
   3:LeaderBoardScreen.routename,
   4:null,
-  5:TrainingScreen.routeName,
+  5:ProfileScreen.routeName,
 };
 
 const bottomNavigationBarIcons = {
@@ -18,7 +19,7 @@ const bottomNavigationBarIcons = {
   2:Icons.date_range,
   3:FontAwesomeIcons.trophy,
   4:Icons.messenger_rounded,
-  5:Icons.school,
+  5:FontAwesomeIcons.userAlt,
 };
 
 enum TrainingStatus {

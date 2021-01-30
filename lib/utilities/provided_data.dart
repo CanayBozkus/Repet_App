@@ -9,9 +9,17 @@ class ProvidedData with ChangeNotifier {
   UserModel currentUser = UserModel();
   Map<String, PetModel> pets;
   String currentShownPetIndex;
+  bool isDataFetched = false;
   void updateWidthHeight(width, height){
     this.width = width;
     this.height = height;
+    notifyListeners();
+  }
+
+  Future<void> getData() async {
+    await this.getUserData();
+    await this.getPets();
+    this.isDataFetched = true;
     notifyListeners();
   }
 

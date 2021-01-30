@@ -70,7 +70,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 1){
-                  Navigator.pushNamed(context, bottomNavigationBarRoutes[1]);
+                  Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[1]);
                 }
               },
               child: Icon(
@@ -86,7 +86,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 2){
-                  Navigator.pushNamed(context, bottomNavigationBarRoutes[2]);
+                  Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[2]);
                 }
               },
               child: Icon(
@@ -102,7 +102,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 3){
-                  Navigator.pushNamed(context, bottomNavigationBarRoutes[3]);
+                  Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[3]);
                 }
               },
               child: Container(
@@ -150,7 +150,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 5){
-                  Navigator.pushNamed(context, bottomNavigationBarRoutes[5]);
+                  Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[5]);
                 }
               },
               child: Icon(
