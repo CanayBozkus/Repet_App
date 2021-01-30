@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
@@ -22,6 +21,10 @@ class _MainScreenState extends State<MainScreen> {
   void _openBottomSheet({String headerText, }){
     final pet = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex];
     final Map routine = pet.routines[headerText.toLowerCase()];
+    bool addNew = false;
+    int hour;
+    int min;
+    bool isActive = true;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -70,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
                 Expanded(
                   child: ListView(
                     children: [
-                      Container(
+                      addNew ? Container(
                         height: 100,
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: Row(
@@ -83,7 +86,7 @@ class _MainScreenState extends State<MainScreen> {
                                   child: CupertinoPicker(
                                     itemExtent: 50,
                                     onSelectedItemChanged: (value){
-                                      print(value);
+                                      hour = value;
                                     },
                                     children: [
                                       ...List<int>.generate(24, (i) => i).map((e){
@@ -113,7 +116,7 @@ class _MainScreenState extends State<MainScreen> {
                                   child: CupertinoPicker(
                                     itemExtent: 50,
                                     onSelectedItemChanged: (value){
-                                      print(value);
+                                      min = value;
                                     },
                                     children: [
                                       ...List<int>.generate(60, (i) => i).map((e){
@@ -138,16 +141,22 @@ class _MainScreenState extends State<MainScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Switch(
-                                  value: true,
+                                  value: isActive,
                                   onChanged: (value){
                                     setState(() {
-
+                                      isActive = value;
                                     });
                                   },
                                 ),
                                 BaseButton(
                                   text: 'Done',
-                                  onPressed: (){},
+                                  onPressed: () async {
+                                    await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText.toLowerCase(), '$hour:$min');
+                                    setState(() {
+                                      print(routine);
+                                      addNew = false;
+                                    });
+                                  },
                                   width: 20,
                                   fontSize: 12,
                                 ),
@@ -155,7 +164,7 @@ class _MainScreenState extends State<MainScreen> {
                             )
                           ],
                         ),
-                      ),
+                      ) : SizedBox.shrink(),
                       ...routine.keys.map((e){
                         return Container(
                           height: 70,
@@ -215,11 +224,9 @@ class _MainScreenState extends State<MainScreen> {
                         child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
                         padding: EdgeInsets.all(4),
                       ),
-                      onPressed: () async {
-
-                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText.toLowerCase(), '17:35');
+                      onPressed: (){
                         setState(() {
-                          print(routine);
+                          addNew = true;
                         });
                       },
                       padding: EdgeInsets.zero,
