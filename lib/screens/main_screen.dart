@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/error_screen.dart';
@@ -9,6 +10,7 @@ import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
 
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
@@ -151,6 +153,15 @@ class _MainScreenState extends State<MainScreen> {
                                 BaseButton(
                                   text: 'Done',
                                   onPressed: () async {
+                                    DateTime now = DateTime.now();
+                                    DateTime date = DateTime(2021,1,30,hour,min);
+                                    final Event event = Event(
+                                      title: 'test $headerText',
+                                      location: 'app',
+                                      startDate: date,
+                                      endDate: date.add(Duration(hours: 1))
+                                    );
+                                    Add2Calendar.addEvent2Cal(event);
                                     await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText.toLowerCase(), '$hour:$min');
                                     setState(() {
                                       print(routine);
