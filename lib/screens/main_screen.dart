@@ -23,8 +23,8 @@ class _MainScreenState extends State<MainScreen> {
     final pet = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex];
     final Map routine = pet.routines[headerText.toLowerCase()];
     bool addNew = false;
-    int hour;
-    int min;
+    int hour = 0;
+    int min = 0;
     bool isActive = true;
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
@@ -198,10 +198,10 @@ class _MainScreenState extends State<MainScreen> {
                                     await Provider.of<ProvidedData>(context, listen: false).currentUser.reActivateRemainder(pet, headerText, time, id);
                                   }
                                   else {
+                                    routine[id][1] = value;
                                     await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
                                   }
                                   setState(() {
-                                    routine[id][1] = value;
                                     print(routine);
                                   });
                                 },
