@@ -17,16 +17,16 @@ class RemainderRow extends StatelessWidget {
     int countTimes = 0;
     DateTime currentTime = DateTime.now();
     for(var key in routine.keys){
-      List time = routine[key].toString().split(':');
+      List time = key.toString().split(':');
       if(routine[key]){
         countOpens +=1;
-        if(time[0] < currentTime.hour && time[1] < currentTime.minute){
+        if(int.parse(time[0]) < currentTime.hour && int.parse(time[1]) < currentTime.minute){
           countTimes +=1;
         }
       }
     }
 
-    return countTimes/countOpens;
+    return countOpens != 0 ? countTimes/countOpens : 0;
   }
 
   @override
