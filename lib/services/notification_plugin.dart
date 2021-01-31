@@ -59,96 +59,93 @@ class NotificationPlugin {
     });
   }
 
-  Future<void> showNotification() async {
+  Future<void> showNotification({@required id, @required title, @required body, @required payload}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID',
-      'CHANNEL_NAME',
-      'CHANNEL_DESCRITION',
+      'REPET_CHANNEL_1',
+      'REPET NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, 'Test title', 'test body', platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.show(id, title, body, platformChannelSpecifics, payload: payload);
   }
 
-  Future<void> scheduleNotification() async {
-    var scheduleNotificationDateTime = DateTime.now().add(Duration(seconds: 5));
+  Future<void> scheduleNotification({@required id, @required title, @required body, @required payload, @required schedule}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 1',
-      'CHANNEL_NAME 1',
-      'CHANNEL_DESCRITION 1',
+      'REPET_CHANNEL_2',
+      'REPET SCHEDULE NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(0, 'Test title', 'test body', scheduleNotificationDateTime, platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.schedule(id, title, body, schedule, platformChannelSpecifics, payload: 'test payload');
   }
 
-  Future<void> showNotificationWithAttachment() async {
-    var attachmentPath = '';
+  Future<void> showNotificationWithAttachment({@required id, @required title, @required body, @required payload, @required attachment, @required attachmentTitle, @required summaryText}) async {
     var iOSPlatformSpecifics = IOSNotificationDetails(
-      attachments: [IOSNotificationAttachment(attachmentPath)]
+      attachments: [IOSNotificationAttachment(attachment)]
     );
     var bigPictureStyleInformation = BigPictureStyleInformation(
-      FilePathAndroidBitmap(attachmentPath),
-      contentTitle: '<b>Attachment</b>',
+      FilePathAndroidBitmap(attachment),
+      contentTitle: attachmentTitle,
       htmlFormatContentTitle: true,
-      summaryText: 'Test Image',
+      summaryText: summaryText,
       htmlFormatSummaryText: true,
     );
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 2',
-      'CHANNEL_NAME 2',
-      'CHANNEL_DESCRITION 2',
+      'REPET_CHANNEL_3',
+      'REPET ATTACHMENT NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
       styleInformation: bigPictureStyleInformation,
     );
     var notificationDetails = NotificationDetails(androidChannelSpecifics, iOSPlatformSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, 'attachment title', 'body', notificationDetails);
+    await flutterLocalNotificationsPlugin.show(id, title, body, notificationDetails, payload: payload);
   }
 
-  Future<void> repeatNotification() async {
+  Future<void> repeatNotification({@required id, @required title, @required body, @required payload, @required repeatInterval}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 3',
-      'CHANNEL_NAME 3',
-      'CHANNEL_DESCRITION 3',
+      'REPET_CHANNEL_4',
+      'REPET REPEAT NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(0, 'Test title', 'test body', RepeatInterval.EveryMinute, platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.periodicallyShow(id, title, body, repeatInterval, platformChannelSpecifics, payload: payload);
   }
 
-  Future<void> showDailyAtTimeNotification() async {
-    var time = Time(15,0,0);
+  Future<void> showDailyAtTimeNotification({@required id, @required title, @required body, @required payload, @required time}) async {
+    var notfTime = Time(time.hour, time.minute, 0);
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 4',
-      'CHANNEL_NAME 4',
-      'CHANNEL_DESCRITION 4',
+      'REPET_CHANNEL_5',
+      'REPET DAILY NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.showDailyAtTime(0, 'Test title', 'test body', time, platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.showDailyAtTime(id, title, body, notfTime, platformChannelSpecifics, payload: payload);
   }
 
-  Future<void> showWeeklyAtDayAndTimeNotification() async {
-    var time = Time(15,0,0);
+  Future<void> showWeeklyAtDayAndTimeNotification({@required id, @required title, @required body, @required payload, @required time, @required day}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-      'CHANNEL_ID 5',
-      'CHANNEL_NAME 5',
-      'CHANNEL_DESCRITION 5',
+      'REPET_CHANNEL_6',
+      'REPET WEEKLY NOTIFICATION CHANNEL',
+      '',
       importance: Importance.Max,
       priority: Priority.High,
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(0, 'Test title', 'test body', Day.Monday, time, platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(id, title, body, day, time, platformChannelSpecifics, payload: payload);
   }
 
   Future<int> getPendingNotificationCount() async {
@@ -156,8 +153,8 @@ class NotificationPlugin {
     return p.length;
   }
 
-  Future<void> cancelNotification() async {
-    await flutterLocalNotificationsPlugin.cancel(0); //write unique id
+  Future<void> cancelNotification({@required id}) async {
+    await flutterLocalNotificationsPlugin.cancel(id); //write unique id
   }
 
   Future<void> cancelAllNotification() async {

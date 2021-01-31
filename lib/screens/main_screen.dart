@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/error_screen.dart';
@@ -153,16 +152,8 @@ class _MainScreenState extends State<MainScreen> {
                                 BaseButton(
                                   text: 'Done',
                                   onPressed: () async {
-                                    DateTime now = DateTime.now();
-                                    DateTime date = DateTime(2021,1,30,hour,min);
-                                    final Event event = Event(
-                                      title: 'test $headerText',
-                                      location: 'app',
-                                      startDate: date,
-                                      endDate: date.add(Duration(hours: 1))
-                                    );
-                                    Add2Calendar.addEvent2Cal(event);
-                                    await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText.toLowerCase(), '$hour:$min');
+                                    DateTime time = DateTime(2000,7,30,hour,min, 0);
+                                    await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText, time);
                                     setState(() {
                                       print(routine);
                                       addNew = false;
@@ -176,7 +167,7 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
                       ) : SizedBox.shrink(),
-                      ...routine.keys.map((e){
+                      ...routine.keys.map((id){
                         return Container(
                           height: 70,
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -192,17 +183,25 @@ class _MainScreenState extends State<MainScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                e,
+                                routine[id][0],
                                 style: TextStyle(
                                   fontSize: 36,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                               Switch(
-                                value: routine[e],
-                                onChanged: (value){
+                                value: routine[id][1],
+                                onChanged: (value) async {
+                                  if(value){
+                                    List timeList = routine[id][0].split(':');
+                                    DateTime time = DateTime(2000,7,30,int.parse(timeList[0]), int.parse(timeList[1]), 0);
+                                    await Provider.of<ProvidedData>(context, listen: false).currentUser.reActivateRemainder(pet, headerText, time, id);
+                                  }
+                                  else {
+                                    await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
+                                  }
                                   setState(() {
-                                    routine[e] = value;
+                                    routine[id][1] = value;
                                     print(routine);
                                   });
                                 },
@@ -269,6 +268,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     _isLoading = getMainScreenData();
+    context.read<ProvidedData>().currentUser.setNotificationSettings();
     super.initState();
   }
   @override

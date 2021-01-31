@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart' as constants;
 
 class PetModel {
@@ -92,18 +93,27 @@ class PetModel {
     return constants.disabilities;
   }
 
-  Future<bool> addRoutine(routineName, time) async {
-    this.routines[routineName][time] = true;
+  Future<bool> addRoutine(String routineName, DateTime time, int id, String idName) async {
+    this.routines[routineName.toLowerCase()][idName] = ['${time.hour}:${time.minute}', true];
     try{
-      DocumentReference document = await _fireStore.collection('PetModel').doc(id);
+      DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
       await document.update({
-        'routines.$routineName': this.routines[routineName],
+        'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()],
       });
+      notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time);
       return true;
     }
     catch(e){
       print(e);
       return false;
     }
+  }
+
+  Future<void> cancelRoutine(id, routineName) async {
+    DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
+    await document.update({
+      'routines.$routineName': this.routines[routineName],
+    });
+    notificationPlugin.cancelNotification(id: id);
   }
 }

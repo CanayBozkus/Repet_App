@@ -34,8 +34,18 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addNewRemainder(PetModel pet, name, time) async {
-    await pet.addRoutine(name, time);
+  Future<void> addNewRemainder(PetModel pet, String routineName, DateTime time) async {
+    await currentUser.addRemainder(pet, routineName, time);
+    notifyListeners();
+  }
+
+  Future<void> reActivateNewRemainder(PetModel pet, String routineName, DateTime time, id) async {
+    await currentUser.reActivateRemainder(pet, routineName, time, id);
+    notifyListeners();
+  }
+
+  Future<void> cancelRemainder(PetModel pet, id, name) async {
+    await currentUser.cancelRemainder(pet, id, name);
     notifyListeners();
   }
 }

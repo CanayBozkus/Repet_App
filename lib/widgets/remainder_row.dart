@@ -16,23 +16,33 @@ class RemainderRow extends StatelessWidget {
     int countOpens = 0;
     int countTimes = 0;
     DateTime currentTime = DateTime.now();
-    for(var key in routine.keys){
-      List time = key.toString().split(':');
-      if(routine[key]){
+    for(var id in routine.keys){
+      List time = routine[id][0].split(':');
+      if(routine[id][1]){
         countOpens +=1;
-        if(int.parse(time[0]) < currentTime.hour && int.parse(time[1]) < currentTime.minute){
+        DateTime notfTime = DateTime(currentTime.year, currentTime.month, currentTime.day, int.parse(time[0]), int.parse(time[1]), 0);
+        if(notfTime.isBefore(currentTime)){
           countTimes +=1;
         }
       }
     }
-
     return countOpens != 0 ? countTimes/countOpens : 0;
+  }
+
+  bool checkAlarms(routine){
+    for(var id in routine.keys){
+      if(routine[id][1]){
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     final Map routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
     double percentage = calculateDailyPercentage(routine);
+    bool hasAlarm = checkAlarms(routine);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Material(
@@ -61,7 +71,7 @@ class RemainderRow extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                routine.containsValue(true) ? Container(
+                hasAlarm ? Container(
                   padding: EdgeInsets.all(8),
                   height: 50,
                   width: 50,
@@ -100,7 +110,7 @@ class RemainderRow extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    '%' + percentage.toInt().toString(),
+                    '%' + (percentage*100).toInt().toString(),
                     style: TextStyle(
 
                       fontSize: 18,

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/services/notification_plugin.dart';
 
 class UserModel {
   UserModel({this.email, this.age, this.phoneNumber, this.gender = 'Female', this.nameSurname}){
@@ -26,6 +27,7 @@ class UserModel {
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
   bool newsSetterConfirmation = true;
+  Map currentNotifications = {};
 
   Future<bool> createUser() async {
     try{
@@ -42,6 +44,7 @@ class UserModel {
           'pets': pets,
           'newsSetterConfirmation': newsSetterConfirmation,
           'calendar_id': await CalendarModel.createCalendar(newUser.user.uid),
+          'current_notifications': currentNotifications,
         });
         this.id = newUser.user.uid;
         return true;
@@ -68,7 +71,7 @@ class UserModel {
       calendarId = userData['calendar_id'];
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
-
+      currentNotifications = userData['current_notifications'];
       return true;
     }
     return false;
@@ -127,5 +130,30 @@ class UserModel {
       petModels[pets[i]] = result ? pet : null;
     }
     return petModels;
+  }
+
+  void setNotificationSettings(){
+    notificationPlugin.setListenerForLowerVersions((){});
+    notificationPlugin.setOnNotificationClick((String payload){
+    });
+  }
+
+  Future<void> addRemainder(PetModel pet, String routineName, DateTime time) async {
+    String idName = pet.name.replaceAll(' ', '') + routineName + currentNotifications.length.toString();
+    bool result = await pet.addRoutine(routineName, time, currentNotifications.length, idName);
+    if(result){
+      currentNotifications[idName] = currentNotifications.length;
+      await _fireStore.collection('UserModel').doc(this.id).update({
+        'current_notifications': currentNotifications,
+      });
+    }
+  }
+
+  Future<void> reActivateRemainder(PetModel pet, String routineName, DateTime time, idName) async {
+    bool result = await pet.addRoutine(routineName, time, currentNotifications[idName], idName);
+  }
+
+  Future<void> cancelRemainder(PetModel pet, id, routineName) async {
+    await pet.cancelRoutine(currentNotifications[id], routineName);
   }
 }
