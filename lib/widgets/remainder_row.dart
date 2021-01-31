@@ -13,14 +13,20 @@ class RemainderRow extends StatelessWidget {
   final Function onTap;
 
   double calculateDailyPercentage(Map routine){
-    double percent = 0;
+    int countOpens = 0;
+    int countTimes = 0;
     DateTime currentTime = DateTime.now();
-
-    for(int i=0; i<routine.keys.length; i++){
-
+    for(var key in routine.keys){
+      List time = routine[key].toString().split(':');
+      if(routine[key]){
+        countOpens +=1;
+        if(time[0] < currentTime.hour && time[1] < currentTime.minute){
+          countTimes +=1;
+        }
+      }
     }
 
-    return percent;
+    return countTimes/countOpens;
   }
 
   @override
@@ -55,7 +61,7 @@ class RemainderRow extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                routine.isNotEmpty ? Container(
+                routine.containsValue(true) ? Container(
                   padding: EdgeInsets.all(8),
                   height: 50,
                   width: 50,
