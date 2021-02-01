@@ -48,4 +48,13 @@ class ProvidedData with ChangeNotifier {
     await currentUser.cancelRemainder(pet, id, name);
     notifyListeners();
   }
+
+  Future<void> signOut() async {
+    await currentUser.signOut();
+    currentUser = UserModel();
+    pets = {};
+    currentShownPetIndex = '';
+    isDataFetched = false;
+    notifyListeners();
+  }
 }

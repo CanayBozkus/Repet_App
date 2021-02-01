@@ -7,6 +7,8 @@ import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/shadow_divider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = 'ProfileScreen';
@@ -83,8 +85,8 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                         onTap: () async {
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.pushNamed(context, LoginScreen.routeName);
+                          await context.read<ProvidedData>().signOut();
+                          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                         },
                       ),
                     ],
