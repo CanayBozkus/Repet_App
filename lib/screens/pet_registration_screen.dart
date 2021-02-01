@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/screens/login_screen.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
@@ -23,6 +24,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   String _formName = 'pet';
   int _formIndex = 0;
+  bool _isCreating = false;
   //TODO: UserModel.createUser() sırasında spinner gösterecek şekilde ayarla
   @override
   Widget build(BuildContext context) {
@@ -80,10 +82,9 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                       },
                       width: 120,
                     ) : SizedBox.shrink(),
-                    BaseButton(
+                    !(_isCreating) ? BaseButton(
                       text: _formName == 'pet' || _formIndex == 0 ? 'Ileri' : 'Bitir',
                       onPressed: () async {
-                        bool create = false;
                          setState(() {
                           if(_formName == 'pet'){
                             if(_formKey.currentState.validate()){
@@ -96,11 +97,11 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                               _formIndex = 1;
                             }
                             else {
-                              create = true;
+                              _isCreating = true;
                             }
                           }
                         });
-                         if(create){
+                         if(_isCreating){
                            bool userResult = await widget.newUser.createUser();
                            if(userResult){
                              //TODO: ilk eklenecek hayvanı UserModel.createUser() içerisinde gerçekleşecek şekilde ayarla
@@ -113,6 +114,9 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                          }
                       },
                       width: 120,
+                    ) : Container(
+                      width: 120,
+                      child: Center(child: CircularProgressIndicator()),
                     ),
                   ],
                 ),
