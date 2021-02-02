@@ -72,7 +72,7 @@ class NotificationPlugin {
     await flutterLocalNotificationsPlugin.show(id, title, body, platformChannelSpecifics, payload: payload);
   }
 
-  Future<void> scheduleNotification({@required id, @required title, @required body, @required payload, @required schedule}) async {
+  Future<void> scheduleNotification({@required id, @required title, @required body, @required payload, @required DateTime schedule}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
       'REPET_CHANNEL_2',
       'REPET SCHEDULE NOTIFICATION CHANNEL',
@@ -82,7 +82,7 @@ class NotificationPlugin {
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(id, title, body, schedule, platformChannelSpecifics, payload: 'test payload');
+    await flutterLocalNotificationsPlugin.schedule(id, title, body, schedule, platformChannelSpecifics, payload: payload);
   }
 
   Future<void> showNotificationWithAttachment({@required id, @required title, @required body, @required payload, @required attachment, @required attachmentTitle, @required summaryText}) async {
