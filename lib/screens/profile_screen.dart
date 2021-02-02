@@ -20,85 +20,52 @@ class ProfileScreen extends StatelessWidget {
       appBar: BaseAppBar(
         title: 'Profile',
         context: context,
+        reverseColor: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: (){},
+            color: Colors.white,
+            iconSize: 30,
+          )
+        ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          PetNavigator(
-            height: height,
-            width: width,
-            showDetail: true,
+          Container(
+            height: 160,
+            color: kPrimaryColor,
           ),
-          SizedBox(height: height*0.04,),
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.only(top: 8),
+          Padding(
+            padding: generalScreenPadding,
+            child: Column(
               children: [
-                ShadowDivider(),
-                DefaultElevation(
-                  child: Column(
+                PetNavigator(
+                  height: height,
+                  width: width,
+                  showDetail: false,
+                ),
+                SizedBox(height: 10,),
+                Expanded(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                     children: [
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text(
-                          'Kişisel Bilgiler',
-                          style: kProfileBuilderTextStyle,
+                      DefaultElevation(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8),
+                          alignment: Alignment.center,
+                          child: Text(
+                            'General',
+                            style: TextStyle(
+                              fontSize: 32,
+                              fontWeight: FontWeight.w800
+                            ),
+                          ),
                         ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                      ),
-                      Divider(height: 3, color: Colors.grey.shade600,),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text('Adreslerim',
-                          style: kProfileBuilderTextStyle,
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                      ),
-                      Divider(height: 3, color: Colors.grey.shade600,),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text('Ödeme Yöntemi',
-                          style: kProfileBuilderTextStyle,
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                      ),
-                      Divider(height: 3, color: Colors.grey.shade600,),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text('Dil',
-                          style: kProfileBuilderTextStyle,
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                      ),
-                      Divider(height: 3, color: Colors.grey.shade600,),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text('Yardım',
-                          style: kProfileBuilderTextStyle,
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                      ),
-                      Divider(height: 3, color: Colors.grey.shade600,),
-                      ListTile(
-                        contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                        title: Text('Çıkış',
-                          style: kProfileBuilderTextStyle,
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                        onTap: () async {
-                          await context.read<ProvidedData>().signOut();
-                          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-                        },
                       ),
                     ],
                   ),
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.only(left: width*0.1, right: width*0.05),
-                  title: Text('Versiyon 1.0.0',
-                    style: kProfileBuilderTextStyle.copyWith(color: Colors.grey.shade400),
-                  ),
-                ),
-                Divider(height: 3, color: Colors.grey.shade400,),
               ],
             ),
           ),
@@ -107,6 +74,7 @@ class ProfileScreen extends StatelessWidget {
       bottomNavigationBar: BaseBottomBar(
         height: height,
         width: width,
+        pageNumber: 5,
       ),
     );
   }

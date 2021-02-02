@@ -42,6 +42,8 @@ const keyBoards = {
 
 const kPrimaryColor = Color(0xFFFDA15A);
 
+const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);
+
 const allergies = [
   'Kaşıntılı cilt',
   'Hapşırma',

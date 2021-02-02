@@ -289,67 +289,70 @@ class _MainScreenState extends State<MainScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          return Column(
-            children: [
-              PetNavigator(
-                height: height,
-                width: width,
-                showDetail: true,
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: height * 0.01,
-                  ),
-                  child: ListView(
+          return Padding(
+            padding: generalScreenPadding,
+            child: Column(
+              children: [
+                PetNavigator(
+                  height: height,
+                  width: width,
+                  showDetail: true,
+                ),
+                Expanded(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.08, vertical: height * 0.02),
-                    children: [
-                      RemainderRow(
-                        mainText: 'Feeding',
-                        svg: 'assets/icons/feeding.svg',
-                        svgColor: Color(0xfff87024),
-                        onTap: (){
-                          _openBottomSheet(headerText: 'Feeding');
-                        },
-                      ),
-                      RemainderRow(
-                        mainText: 'Walking',
-                        svg: 'assets/icons/walking.svg',
-                        svgColor: Color(0xff79c619),
-                        onTap: (){
-                          _openBottomSheet(headerText: 'Walking');
-                        },
-                      ),
-                      RemainderRow(
-                        mainText: 'Water',
-                        svg: 'assets/icons/water.svg',
-                        svgColor: Color(0xff04a3ff),
-                        onTap: (){
-                          _openBottomSheet(headerText: 'Water');
-                        },
-                      ),
-                      RemainderRow(
-                        mainText: 'Grooming',
-                        svg: 'assets/icons/grooming.svg',
-                        svgColor: Color(0xff883404),
-                        onTap: (){
-                          _openBottomSheet(headerText: 'Grooming');
-                        },
-                      ),
-                      RemainderRow(
-                        mainText: 'Playing',
-                        svg: 'assets/icons/playing.svg',
-                        svgColor: Color(0xff79c624),
-                        onTap: (){
-                          _openBottomSheet(headerText: 'Playing');
-                        },
-                      ),
-                    ],
+                      vertical: height * 0.01,
+                    ),
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 5, vertical: height * 0.02),
+                      children: [
+                        RemainderRow(
+                          mainText: 'Feeding',
+                          svg: 'assets/icons/feeding.svg',
+                          svgColor: Color(0xfff87024),
+                          onTap: (){
+                            _openBottomSheet(headerText: 'Feeding');
+                          },
+                        ),
+                        RemainderRow(
+                          mainText: 'Walking',
+                          svg: 'assets/icons/walking.svg',
+                          svgColor: Color(0xff79c619),
+                          onTap: (){
+                            _openBottomSheet(headerText: 'Walking');
+                          },
+                        ),
+                        RemainderRow(
+                          mainText: 'Water',
+                          svg: 'assets/icons/water.svg',
+                          svgColor: Color(0xff04a3ff),
+                          onTap: (){
+                            _openBottomSheet(headerText: 'Water');
+                          },
+                        ),
+                        RemainderRow(
+                          mainText: 'Grooming',
+                          svg: 'assets/icons/grooming.svg',
+                          svgColor: Color(0xff883404),
+                          onTap: (){
+                            _openBottomSheet(headerText: 'Grooming');
+                          },
+                        ),
+                        RemainderRow(
+                          mainText: 'Playing',
+                          svg: 'assets/icons/playing.svg',
+                          svgColor: Color(0xff79c624),
+                          onTap: (){
+                            _openBottomSheet(headerText: 'Playing');
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
         future: _isLoading,

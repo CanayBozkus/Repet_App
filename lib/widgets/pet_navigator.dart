@@ -19,25 +19,27 @@ class PetNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: showDetail ? height * 0.30 : height * 0.2,
-      width: double.infinity,
+      height: showDetail ? 220 : 130,
+      width: double.maxFinite,
+      padding: EdgeInsets.all(5),
       child: Stack(
         children: [
           showDetail ? Positioned(
             bottom: 0,
-            left: width * 0.08,
+            left: 0,
+            right:0,
             child: DefaultElevation(
               child: Container(
-                width: width * 0.84,
-                height: height * 0.15,
+                height: 110,
                 padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.08, vertical: height * 0.03),
+                    horizontal: 30, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
                           context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex].name,
@@ -77,12 +79,13 @@ class PetNavigator extends StatelessWidget {
             ),
           ) : SizedBox.shrink(),
           Positioned(
-            top: height * 0.02,
-            left: width * 0.37,
+            bottom: showDetail ? 95 : 0,
+            left: 0,
+            right: 0,
             child: DefaultElevation(
               child: Container(
-                width: width * 0.26,
-                height: width * 0.26,
+                width: 110,
+                height: 110,
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: SvgPicture.asset(
                   'assets/icons/dog.svg',
@@ -93,12 +96,12 @@ class PetNavigator extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: height * 0.005,
-            left: width * 0.12,
+            bottom: showDetail ? 120 : 25,
+            left: 20,
             child: DefaultElevation(
               child: Container(
-                width: width * 0.2,
-                height: width * 0.2,
+                width: 90,
+                height: 90,
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: SvgPicture.asset(
                   'assets/icons/fish.svg',
@@ -109,12 +112,12 @@ class PetNavigator extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: height * 0.005,
-            right: width * 0.12,
+            bottom: showDetail ? 120 : 25,
+            right: 20,
             child: DefaultElevation(
               child: Container(
-                width: width * 0.2,
-                height: width * 0.2,
+                width: 90,
+                height: 90,
                 decoration: BoxDecoration(shape: BoxShape.circle),
                 child: SvgPicture.asset(
                   'assets/icons/cat.svg',
