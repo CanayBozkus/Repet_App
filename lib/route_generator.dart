@@ -28,7 +28,7 @@ class RouteGenerator {
       case LeaderBoardScreen.routename: return MaterialPageRoute(builder: (_) => LeaderBoardScreen());
       case ProfileScreen.routeName: return MaterialPageRoute(builder: (_) => ProfileScreen());
       case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen(newUser: args,));
-      case SettingsScreen.routeName: return MaterialPageRoute(builder: (_) => SettingsScreen());
+      case SettingsScreen.routeName: return MaterialPageRoute(builder: (_) => SettingsScreen(settingsWidgetName: args,));
       default: return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }

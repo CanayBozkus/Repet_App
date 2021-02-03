@@ -40,6 +40,11 @@ const keyBoards = {
   KeyboardTypes.number: TextInputType.number,
 };
 
+enum SettingsWidget {
+  generalSettings,
+  personalSettings,
+}
+
 const kPrimaryColor = Color(0xFFFDA15A);
 
 const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);

@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: (){
-              Navigator.pushNamed(context, SettingsScreen.routeName);
+              Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.generalSettings);
             },
             color: Colors.white,
             iconSize: 30,

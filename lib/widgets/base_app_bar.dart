@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/screens/profile_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 
 class BaseAppBar extends AppBar {
