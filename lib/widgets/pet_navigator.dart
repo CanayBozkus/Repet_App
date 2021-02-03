@@ -7,13 +7,9 @@ import 'package:provider/provider.dart';
 
 class PetNavigator extends StatelessWidget {
   const PetNavigator({
-    @required this.height,
-    @required this.width,
     this.showDetail = false,
   });
 
-  final double height;
-  final double width;
   final bool showDetail;
 
   @override

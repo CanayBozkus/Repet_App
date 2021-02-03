@@ -15,71 +15,78 @@ class TrainingScreen extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: BaseAppBar(title: 'Eğitim', context: context,),
+      appBar: BaseAppBar(
+        title: 'Eğitim',
+        context: context,
+        activeBackButton: true,
+      ),
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Column(
-          children: [
-            PetNavigator(height: height, width: width),
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-                children: [
-                  DefaultElevation(
-                    child: Container(
-                      height: height * 0.07,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            filled: true,
-                            fillColor: Colors.white,
-                            prefixIcon: Icon(
-                              Icons.arrow_drop_down,
-                              size: width * 0.1,
-                              color: Color(0xff1576d8),
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.search,
-                                size: width * 0.08,
+        child: Padding(
+          padding: generalScreenPadding,
+          child: Column(
+            children: [
+              PetNavigator(),
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                  children: [
+                    DefaultElevation(
+                      child: Container(
+                        height: height * 0.07,
+                        child: TextField(
+                          decoration: InputDecoration(
+                              border: InputBorder.none,
+                              filled: true,
+                              fillColor: Colors.white,
+                              prefixIcon: Icon(
+                                Icons.arrow_drop_down,
+                                size: width * 0.1,
                                 color: Color(0xff1576d8),
                               ),
-                              onPressed: () {},
-                            ),
-                            hintText: 'Search...'),
-                        onSubmitted: (value) {},
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  Icons.search,
+                                  size: width * 0.08,
+                                  color: Color(0xff1576d8),
+                                ),
+                                onPressed: () {},
+                              ),
+                              hintText: 'Search...'),
+                          onSubmitted: (value) {},
+                        ),
                       ),
                     ),
-                  ),
-                  TrainingBuilderRow(
-                    height: height,
-                    width: width,
-                    text: 'Gezdirme Eğitimi',
-                    status: TrainingStatus.done,
-                    onTap: (){
-                      Navigator.pushNamed(context, TrainingDetailScreen.routeName);
-                    },
-                  ),
-                  TrainingBuilderRow(
-                    height: height,
-                    width: width,
-                    text: 'Taramaya Alıştırma',
-                    status: TrainingStatus.repeat,
-                    onTap: (){},
-                  ),
-                  TrainingBuilderRow(
-                    height: height,
-                    width: width,
-                    text: 'Banyoya Alıştırma',
-                    status: TrainingStatus.notStarted,
-                    onTap: (){},
-                  ),
-                ],
+                    TrainingBuilderRow(
+                      height: height,
+                      width: width,
+                      text: 'Gezdirme Eğitimi',
+                      status: TrainingStatus.done,
+                      onTap: (){
+                        Navigator.pushNamed(context, TrainingDetailScreen.routeName);
+                      },
+                    ),
+                    TrainingBuilderRow(
+                      height: height,
+                      width: width,
+                      text: 'Taramaya Alıştırma',
+                      status: TrainingStatus.repeat,
+                      onTap: (){},
+                    ),
+                    TrainingBuilderRow(
+                      height: height,
+                      width: width,
+                      text: 'Banyoya Alıştırma',
+                      status: TrainingStatus.notStarted,
+                      onTap: (){},
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BaseBottomBar(

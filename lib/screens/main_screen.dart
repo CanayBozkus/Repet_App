@@ -294,8 +294,6 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               children: [
                 PetNavigator(
-                  height: height,
-                  width: width,
                   showDetail: true,
                 ),
                 Expanded(

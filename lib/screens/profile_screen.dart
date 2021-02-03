@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/screens/login_screen.dart';
+import 'package:repetapp/screens/training_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
-import 'package:repetapp/widgets/shadow_divider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,8 +50,6 @@ class ProfileScreen extends StatelessWidget {
               Padding(
                 padding: generalScreenPadding,
                 child: PetNavigator(
-                  height: height,
-                  width: width,
                   showDetail: false,
                 ),
               ),
@@ -231,6 +227,9 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                        onTap: (){
+                          Navigator.pushNamed(context, TrainingScreen.routeName);
+                        },
                       ),
                     ),
                     SizedBox(height: 20,),
