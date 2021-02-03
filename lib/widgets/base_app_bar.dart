@@ -3,7 +3,7 @@ import 'package:repetapp/screens/profile_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 
 class BaseAppBar extends AppBar {
-  BaseAppBar({String title, BuildContext context, List<Widget> actions, bool reverseColor = false, bool activeBackButton = false})
+  BaseAppBar({@required String title, @required BuildContext context, List<Widget> actions, bool reverseColor = false, bool activeBackButton = false})
       : super(
           leading: activeBackButton ? null : Container(),
           title: Text(
@@ -12,5 +12,9 @@ class BaseAppBar extends AppBar {
           ),
           actions: actions,
           backgroundColor: reverseColor ? kPrimaryColor : Colors.white,
+          iconTheme: IconThemeData(
+              color: reverseColor ? Colors.white : kPrimaryColor,
+              size: 28
+          ),
         );
 }

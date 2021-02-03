@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/screens/training_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
@@ -23,7 +24,9 @@ class ProfileScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.settings),
-            onPressed: (){},
+            onPressed: (){
+              Navigator.pushNamed(context, SettingsScreen.routeName);
+            },
             color: Colors.white,
             iconSize: 30,
           )

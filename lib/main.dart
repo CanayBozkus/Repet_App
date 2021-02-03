@@ -39,10 +39,6 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             elevation: 0,
             centerTitle: true,
-            iconTheme: IconThemeData(
-              color: kPrimaryColor,
-              size: 28
-            ),
             textTheme: TextTheme(
               headline6: TextStyle(
                 color: kPrimaryColor,
