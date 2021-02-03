@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 
 class AddressSettings extends StatelessWidget {
-  FormGenerator _formGenerator = FormGenerator();
+  final FormGenerator _formGenerator = FormGenerator();
   @override
   Widget build(BuildContext context) {
     return Container(
