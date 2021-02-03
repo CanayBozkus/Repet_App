@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 
 class PersonalSettings extends StatelessWidget {
-  const PersonalSettings({
-    Key key,
-  }) : super(key: key);
-
+  FormGenerator _formGenerator = FormGenerator();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,85 +36,8 @@ class PersonalSettings extends StatelessWidget {
               ],
             ),
           ),
-          DefaultElevation(
-            child: ListTile(
-              leading: SvgPicture.asset(
-                'assets/icons/account.svg',
-                height: 25,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                'Mehmet Özgün',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-          DefaultElevation(
-            child: ListTile(
-              leading: SvgPicture.asset(
-                'assets/icons/email.svg',
-                height: 20,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                'mehmet.ozgun@gmail.com',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-          DefaultElevation(
-            child: ListTile(
-              leading: SvgPicture.asset(
-                'assets/icons/cellphone.svg',
-                height: 30,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                '+905552431183',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-          DefaultElevation(
-            child: ListTile(
-              leading: SvgPicture.asset(
-                'assets/icons/cake.svg',
-                height: 25,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                '03.07.1973',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-          DefaultElevation(
-            child: ListTile(
-              leading: SvgPicture.asset(
-                'assets/icons/gender.svg',
-                height: 25,
-                color: kPrimaryColor,
-              ),
-              title: Text(
-                'Erkek',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios),
-            ),
+          Expanded(
+            child: _formGenerator.personalInfoForm(),
           ),
         ],
       ),

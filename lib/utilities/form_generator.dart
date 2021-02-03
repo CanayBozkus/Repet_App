@@ -148,6 +148,42 @@ class FormGenerator{
     );
   }
 
+  Widget settingsPageInput({String label, String svg, }){
+    return DefaultElevation(
+      child: TextFormField(
+        style: TextStyle(
+          fontSize: 18,
+          color: Color(0xff636363),
+          fontWeight: FontWeight.w700,
+        ),
+        decoration: InputDecoration(
+          labelText: label,
+          contentPadding: EdgeInsets.symmetric(vertical: 16,),
+          prefixIcon: svg != null ? Padding(
+            padding: EdgeInsets.all(12.0),
+            child: SvgPicture.asset(
+              svg,
+              color: kPrimaryColor,
+            ),
+          ) : SizedBox.shrink(),
+          suffixIcon: Icon(Icons.arrow_forward_ios ,color: kPrimaryColor,),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: 1
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade200,
+                width: 1.5
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget userRegisterForm({@required final userModel, @required final key, stateController}){
     return Form(
       key: key,
@@ -470,5 +506,34 @@ class FormGenerator{
     },
       checked: petModel.disabilities.contains(e),
     )).toList();
+  }
+
+  Widget personalInfoForm(){
+    return Form(
+      child: ListView(
+        children: [
+          settingsPageInput(label: 'mehmet ozgun', svg: 'assets/icons/account.svg'),
+          settingsPageInput(label: 'mehmet.ozgun@gmail.com', svg: 'assets/icons/email.svg'),
+          settingsPageInput(label: '+905552431183', svg: 'assets/icons/cellphone.svg'),
+          settingsPageInput(label: '03.07.1973', svg: 'assets/icons/cake.svg'),
+          settingsPageInput(label: 'Erkek', svg: 'assets/icons/gender.svg'),
+        ],
+      ),
+    );
+  }
+
+  Widget addressForm(){
+    return Form(
+      child: ListView(
+        children: [
+          settingsPageInput(label: 'Daire veya Bina No',),
+          settingsPageInput(label: 'Sokak Adı',),
+          settingsPageInput(label: 'İlce',),
+          settingsPageInput(label: 'Şehir',),
+          settingsPageInput(label: 'Posta Kodu',),
+          settingsPageInput(label: 'Ülke',),
+        ],
+      ),
+    );
   }
 }

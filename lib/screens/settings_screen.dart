@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/address_settings.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
@@ -26,6 +27,9 @@ class SettingsScreen extends StatelessWidget {
         appbarTitle = 'Personal Info';
         return PersonalSettings();
         break;
+      case SettingsWidget.addressSettings:
+        appbarTitle = 'Address';
+        return AddressSettings();
       default:
         appbarTitle = 'Error';
         return ErrorScreen();
@@ -43,7 +47,12 @@ class SettingsScreen extends StatelessWidget {
         context: context,
         reverseColor: true,
       ),
-      body: selectedWidget,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: selectedWidget,
+      ),
       bottomNavigationBar: BaseBottomBar(
         height: height,
         width: width,

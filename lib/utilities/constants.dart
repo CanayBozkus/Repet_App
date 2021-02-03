@@ -43,6 +43,7 @@ const keyBoards = {
 enum SettingsWidget {
   generalSettings,
   personalSettings,
+  addressSettings,
 }
 
 const kPrimaryColor = Color(0xFFFDA15A);
