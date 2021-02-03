@@ -10,6 +10,7 @@ import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/general_settings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/widgets/help.dart';
 import 'package:repetapp/widgets/personal_settings.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -30,6 +31,9 @@ class SettingsScreen extends StatelessWidget {
       case SettingsWidget.addressSettings:
         appbarTitle = 'Address';
         return AddressSettings();
+      case SettingsWidget.help:
+        appbarTitle = 'Help';
+        return Help();
       default:
         appbarTitle = 'Error';
         return ErrorScreen();

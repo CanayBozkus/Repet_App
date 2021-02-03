@@ -76,7 +76,9 @@ class GeneralSettings extends StatelessWidget {
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.help);
+                    },
                   ),
                 ),
                 DefaultElevation(

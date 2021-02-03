@@ -44,6 +44,7 @@ enum SettingsWidget {
   generalSettings,
   personalSettings,
   addressSettings,
+  help,
 }
 
 const kPrimaryColor = Color(0xFFFDA15A);
