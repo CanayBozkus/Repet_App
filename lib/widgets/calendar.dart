@@ -17,7 +17,14 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      onDaySelected: (DateTime date, List<dynamic> events, List<dynamic> holidays){
+        print(date);
+      },
+      onVisibleDaysChanged: (DateTime containerStartDate, DateTime containerEndDate, CalendarFormat format){
+
+      },
       events: {DateTime(2020, 12, 4): ['tesst', Colors.indigoAccent], DateTime(2020, 12, 3): ['tesst1', Colors.orange]},
+      holidays: {DateTime(2020, 12, 4): ['tesst', Colors.indigoAccent], DateTime(2020, 12, 3): ['tesst1', Colors.orange]},
       calendarStyle: CalendarStyle(
 
       ),
@@ -54,30 +61,6 @@ class _CalendarState extends State<Calendar> {
             ),
           ),
         ),
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
-          if (events.isNotEmpty) {
-            children.add(
-              Positioned(
-                child: Container(
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: events[1],
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    date.day.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            );
-          }
-          return children;
-        },
       ),
       calendarController: _calendarController,
     );

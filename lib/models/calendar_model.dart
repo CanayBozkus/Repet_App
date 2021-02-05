@@ -9,6 +9,7 @@ class CalendarModel {
   String userId;
   List eventCollections;
   FirebaseFirestore _fireStore;
+  bool isDataFetch = false;
 
   static Future<String> createCalendar(id) async {
     FirebaseFirestore _fireStore = FirebaseFirestore.instance;
@@ -31,6 +32,7 @@ class CalendarModel {
     id = data['id'];
     userId = data['user_id'];
     eventCollections = data['event_collections'];
+    this.isDataFetch = true;
     return true;
   }
 }

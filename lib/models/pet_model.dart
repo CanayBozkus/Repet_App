@@ -20,7 +20,7 @@ class PetModel {
   List allergies = [];
   List disabilities = [];
   List sicknesses = [];
-  Map routines = {
+  Map routines = { //TODO: routinelerin içinde saat kısmı için string olarak değil datetime olarak tut.
     'feeding' : {},
     'water': {},
     'walking': {},

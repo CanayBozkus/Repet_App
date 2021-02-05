@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/models/user_model.dart';
 
@@ -10,6 +11,8 @@ class ProvidedData with ChangeNotifier {
   Map<String, PetModel> pets;
   String currentShownPetIndex;
   bool isDataFetched = false;
+  CalendarModel calendar = CalendarModel();
+
   void updateWidthHeight(width, height){
     this.width = width;
     this.height = height;
@@ -31,6 +34,11 @@ class ProvidedData with ChangeNotifier {
   Future<void> getPets() async {
     pets = await currentUser.getPets();
     currentShownPetIndex = currentUser.pets[0];
+    notifyListeners();
+  }
+
+  Future<void> getCalendar() async {
+    await calendar.getCalendarData(currentUser.id);
     notifyListeners();
   }
 

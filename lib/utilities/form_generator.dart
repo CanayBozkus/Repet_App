@@ -148,15 +148,16 @@ class FormGenerator{
     );
   }
 
-  Widget settingsPageInput({String label, String svg, }){
+  Widget settingsPageInput({String label, String svg, bool isEnabled = true}){
     return DefaultElevation(
       child: TextFormField(
         style: TextStyle(
-          fontSize: 18,
+          fontSize: 16,
           color: Color(0xff636363),
           fontWeight: FontWeight.w700,
         ),
         decoration: InputDecoration(
+          enabled: isEnabled,
           labelText: label,
           contentPadding: EdgeInsets.symmetric(vertical: 16,),
           prefixIcon: svg != null ? Padding(
@@ -166,7 +167,7 @@ class FormGenerator{
               color: kPrimaryColor,
             ),
           ) : SizedBox.shrink(),
-          suffixIcon: Icon(Icons.arrow_forward_ios ,color: kPrimaryColor,),
+          suffixIcon: isEnabled ? Icon(Icons.arrow_forward_ios ,color: kPrimaryColor,) : SizedBox.shrink(),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
                 color: Colors.grey.shade300,
@@ -177,6 +178,12 @@ class FormGenerator{
             borderSide: BorderSide(
                 color: Colors.grey.shade200,
                 width: 1.5
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: 1
             ),
           ),
         ),

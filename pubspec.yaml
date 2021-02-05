@@ -43,7 +43,7 @@ dev_dependencies:
   rxdart: ^0.24.1
   path_provider: ^1.6.11
   http: ^0.12.1
-  flutter_local_notifications: ^1.4.4+5
+  flutter_local_notifications: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

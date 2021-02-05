@@ -64,89 +64,107 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
                 Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.symmetric(vertical: 5),
+                  child: Stack(
                     children: [
-                      Padding(
-                        padding: generalScreenPadding,
-                        child: Form(
-                          child: Column(
-                            children: [
-                              DefaultElevation(
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'General',
-                                    style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.w800
+                      ListView(
+                        padding: EdgeInsets.symmetric(vertical: 5),
+                        children: [
+                          Padding(
+                            padding: generalScreenPadding,
+                            child: Form(
+                              child: Column(
+                                children: [
+                                  DefaultElevation(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 8),
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        'General',
+                                        style: TextStyle(
+                                          fontSize: 32,
+                                          fontWeight: FontWeight.w800
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                  _formGenerator.settingsPageInput(label: 'Rıfkı', svg: 'assets/icons/dog.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: 'Pug', svg: 'assets/icons/species.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: 'Male', svg: 'assets/icons/gender.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '9.5 kg', svg: 'assets/icons/weight.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '1 year 8 month', svg: 'assets/icons/cake.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '123 cm', svg: 'assets/icons/height.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: 'Alerji', svg: 'assets/icons/peanut.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: 'Engel', svg: 'assets/icons/wheelchair.svg', isEnabled: false),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 40,),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 4,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                'Training',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500
                                 ),
                               ),
-                              _formGenerator.settingsPageInput(label: 'Rıfkı', svg: 'assets/icons/dog.svg'),
-                              _formGenerator.settingsPageInput(label: 'Pug', svg: 'assets/icons/species.svg'),
-                              _formGenerator.settingsPageInput(label: 'Male', svg: 'assets/icons/gender.svg'),
-                              _formGenerator.settingsPageInput(label: '9.5 kg', svg: 'assets/icons/weight.svg'),
-                              _formGenerator.settingsPageInput(label: '1 year 8 month', svg: 'assets/icons/cake.svg'),
-                              _formGenerator.settingsPageInput(label: '123 cm', svg: 'assets/icons/height.svg'),
-                              _formGenerator.settingsPageInput(label: 'Alerji', svg: 'assets/icons/peanut.svg'),
-                              _formGenerator.settingsPageInput(label: 'Engel', svg: 'assets/icons/wheelchair.svg'),
-                            ],
+                              trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                              onTap: (){
+                                Navigator.pushNamed(context, TrainingScreen.routeName);
+                              },
+                            ),
+                          ),
+                          SizedBox(height: 20,),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.3),
+                                  spreadRadius: 4,
+                                  blurRadius: 3,
+                                  offset: Offset(0, 1), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                'Diseases',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                            ),
+                          ),
+                          SizedBox(height: 50,),
+                        ],
+                      ),
+                      IconButton(icon: Icon(Icons.edit), onPressed: (){}),
+                      Positioned(
+                        right: 0,
+                        child: DefaultElevation(
+                          child: Container(
+                            child: FlatButton(
+                              onPressed: (){
+                              },
+                              padding: EdgeInsets.zero,
+                              child: Icon(Icons.edit, size: 30,),
+                            ),
                           ),
                         ),
                       ),
-                      SizedBox(height: 40,),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              offset: Offset(0, 1), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            'Training',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                          trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                          onTap: (){
-                            Navigator.pushNamed(context, TrainingScreen.routeName);
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              offset: Offset(0, 1), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: ListTile(
-                          title: Text(
-                            'Diseases',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500
-                            ),
-                          ),
-                          trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                        ),
-                      ),
-                      SizedBox(height: 50,),
                     ],
                   ),
                 ),

@@ -1,12 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/utilities/form_generator.dart';
-
 import 'default_elevation.dart';
 
 class Help extends StatelessWidget {
-  final FormGenerator _formGenerator = FormGenerator();
   @override
   Widget build(BuildContext context) {
     return Container(

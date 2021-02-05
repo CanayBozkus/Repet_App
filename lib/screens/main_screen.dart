@@ -48,25 +48,39 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   child: Row(
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.close),
-                        iconSize: 28,
+                      FlatButton(
+                        shape: CircleBorder(),
+                        child: Container(
+                          child: Icon(Icons.close, size: 36,),
+                          padding: EdgeInsets.all(4),
+                        ),
                         onPressed: (){
                           Navigator.pop(context);
                         },
+                        padding: EdgeInsets.zero,
                       ),
                       Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 50.0),
-                          child: Text(
-                            headerText,
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: kPrimaryColor,
-                            ),
-                            textAlign: TextAlign.center,
+                        child: Text(
+                          headerText,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: kPrimaryColor,
                           ),
+                          textAlign: TextAlign.center,
                         ),
+                      ),
+                      FlatButton(
+                        shape: CircleBorder(),
+                        child: Container(
+                          child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
+                          padding: EdgeInsets.all(4),
+                        ),
+                        onPressed: (){
+                          setState(() {
+                            addNew = true;
+                          });
+                        },
+                        padding: EdgeInsets.zero,
                       ),
                     ],
                   ),
@@ -211,36 +225,6 @@ class _MainScreenState extends State<MainScreen> {
                         );
                       }).toList(),
                     ],
-                  ),
-                ),
-                Container(
-                  height: 60,
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 5),
-                  decoration: BoxDecoration(
-                    border: Border(
-                        top: BorderSide(
-                          color: Colors.grey.shade300,
-                          width: 1,
-                        )
-                    ),
-                  ),
-                  child: Material(
-                    elevation: 3,
-                    shape: CircleBorder(),
-                    child: FlatButton(
-                      shape: CircleBorder(),
-                      child: Container(
-                        child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
-                        padding: EdgeInsets.all(4),
-                      ),
-                      onPressed: (){
-                        setState(() {
-                          addNew = true;
-                        });
-                      },
-                      padding: EdgeInsets.zero,
-                    ),
                   ),
                 ),
               ],
