@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/error_screen.dart';
+import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
@@ -10,7 +11,7 @@ import 'package:repetapp/widgets/remainder_row.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
 

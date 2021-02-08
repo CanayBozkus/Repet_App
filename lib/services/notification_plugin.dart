@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart' as scheduler;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:io' show File, Platform;
 import 'package:rxdart/subjects.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
 class NotificationPlugin {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final BehaviorSubject<ReceivedNotification> didReceivedLocalNotificationSubject = BehaviorSubject<ReceivedNotification>();
-  var initializationSettings;
+  InitializationSettings initializationSettings;
   NotificationPlugin._(){
     init();
   }
@@ -17,6 +21,7 @@ class NotificationPlugin {
       _requestIOSPermission();
     }
     initializePlatformSpecifics();
+    tz.initializeTimeZones();
   }
 
   initializePlatformSpecifics(){
@@ -32,7 +37,8 @@ class NotificationPlugin {
     );
 
     initializationSettings = InitializationSettings(
-      initializationSettingsAndroid, initializationSettingsIOS
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsIOS,
     );
 
   }
@@ -64,11 +70,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_1',
       'REPET NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'repet_notf_icon',
     );
     var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(id, title, body, platformChannelSpecifics, payload: payload);
   }
 
@@ -77,11 +84,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_2',
       'REPET SCHEDULE NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'repet_notf_icon',
     );
     var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.schedule(id, title, body, schedule, platformChannelSpecifics, payload: payload);
   }
 
@@ -100,11 +108,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_3',
       'REPET ATTACHMENT NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
       styleInformation: bigPictureStyleInformation,
+      icon: 'repet_notf_icon',
     );
-    var notificationDetails = NotificationDetails(androidChannelSpecifics, iOSPlatformSpecifics);
+    var notificationDetails = NotificationDetails(android: androidChannelSpecifics, iOS: iOSPlatformSpecifics);
     await flutterLocalNotificationsPlugin.show(id, title, body, notificationDetails, payload: payload);
   }
 
@@ -113,11 +122,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_4',
       'REPET REPEAT NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'repet_notf_icon',
     );
     var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.periodicallyShow(id, title, body, repeatInterval, platformChannelSpecifics, payload: payload);
   }
 
@@ -127,11 +137,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_5',
       'REPET DAILY NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'repet_notf_icon',
     );
     var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(id, title, body, notfTime, platformChannelSpecifics, payload: payload);
   }
 
@@ -140,11 +151,12 @@ class NotificationPlugin {
       'REPET_CHANNEL_6',
       'REPET WEEKLY NOTIFICATION CHANNEL',
       '',
-      importance: Importance.Max,
-      priority: Priority.High,
+      importance: Importance.max,
+      priority: Priority.high,
+      icon: 'repet_notf_icon',
     );
     var iosChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(androidChannelSpecifics, iosChannelSpecifics);
+    var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
     await flutterLocalNotificationsPlugin.showWeeklyAtDayAndTime(id, title, body, day, time, platformChannelSpecifics, payload: payload);
   }
 
