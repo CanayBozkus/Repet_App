@@ -132,9 +132,8 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
             bottom: widget.height * 0.02,
             child: GestureDetector(
               onTap: (){
-                //TODO: Navigate to ForumScreen
                 if(widget.pageNumber != 4){
-                  //Navigator.pushNamed(context, bottomNavigationBarRoutes[4]);
+                  Navigator.pushNamed(context, bottomNavigationBarRoutes[4]);
                 }
               },
               child: Icon(

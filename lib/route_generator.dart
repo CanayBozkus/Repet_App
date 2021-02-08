@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/route_generator.dart';
 import 'package:repetapp/screens/calendar_screen.dart';
 import 'package:repetapp/screens/error_screen.dart';
+import 'package:repetapp/screens/forum_screen.dart';
 import 'package:repetapp/screens/leaderboard_screen.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/main_screen.dart';
@@ -29,6 +30,7 @@ class RouteGenerator {
       case ProfileScreen.routeName: return MaterialPageRoute(builder: (_) => ProfileScreen());
       case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen(newUser: args,));
       case SettingsScreen.routeName: return MaterialPageRoute(builder: (_) => SettingsScreen(settingsWidgetName: args,));
+      case ForumScreen.routeName: return MaterialPageRoute(builder: (_) => ForumScreen());
       default: return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }
