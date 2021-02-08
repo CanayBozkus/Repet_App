@@ -19,7 +19,7 @@ class UserModel {
   String nameSurname;
   int age;
   int phoneNumber;
-  String gender;
+  String gender = 'Female';
   List addresses;
   List pets = [];
   String calendarId;

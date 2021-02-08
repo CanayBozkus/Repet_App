@@ -124,6 +124,7 @@ class FormGenerator{
 
         icon: Icon(Icons.arrow_drop_down, color: kPrimaryColor,),
         iconSize: 30,
+        validator: validator,
       ),
     );
   }
@@ -213,8 +214,6 @@ class FormGenerator{
           this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
             validator: (String value){
               if(value != userModel.password){
-                print(value);
-                print(userModel.password);
                 return "Passwords does not match!";
               }
               return null;
@@ -225,6 +224,26 @@ class FormGenerator{
               userModel.nameSurname = value;
             },
             validator: _nameValidatorGenerator('your'),
+          ),
+          this.addInput(label: 'Age', keyboard: KeyboardTypes.number,
+            onsaved: (String value){
+              userModel.age = int.parse(value);
+            },
+            validator: (String value){
+              if(value.isEmpty){
+                return 'Please enter your age! Exp: 21';
+              }
+            },
+          ),
+          this.addDropdown(categories:['Male', 'Female'], hint: 'Cinsiyet',
+              onChanged: (value){
+                userModel.gender = value;
+              },
+            validator: (value){
+              if(value == null){
+                return 'Please select a gender!';
+              }
+            }
           ),
           SizedBox(height: 8,),
           Row(
@@ -361,6 +380,16 @@ class FormGenerator{
               }
             }
           ),
+          this.addInput(label: 'Species', keyboard: KeyboardTypes.text, initialValue: petModel.name,
+            onsaved: (String value){
+              petModel.species = value;
+            },
+            validator: (String value){
+              if(value.isEmpty){
+                return 'Please enter your pet\'s species! Example: Buldog.';
+              }
+            },
+          ),
           this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number, initialValue: petModel.weight != null ? petModel.weight.toString() : null,
             onsaved: (String value){
               petModel.weight = double.parse(value);
@@ -392,16 +421,16 @@ class FormGenerator{
           Row(
             children: [
               Expanded(
-                child: this.addInput(label: 'Yıl', keyboard: KeyboardTypes.number, initialValue: petModel.year != null ? petModel.year.toString() : null,
+                child: this.addInput(label: 'Yıl (*)', keyboard: KeyboardTypes.number, initialValue: petModel.year != null ? petModel.year.toString() : null,
                   onsaved: (String value){
                     petModel.year = int.parse(value);
                   },
                   validator: (String value){
                     if(value.isEmpty){
-                      return 'Please enter a year!';
+                      return 'Please enter a year! Example: 7';
                     }
-                    if(double.parse(value) < 1995){
-                      return 'Invalid year';
+                    if(double.parse(value) > 40){
+                      return 'Invalid year. Example: 7';
                     }
                     return null;
                   },
@@ -409,15 +438,12 @@ class FormGenerator{
               ),
               SizedBox(width: 16,),
               Expanded(
-                child: this.addInput(label: 'Ay', keyboard: KeyboardTypes.number, initialValue:  petModel.month != null ? petModel.month.toString() : null,
+                child: this.addInput(label: 'Ay (optional)', keyboard: KeyboardTypes.number, initialValue:  petModel.month != null ? petModel.month.toString() : null,
                   onsaved: (String value){
                     petModel.month = int.parse(value);
                   },
                   validator: (String value){
-                    if(value.isEmpty){
-                      return 'Please enter a month!';
-                    }
-                    if(double.parse(value) > 12 || double.parse(value) < 0){
+                    if(value.isNotEmpty && (double.parse(value) > 12 || double.parse(value) < 0)){
                       return 'Invalid month';
                     }
                     return null;

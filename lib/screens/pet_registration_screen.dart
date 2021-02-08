@@ -3,9 +3,12 @@ import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
 
 class PetRegistrationScreen extends StatefulWidget {
   static const routeName = 'PetRegistrationScreen';
@@ -31,18 +34,11 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return  Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          'Evcil Hayvan',
-          style: Theme.of(context)
-              .appBarTheme
-              .textTheme
-              .headline6
-              .copyWith(color: Colors.white),
-        ),
-        leading: Container(),
-        backgroundColor: Theme.of(context).primaryColor,
+      appBar: BaseAppBar(
+        title: 'Evcil Hayvan',
+        context: context,
+        reverseColor: true,
+        activeBackButton: true,
       ),
       body: SafeArea(
         child: GestureDetector(
@@ -102,13 +98,21 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                           }
                         });
                          if(_isCreating){
-                           bool userResult = await widget.newUser.createUser();
-                           if(userResult){
-                             //TODO: ilk eklenecek hayvanı UserModel.createUser() içerisinde gerçekleşecek şekilde ayarla
-                             bool petResult = await widget.newUser.addPet(_petModel, true);
+                           if(context.read<ProvidedData>().currentUser != widget.newUser){
+                             bool userResult = await widget.newUser.createUser();
+                             if(userResult){
+                               //TODO: ilk eklenecek hayvanı UserModel.createUser() içerisinde gerçekleşecek şekilde ayarla
+                               bool petResult = await widget.newUser.addPet(_petModel, true);
+                               if(petResult){
+                                 await widget.newUser.signOut();
+                                 Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                               }
+                             }
+                           }
+                           else{
+                             bool petResult = await context.read<ProvidedData>().currentUser.addPet(_petModel, false);
                              if(petResult){
-                               await widget.newUser.signOut();
-                               Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+                               Navigator.pop(context);
                              }
                            }
                          }
