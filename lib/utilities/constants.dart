@@ -52,6 +52,20 @@ const kPrimaryColor = Color(0xFFFDA15A);
 
 const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);
 
+const kBlogPageCategoryImages = {
+  'Food': 'assets/icons/bowl.svg',
+  'Care': 'assets/icons/hand-heart.svg',
+  'Training': 'assets/icons/school.svg',
+  'Social': 'assets/icons/heart-multiple.svg',
+};
+
+const kBlogPageCategoryColors = {
+  'Food': Color(0xfffd3c1d),
+  'Care': Color(0xff5adb78),
+  'Training': Color(0xff2f6cf5),
+  'Social': Color(0xfffda15a),
+};
+
 const allergies = [
   'Kaşıntılı cilt',
   'Hapşırma',
