@@ -10,7 +10,7 @@ import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = 'ProfileScreen';
@@ -105,7 +105,7 @@ class ProfileScreen extends StatelessWidget {
                                           onPressed: (){
                                           },
                                           padding: EdgeInsets.zero,
-                                          child: Icon(Icons.edit, size: 28,),
+                                          child: Icon(FontAwesomeIcons.solidEdit, size: 24,),
                                         ),
                                       ),
                                     ),

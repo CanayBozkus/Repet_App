@@ -66,6 +66,31 @@ const kBlogPageCategoryColors = {
   'Social': Color(0xfffda15a),
 };
 
+enum PetTypes {
+  dog,
+  cat,
+}
+
+const petTypeNames = {
+  PetTypes.dog: 'Dog',
+  PetTypes.cat: 'Cat',
+};
+
+const petTypeNamesReverse = {
+  'Dog': PetTypes.dog,
+  'Cat': PetTypes.cat,
+};
+
+const petTypeImages = {
+  PetTypes.dog: 'assets/icons/dog.svg',
+  PetTypes.cat: 'assets/icons/cat.svg',
+};
+
+const petTypeColors = {
+  PetTypes.dog: Color(0xffba892b),
+  PetTypes.cat: Color(0xffe86868),
+};
+
 const allergies = [
   'Kaşıntılı cilt',
   'Hapşırma',

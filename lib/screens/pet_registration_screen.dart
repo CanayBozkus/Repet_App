@@ -22,7 +22,6 @@ class PetRegistrationScreen extends StatefulWidget {
 
 class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
   PetModel _petModel = PetModel();
-  bool isDog = true;
   final _formGen = FormGenerator();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   String _formName = 'pet';

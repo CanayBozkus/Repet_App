@@ -327,7 +327,7 @@ class FormGenerator{
                 child: FlatButton(
                   onPressed: (){
                     stateController(() {
-                      petModel.isDog = !petModel.isDog;
+                      petModel.type = PetTypes.dog;
                     });
                   },
                   shape: CircleBorder(),
@@ -336,8 +336,8 @@ class FormGenerator{
                     height: width * 0.3,
                     decoration: BoxDecoration(shape: BoxShape.circle),
                     child: SvgPicture.asset(
-                      'assets/icons/dog.svg',
-                      color: petModel.isDog ? Color(0xffba892b) : Color(0xffd0d0d0),
+                      petTypeImages[PetTypes.dog],
+                      color: petModel.type == PetTypes.dog ? petTypeColors[PetTypes.dog] : Color(0xffd0d0d0),
                     ),
                   ),
                 ),
@@ -347,7 +347,7 @@ class FormGenerator{
                 child: FlatButton(
                   onPressed: (){
                     stateController(() {
-                      petModel.isDog = !petModel.isDog;
+                      petModel.type = PetTypes.cat;
                     });
                   },
                   shape: CircleBorder(),
@@ -356,8 +356,8 @@ class FormGenerator{
                     height: width * 0.3,
                     decoration: BoxDecoration(shape: BoxShape.circle),
                     child: SvgPicture.asset(
-                      'assets/icons/cat.svg',
-                      color: !petModel.isDog ? Color(0xffe86868) : Color(0xffd0d0d0),
+                      petTypeImages[PetTypes.cat],
+                      color: petModel.type == PetTypes.cat ? petTypeColors[PetTypes.cat] : Color(0xffd0d0d0),
                     ),
                   ),
                 ),

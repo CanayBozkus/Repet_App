@@ -11,7 +11,7 @@ class PetModel {
   String ownerId;
   String name;
   String gender;
-  bool isDog = true; //TODO: isDog şeklinde alımı değiştir
+  constants.PetTypes type = constants.PetTypes.dog;
   String species;
   double weight;
   double height;
@@ -39,7 +39,7 @@ class PetModel {
         'owner_id': ownerId,
         'name': name,
         'gender': gender,
-        'catalog': isDog ? 'Dog' : 'Cat',
+        'type': constants.petTypeNames[type],
         'species': species,
         'weight': weight,
         'height': height,
@@ -67,7 +67,7 @@ class PetModel {
       name = petData['name'];
       ownerId = petData['owner_id'];
       gender = petData['gender'];
-      isDog = petData['catalog'] == 'Dog' ? true : false;
+      type = constants.petTypeNamesReverse[petData['type']];
       species = petData['species'];
       weight = petData['weight'];
       height = petData['height'];
