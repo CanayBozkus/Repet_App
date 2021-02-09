@@ -17,7 +17,19 @@ class ForumScreen extends StatefulWidget {
 
 class _ForumScreenState extends State<ForumScreen> {
   int selected = 0;
-
+  PageController _controller;
+  @override
+  void initState() {
+     _controller = PageController(
+      initialPage: 0,
+    );
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -46,6 +58,7 @@ class _ForumScreenState extends State<ForumScreen> {
                   onPressed: (){
                     setState(() {
                       selected = 0;
+                      _controller.jumpToPage(selected);
                     });
                   },
                   width: 150,
@@ -56,6 +69,7 @@ class _ForumScreenState extends State<ForumScreen> {
                   onPressed: (){
                     setState(() {
                       selected = 1;
+                      _controller.animateToPage(selected, duration: Duration(seconds: 1), curve: Curves.ease,);
                     });
                   },
                   width: 150,
@@ -64,17 +78,38 @@ class _ForumScreenState extends State<ForumScreen> {
               ],
             ),
             SizedBox(height: 10,),
-            BlogCategoryBuilder(),
             Expanded(
-              child: ListView(
-                padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+              child: PageView(
+                controller: _controller,
+                onPageChanged: (index){
+                  setState(() {
+                    selected = index;
+                  });
+                },
                 children: [
-                  ForumCard(),
-                  ForumCard(),
-                  ForumCard(),
-                  ForumCard(),
-                  ForumCard(),
-                  ForumCard(),
+                  ListView(
+                    padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+                    children: [
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                    ],
+                  ),
+                  ListView(
+                    padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+                    children: [
+                      BlogCategoryBuilder(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                      ForumCard(),
+                    ],
+                  ),
                 ],
               ),
             ),
