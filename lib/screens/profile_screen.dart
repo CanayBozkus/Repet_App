@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/screens/pet_registration_screen.dart';
 import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/screens/training_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
@@ -42,7 +43,9 @@ class ProfileScreen extends StatelessWidget {
           size: 45,
         ),
         backgroundColor: Colors.white,
-        onPressed: (){},
+        onPressed: (){
+          Navigator.pushNamed(context, PetRegistrationScreen.routeName, arguments: context.read<ProvidedData>().currentUser);
+        },
       ),
       body: GestureDetector(
         onTap: () {
@@ -64,29 +67,56 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 10,),
                 Expanded(
-                  child: Stack(
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(vertical: 5),
                     children: [
-                      ListView(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        children: [
-                          Padding(
-                            padding: generalScreenPadding,
-                            child: Form(
-                              child: Column(
+                      Form(
+                        child: Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              child: Stack(
                                 children: [
-                                  DefaultElevation(
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(vertical: 8),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        'General',
-                                        style: TextStyle(
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.w800
+                                  Padding(
+                                    padding: generalScreenPadding.add(EdgeInsets.only(top: 8)),
+                                    child: DefaultElevation(
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(vertical: 8),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'General',
+                                          style: TextStyle(
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w800
+                                          ),
                                         ),
                                       ),
                                     ),
                                   ),
+                                  Positioned(
+                                    right: 8,
+                                    child: Material(
+                                      elevation: 5,
+                                      child: Container(
+                                        width: 60,
+                                        height: 40,
+                                        child: FlatButton(
+                                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                          onPressed: (){
+                                          },
+                                          padding: EdgeInsets.zero,
+                                          child: Icon(Icons.edit, size: 28,),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: generalScreenPadding,
+                              child: Column(
+                                children: [
                                   _formGenerator.settingsPageInput(label: 'Rıfkı', svg: 'assets/icons/dog.svg', isEnabled: false),
                                   _formGenerator.settingsPageInput(label: 'Pug', svg: 'assets/icons/species.svg', isEnabled: false),
                                   _formGenerator.settingsPageInput(label: 'Male', svg: 'assets/icons/gender.svg', isEnabled: false),
@@ -98,73 +128,59 @@ class ProfileScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          ),
-                          SizedBox(height: 40,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 4,
-                                  blurRadius: 3,
-                                  offset: Offset(0, 1), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                'Training',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500
-                                ),
-                              ),
-                              trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                              onTap: (){
-                                Navigator.pushNamed(context, TrainingScreen.routeName);
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 4,
-                                  blurRadius: 3,
-                                  offset: Offset(0, 1), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                'Diseases',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500
-                                ),
-                              ),
-                              trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                            ),
-                          ),
-                          SizedBox(height: 50,),
-                        ],
-                      ),
-                      IconButton(icon: Icon(Icons.edit), onPressed: (){}),
-                      Positioned(
-                        right: 0,
-                        child: DefaultElevation(
-                          child: Container(
-                            child: FlatButton(
-                              onPressed: (){
-                              },
-                              padding: EdgeInsets.zero,
-                              child: Icon(Icons.edit, size: 30,),
-                            ),
-                          ),
+                          ],
                         ),
                       ),
+                      SizedBox(height: 40,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 4,
+                              blurRadius: 3,
+                              offset: Offset(0, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            'Training',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                          onTap: (){
+                            Navigator.pushNamed(context, TrainingScreen.routeName);
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 4,
+                              blurRadius: 3,
+                              offset: Offset(0, 1), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            'Diseases',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
+                        ),
+                      ),
+                      SizedBox(height: 50,),
                     ],
                   ),
                 ),

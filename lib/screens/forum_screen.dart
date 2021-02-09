@@ -58,7 +58,7 @@ class _ForumScreenState extends State<ForumScreen> {
                   onPressed: (){
                     setState(() {
                       selected = 0;
-                      _controller.jumpToPage(selected);
+                      _controller.animateToPage(selected, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
                     });
                   },
                   width: 150,
@@ -69,7 +69,7 @@ class _ForumScreenState extends State<ForumScreen> {
                   onPressed: (){
                     setState(() {
                       selected = 1;
-                      _controller.animateToPage(selected, duration: Duration(seconds: 1), curve: Curves.ease,);
+                      _controller.animateToPage(selected, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
                     });
                   },
                   width: 150,
