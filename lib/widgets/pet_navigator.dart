@@ -20,9 +20,9 @@ class _PetNavigatorState extends State<PetNavigator> {
   Map<String, PetModel> shownPets;
 
   Map<String, PetModel> showPets(BuildContext context){
-    String currentPetIndex = context.read<ProvidedData>().currentShownPetIndex;
-    List petIds = context.read<ProvidedData>().currentUser.pets;
-    Map<String, PetModel> pets = context.read<ProvidedData>().pets;
+    String currentPetIndex = context.watch<ProvidedData>().currentShownPetIndex;
+    List petIds = context.watch<ProvidedData>().currentUser.pets;
+    Map<String, PetModel> pets = context.watch<ProvidedData>().pets;
     int currentIndex = petIds.indexOf(currentPetIndex);
     int previousIndex = currentIndex -1 < 0 ? currentIndex -1 + petIds.length : currentIndex -1;
     int nextIndex = currentIndex + 1 >= petIds.length ? 0 : currentIndex + 1;
@@ -135,7 +135,6 @@ class _PetNavigatorState extends State<PetNavigator> {
                 padding: EdgeInsets.zero,
                 onPressed: (){
                   context.read<ProvidedData>().changeCurrentPet(shownPets['left'].id);
-                  setState(() {});
                 },
                 child: Container(
                   width: 90,
@@ -158,7 +157,6 @@ class _PetNavigatorState extends State<PetNavigator> {
                 padding: EdgeInsets.zero,
                 onPressed: (){
                   context.read<ProvidedData>().changeCurrentPet(shownPets['right'].id);
-                  setState(() {});
                 },
                 child: Container(
                   width: 90,

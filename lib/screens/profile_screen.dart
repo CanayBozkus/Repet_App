@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/screens/pet_registration_screen.dart';
 import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/screens/training_screen.dart';
@@ -19,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
     return Scaffold(
       appBar: BaseAppBar(
         title: 'Profile',
@@ -117,12 +119,12 @@ class ProfileScreen extends StatelessWidget {
                               padding: generalScreenPadding,
                               child: Column(
                                 children: [
-                                  _formGenerator.settingsPageInput(label: 'Rıfkı', svg: 'assets/icons/dog.svg', isEnabled: false),
-                                  _formGenerator.settingsPageInput(label: 'Pug', svg: 'assets/icons/species.svg', isEnabled: false),
-                                  _formGenerator.settingsPageInput(label: 'Male', svg: 'assets/icons/gender.svg', isEnabled: false),
-                                  _formGenerator.settingsPageInput(label: '9.5 kg', svg: 'assets/icons/weight.svg', isEnabled: false),
-                                  _formGenerator.settingsPageInput(label: '1 year 8 month', svg: 'assets/icons/cake.svg', isEnabled: false),
-                                  _formGenerator.settingsPageInput(label: '123 cm', svg: 'assets/icons/height.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: currentPet.name, svg: 'assets/icons/dog.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: currentPet.species, svg: 'assets/icons/species.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: currentPet.gender, svg: 'assets/icons/gender.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '${currentPet.weight} kg', svg: 'assets/icons/weight.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '${currentPet.year} year ${currentPet.month} month', svg: 'assets/icons/cake.svg', isEnabled: false),
+                                  _formGenerator.settingsPageInput(label: '${currentPet.height} m', svg: 'assets/icons/height.svg', isEnabled: false),
                                   _formGenerator.settingsPageInput(label: 'Alerji', svg: 'assets/icons/peanut.svg', isEnabled: false),
                                   _formGenerator.settingsPageInput(label: 'Engel', svg: 'assets/icons/wheelchair.svg', isEnabled: false),
                                 ],
