@@ -110,6 +110,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                            }
                            else{
                              bool petResult = await context.read<ProvidedData>().currentUser.addPet(_petModel, false);
+                             context.read<ProvidedData>().updatePetsMap(_petModel);
                              if(petResult){
                                Navigator.pop(context);
                              }

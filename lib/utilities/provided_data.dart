@@ -65,4 +65,14 @@ class ProvidedData with ChangeNotifier {
     isDataFetched = false;
     notifyListeners();
   }
+
+  void updatePetsMap(PetModel pet){
+    this.pets[pet.id] = pet;
+    notifyListeners();
+  }
+
+  void changeCurrentPet(String petId){
+    currentShownPetIndex = petId;
+    notifyListeners();
+  }
 }
