@@ -36,56 +36,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(width * 0.04),
+            padding: EdgeInsets.all(20),
             child: DefaultElevation(
               child: Container(
-                padding: EdgeInsets.all(width * 0.02),
+                padding: EdgeInsets.all(5),
                 color: Colors.white,
                 child: Calendar(),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.04),
-              child: DefaultElevation(
-                child: Container(
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: ListView(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: width * 0.05, vertical: height * 0.025),
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '9 Nisan',
-                          ),
-                          Container(
-                            height: height * 0.03,
-                            width: width * 0.2,
-                            color: Colors.green,
-                          ),
-                        ],
-                      ),
-                      CalendarDetailRow(
-                        width: width,
-                        checkBoxValue: checkBoxValue,
-                        height: height,
-                        todoText: 'Veteriner Aylık Kontrolü',
-                        hour: '14.00',
-                      ),
-                      CalendarDetailRow(
-                        width: width,
-                        checkBoxValue: checkBoxValue,
-                        height: height,
-                        todoText: 'Kış için Mont alınması',
-                        hour: 'Tüm Gün',
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
           ),
