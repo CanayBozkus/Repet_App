@@ -19,13 +19,13 @@ class PetNavigator extends StatefulWidget {
 class _PetNavigatorState extends State<PetNavigator> {
   Map<String, PetModel> shownPets;
 
-  Map<String, PetModel> showPets(BuildContext context){
+  Map<String, PetModel> getNavigationPets(BuildContext context){
     String currentPetIndex = context.watch<ProvidedData>().currentShownPetIndex;
     List petIds = context.watch<ProvidedData>().currentUser.pets;
     Map<String, PetModel> pets = context.watch<ProvidedData>().pets;
     int currentIndex = petIds.indexOf(currentPetIndex);
-    int previousIndex = currentIndex -1 < 0 ? currentIndex -1 + petIds.length : currentIndex -1;
-    int nextIndex = currentIndex + 1 >= petIds.length ? 0 : currentIndex + 1;
+    int previousIndex = (currentIndex -1) % petIds.length;
+    int nextIndex = (currentIndex + 1) % petIds.length;
     Map <String, PetModel> shownPets = {};
     shownPets['middle'] = pets[petIds[currentIndex]];
 
@@ -47,7 +47,7 @@ class _PetNavigatorState extends State<PetNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    shownPets = showPets(context);
+    shownPets = getNavigationPets(context);
     return Container(
       height: widget.showDetail ? 220 : 130,
       width: double.maxFinite,
@@ -62,7 +62,7 @@ class _PetNavigatorState extends State<PetNavigator> {
               child: Container(
                 height: 110,
                 padding: EdgeInsets.symmetric(
-                    horizontal: 30, vertical: 20),
+                    horizontal: 20, vertical: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -71,27 +71,37 @@ class _PetNavigatorState extends State<PetNavigator> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex].name,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.w500,
+                        Expanded(
+                          flex: 7,
+                          child: Text(
+                            shownPets['middle'].name,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          child: Text(
-                            'Pug',
-                            style: TextStyle(
-                              color: Colors.white,
+                        SizedBox(width: 10,),
+                        Flexible(
+                          flex: 4,
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Text(
+                              shownPets['middle'].species,
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
                             ),
+                            decoration: BoxDecoration(
+                              color: Color(0xff7654ff),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 4, horizontal: 10),
                           ),
-                          decoration: BoxDecoration(
-                            color: Color(0xff7654ff),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          padding: EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 16),
                         ),
                       ],
                     ),
@@ -99,8 +109,27 @@ class _PetNavigatorState extends State<PetNavigator> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text('Veteriner Kontrolleri Yapıldı'),
-                        Text('8 Aylık'),
+                        Expanded(
+                          flex: 7,
+                          child: Text(
+                            'Veteriner Kontrolleri Yapıldı',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 3,
+                          child: Text(
+                            shownPets['middle'].year > 0 ? '${shownPets['middle'].year} years' : '${shownPets['middle'].month} months',
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.end,
+                          ),
+                        ),
                       ],
                     ),
                   ],
