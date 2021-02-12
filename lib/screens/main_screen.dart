@@ -12,6 +12,7 @@ import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:repetapp/widgets/time_selector.dart';
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
 
@@ -95,63 +96,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                Container(
-                                  width: 40,
-                                  child: CupertinoPicker(
-                                    itemExtent: 50,
-                                    onSelectedItemChanged: (value){
-                                      hour = value;
-                                    },
-                                    children: [
-                                      ...List<int>.generate(24, (i) => i).map((e){
-                                        return Center(
-                                          child: Text(
-                                            e.toString(),
-                                            style: TextStyle(
-                                              fontSize: 36,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        );
-                                      })
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  ':',
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                Container(
-                                  width: 40,
-                                  child: CupertinoPicker(
-                                    itemExtent: 50,
-                                    onSelectedItemChanged: (value){
-                                      min = value;
-                                    },
-                                    children: [
-                                      ...List<int>.generate(60, (i) => i).map((e){
-                                        return Center(
-                                          child: Text(
-                                            e.toString(),
-                                            style: TextStyle(
-                                              fontSize: 36,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        );
-                                      })
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                            TimeSelector(hourOnChanged: (value) => hour = value, minuteOnChanged: (value) => min = value,),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               mainAxisAlignment: MainAxisAlignment.spaceAround,

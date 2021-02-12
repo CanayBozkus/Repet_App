@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
+import 'package:repetapp/widgets/time_selector.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:repetapp/utilities/extensions.dart';
 class Calendar extends StatefulWidget {
@@ -19,7 +21,8 @@ class _CalendarState extends State<Calendar> {
     _calendarController = CalendarController();
     super.initState();
   }
-
+  int hour=0;
+  int min=0;
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
@@ -30,157 +33,197 @@ class _CalendarState extends State<Calendar> {
           ),
           context: context,
           builder: (context){
-            return Container(
-              height: 600,
-              child: Column(
-                children: [
-                  Container(
-                    height: 70,
-                    child: Row(
-                      children: [
-                        FlatButton(
-                          shape: CircleBorder(),
-                          child: Container(
-                            child: Icon(Icons.close, size: 36,),
-                            padding: EdgeInsets.all(4),
-                          ),
-                          onPressed: (){
-                            Navigator.pop(context);
-                          },
-                          padding: EdgeInsets.zero,
-                        ),
-                        Expanded(
-                          child: Text(
-                            '${date.day} ${date.getMonthName()} ${date.year}',
-                            style: TextStyle(
-                              fontSize: 24,
-                              color: kPrimaryColor,
-                              fontWeight: FontWeight.w800,
+            bool _addNew = false;
+            return StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState){
+                return Container(
+                  height: 600,
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 70,
+                        child: Row(
+                          children: [
+                            FlatButton(
+                              shape: CircleBorder(),
+                              child: Container(
+                                child: Icon(Icons.close, size: 36,),
+                                padding: EdgeInsets.all(4),
+                              ),
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                              padding: EdgeInsets.zero,
                             ),
-                            textAlign: TextAlign.center,
-                          ),
+                            Expanded(
+                              child: Text(
+                                '${date.day} ${date.getMonthName()} ${date.year}',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: kPrimaryColor,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            FlatButton(
+                              shape: CircleBorder(),
+                              child: Container(
+                                child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
+                                padding: EdgeInsets.all(4),
+                              ),
+                              onPressed: (){
+                                setState(() {
+                                  _addNew = true;
+                                });
+                              },
+                              padding: EdgeInsets.zero,
+                            ),
+                          ],
                         ),
-                        FlatButton(
-                          shape: CircleBorder(),
-                          child: Container(
-                            child: Icon(Icons.add, size: 36, color: kPrimaryColor,),
-                            padding: EdgeInsets.all(4),
-                          ),
-                          onPressed: (){
-
-                          },
-                          padding: EdgeInsets.zero,
+                      ),
+                      Expanded(
+                        child: ListView(
+                          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          children: [
+                            _addNew ? Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4),
+                              child: Container(
+                                alignment: Alignment.center,
+                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 2,
+                                      blurRadius: 2,
+                                      offset: Offset(0, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    FormGenerator().addInput(label: 'Task', onsaved: (value){}, validator: (value){}),
+                                    Container(
+                                      alignment: Alignment.center,
+                                      height: 90,
+                                      width: double.infinity,
+                                      child: TimeSelector(hourOnChanged: (value) => hour = value, minuteOnChanged: (value) => min = value, center: true,),
+                                    ),
+                                    SizedBox(height: 15,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        BaseButton(
+                                          width: 80,
+                                          fontSize: 13,
+                                          text: 'Delete',
+                                          onPressed: (){},
+                                          backgroundColor: kColorRed,
+                                        ),
+                                        SizedBox(width: 10,),
+                                        BaseButton(
+                                          width: 80,
+                                          fontSize: 13,
+                                          text: 'Done',
+                                          onPressed: (){
+                                            setState((){
+                                              _addNew = false;
+                                            });
+                                          },
+                                          backgroundColor: kColorGreen,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ) : SizedBox.shrink(),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      'Yeni Mama Alınması',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                      '12.00',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    trailing: BaseCheckBox(
+                                      value: true,
+                                      color: Color(0xff79c624),
+                                      onChanged: (){},
+                                    ),
+                                  )
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.3),
+                                        spreadRadius: 2,
+                                        blurRadius: 2,
+                                        offset: Offset(0, 1), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    title: Text(
+                                      'Yeni Mama Alınması',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Text(
+                                      '12.00',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    trailing: BaseCheckBox(
+                                      value: true,
+                                      color: Color(0xff79c624),
+                                      onChanged: (){},
+                                    ),
+                                  )
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    child: ListView(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 4),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 2,
-                                    offset: Offset(0, 1), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Column(
-                                children: [
-                                  FormGenerator().addInput(label: 'Task', onsaved: (value){}, validator: (value){})
-                                ],
-                              )
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 2,
-                                  blurRadius: 2,
-                                  offset: Offset(0, 1), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                'Yeni Mama Alınması',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                '12.00',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              trailing: BaseCheckBox(
-                                value: true,
-                                color: Color(0xff79c624),
-                                onChanged: (){},
-                              ),
-                            )
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    spreadRadius: 2,
-                                    blurRadius: 2,
-                                    offset: Offset(0, 1), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  'Yeni Mama Alınması',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w400
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  '12.00',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                                trailing: BaseCheckBox(
-                                  value: true,
-                                  color: Color(0xff79c624),
-                                  onChanged: (){},
-                                ),
-                              )
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                );
+              },
             );
           },
         );

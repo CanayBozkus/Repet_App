@@ -49,6 +49,8 @@ enum SettingsWidget {
 }
 
 const kPrimaryColor = Color(0xFFFDA15A);
+const kColorRed = Color(0xffef1111);
+const kColorGreen = Color(0xff79c624);
 
 const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);
 

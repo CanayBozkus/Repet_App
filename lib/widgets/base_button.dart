@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 
 class BaseButton extends StatelessWidget {
-  const BaseButton({this.onPressed, this.width, this.text, this.empty = false, this.fontSize = 20});
+  const BaseButton({this.onPressed, this.width, this.text, this.empty = false, this.fontSize = 20, this.backgroundColor = kPrimaryColor});
   final double width;
   final Function onPressed;
   final String text;
   final bool empty;
   final double fontSize;
+  final Color backgroundColor;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,11 +26,11 @@ class BaseButton extends StatelessWidget {
         ],
       ),
       child: FlatButton(
-        color: !empty ? kPrimaryColor : Colors.white,
+        color: !empty ? backgroundColor : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
           side: empty ? BorderSide(
-            color: kPrimaryColor,
+            color: backgroundColor,
             width: 1.5,
             style: BorderStyle.solid,
           ) : BorderSide.none,
@@ -39,7 +40,7 @@ class BaseButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: empty ? kPrimaryColor : Colors.white,
+            color: empty ? backgroundColor : Colors.white,
             fontSize: fontSize,
           ),
           textAlign: TextAlign.center,
