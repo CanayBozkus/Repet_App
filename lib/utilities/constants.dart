@@ -111,6 +111,21 @@ const disabilities = [
   'Nöbetler',
 ];
 
+const vaccines = [
+  'İç Parazit',
+  'Dış Parazit',
+  'Kuduz Aşısı',
+  'Borrelia Burgdorferi',
+  'Parainfluenza Aşısı',
+  'Coronavirus',
+  'Leptospirozis Aşısı',
+  'Bordatella Bronchiceptica Aşısı',
+  'Mantar Aşısı',
+  'Karma',
+  'Bronşin Aşısı',
+  'Lyme Aşısı',
+];
+
 const kTextFieldLabelStyle = TextStyle(
   color: kPrimaryColor,
 );
