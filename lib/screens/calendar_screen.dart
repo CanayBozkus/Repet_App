@@ -9,6 +9,7 @@ import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/vaccines_view.dart';
 
 import 'error_screen.dart';
 
@@ -42,6 +43,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: BaseAppBar(title: 'Takvim', context: context,),
       body: FutureBuilder(
         builder: (context, snapshots){
@@ -63,51 +65,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   child: Container(
                     padding: EdgeInsets.all(5),
                     color: Colors.white,
-                    child: _isCalendar ? Calendar() : ListView(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      children: [
-                        ...vaccines.map((e){
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 3,
-                                    offset: Offset(0, 0), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: ListTile(
-                                title: Text(
-                                  e,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  '22.10.2020',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: BaseCheckBox(
-                                  color: kColorGreen,
-                                  value: true,
-                                  onChanged: (){},
-                                ),
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ],
-                    ),
+                    child: _isCalendar ? Calendar() : VaccinesView(),
                   ),
                 ),
               ),
