@@ -3,7 +3,7 @@ import 'package:repetapp/screens/training_detail_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/training_builder_row.dart';
 
@@ -33,7 +33,7 @@ class TrainingScreen extends StatelessWidget {
                 child: ListView(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   children: [
-                    DefaultElevation(
+                    BaseShadow(
                       child: Container(
                         height: height * 0.07,
                         child: TextField(

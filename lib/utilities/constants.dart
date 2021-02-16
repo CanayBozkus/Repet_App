@@ -10,7 +10,7 @@ import 'package:repetapp/screens/training_screen.dart';
 const bottomNavigationBarRoutes = {
   1:MainScreen.routeName,
   2:CalendarScreen.routeName,
-  3:LeaderBoardScreen.routename,
+  3:LeaderBoardScreen.routeName,
   4:ForumScreen.routeName,
   5:ProfileScreen.routeName,
 };

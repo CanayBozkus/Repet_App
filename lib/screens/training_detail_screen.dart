@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 class TrainingDetailScreen extends StatefulWidget {
   static const routeName = 'TrainingDetailScreen';
@@ -16,18 +16,22 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: BaseAppBar(title: 'Eğitim', context: context,),
+      appBar: BaseAppBar(
+        title: 'Eğitim',
+        context: context,
+        activeBackButton: true,
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(
             vertical: height * 0.038, horizontal: width * 0.05),
-        child: DefaultElevation(
+        child: BaseShadow(
           child: Container(
             height: height * 0.7,
             width: width * 0.9,
             color: Colors.grey.shade50,
             child: Column(
               children: [
-                DefaultElevation(
+                BaseShadow(
                   child: Container(
                     width: width * 0.9,
                     height: height * 0.3,

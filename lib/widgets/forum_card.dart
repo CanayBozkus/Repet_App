@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class ForumCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
-      child: DefaultElevation(
+      child: BaseShadow(
         child: Container(
           height: 150,
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -19,7 +19,7 @@ class ForumCard extends StatelessWidget {
                   children: [
                     SvgPicture.asset('assets/icons/profile.svg', height: 70,),
                     Text('Peter Watts',),
-                    DefaultElevation(
+                    BaseShadow(
                       child: Container(
                         width: 90,
                         height: 24,

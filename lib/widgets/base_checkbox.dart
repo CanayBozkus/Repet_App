@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 class BaseCheckBox extends StatelessWidget {
   BaseCheckBox({this.value, this.size = 40.0, this.onChanged, this.color = kPrimaryColor});
@@ -9,8 +10,7 @@ class BaseCheckBox extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 3,
+    return BaseShadow(
       borderRadius: BorderRadius.circular(5),
       child: AnimatedContainer(
         duration: Duration(microseconds: 1500),

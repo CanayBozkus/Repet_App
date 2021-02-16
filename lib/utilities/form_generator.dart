@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -43,19 +43,8 @@ class FormGenerator{
   Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged, initialValue}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, 0), // changes position of shadow
-            ),
-          ],
-        ),
+      child: BaseShadow(
+        borderRadius: BorderRadius.circular(10.0),
         child: TextFormField(
           initialValue: initialValue,
           decoration: InputDecoration(
@@ -90,19 +79,8 @@ class FormGenerator{
   }
 
   Widget addDropdown({List categories, Function onChanged, String hint, Function validator, value}){
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 1,
-            blurRadius: 2,
-            offset: Offset(0, 0), // changes position of shadow
-          ),
-        ],
-      ),
+    return BaseShadow(
+      borderRadius: BorderRadius.circular(10.0),
       child: DropdownButtonFormField(
         hint: Text(hint),
         style: TextStyle(
@@ -152,19 +130,8 @@ class FormGenerator{
   Widget addListTile({String text, Function onTap, bool checked}){
     return Padding(
       padding: EdgeInsets.symmetric(vertical:6.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 1,
-              blurRadius: 2,
-              offset: Offset(0, 0), // changes position of shadow
-            ),
-          ],
-        ),
+      child: BaseShadow(
+        borderRadius: BorderRadius.circular(10.0),
         child: ListTile(
           title: Text(
             text,
@@ -180,18 +147,7 @@ class FormGenerator{
   }
 
   Widget settingsPageInput({String label, String svg, bool isEnabled = true}){
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 2,
-            offset: Offset(0, 0), // changes position of shadow
-          ),
-        ],
-      ),
+    return BaseShadow(
       child: TextFormField(
         style: TextStyle(
           fontSize: 16,
@@ -363,7 +319,7 @@ class FormGenerator{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              DefaultElevation(
+              BaseShadow(
                 isCircular: true,
                 child: FlatButton(
                   onPressed: (){
@@ -383,7 +339,7 @@ class FormGenerator{
                   ),
                 ),
               ),
-              DefaultElevation(
+              BaseShadow(
                 isCircular: true,
                 child: FlatButton(
                   onPressed: (){

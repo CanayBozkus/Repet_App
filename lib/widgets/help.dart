@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 class Help extends StatelessWidget {
   @override
@@ -9,33 +9,24 @@ class Help extends StatelessWidget {
       padding: EdgeInsets.only(top: 20),
       child: Column(
         children: [
-          Container(
-            height: 80,
-            padding: EdgeInsets.only(left: 45),
-            alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, -2), // changes position of shadow
+          BaseShadow(
+            child: Container(
+              height: 80,
+              padding: EdgeInsets.only(left: 45),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Yardım',
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Color(0xff636363),
                 ),
-              ],
-            ),
-            child: Text(
-              'Yardım',
-              style: TextStyle(
-                fontSize: 30,
-                color: Color(0xff636363),
               ),
             ),
           ),
           Expanded(
             child: ListView(
               children: [
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(
@@ -47,7 +38,7 @@ class Help extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(
@@ -59,7 +50,7 @@ class Help extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(
@@ -71,7 +62,7 @@ class Help extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(
@@ -83,7 +74,7 @@ class Help extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(
@@ -95,7 +86,7 @@ class Help extends StatelessWidget {
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 45, right: 15),
                     title: Text(

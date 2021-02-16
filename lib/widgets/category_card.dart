@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 class CategoryCard extends StatelessWidget {
   final String title;
   final String svg;
@@ -9,8 +10,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Material(
-        elevation: 5,
+      child: BaseShadow(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         child: Container(
           height: 80,

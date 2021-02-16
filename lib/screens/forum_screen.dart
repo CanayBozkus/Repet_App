@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/widgets/blog_category_builder.dart';
-import 'package:repetapp/widgets/category_card.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/widgets/forum_card.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -78,6 +75,28 @@ class _ForumScreenState extends State<ForumScreen> {
               ],
             ),
             SizedBox(height: 10,),
+            
+            TextField(
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(
+                    Icons.arrow_drop_down,
+                    size: width * 0.1,
+                    color: Color(0xff1576d8),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      size: width * 0.08,
+                      color: Color(0xff1576d8),
+                    ),
+                    onPressed: () {},
+                  ),
+                  hintText: 'Search...'),
+              onSubmitted: (value) {},
+            ),
             Expanded(
               child: PageView(
                 controller: _controller,

@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/services/notification_plugin.dart';

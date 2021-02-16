@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 
@@ -17,21 +17,10 @@ class GeneralSettings extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 30),
       child: ListView(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, -2), // changes position of shadow
-                ),
-              ],
-            ),
+          BaseShadow(
             child: Column(
               children: [
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
@@ -44,7 +33,7 @@ class GeneralSettings extends StatelessWidget {
                     },
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
@@ -57,7 +46,7 @@ class GeneralSettings extends StatelessWidget {
                     },
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
@@ -68,7 +57,7 @@ class GeneralSettings extends StatelessWidget {
                     onTap: (){},
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
@@ -81,7 +70,7 @@ class GeneralSettings extends StatelessWidget {
                     },
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
@@ -92,7 +81,7 @@ class GeneralSettings extends StatelessWidget {
                     onTap: (){},
                   ),
                 ),
-                DefaultElevation(
+                BaseShadow(
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 class LeaderBoardScreen extends StatelessWidget {
-  static const routename = 'LeaderBoardScreen';
+  static const routeName = 'LeaderBoardScreen';
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -20,18 +20,23 @@ class LeaderBoardScreen extends StatelessWidget {
             Positioned(
               bottom: 10,
               left: width*0.05,
-              child: DefaultElevation(
+              child: BaseShadow(
                 child: Container(
                   width: width*0.9,
                   height: height * 0.65,
                   color: Colors.white,
-                  child: Column(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Coming Soon.')
+                    ],
+                  ),
                 ),
               ),
             ),
             Positioned(
               left: width*0.38,
-              child: DefaultElevation(
+              child: BaseShadow(
                 isCircular: true,
                 child: Container(
                   width: width * 0.24,

@@ -7,7 +7,7 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
@@ -81,7 +81,7 @@ class ProfileScreen extends StatelessWidget {
                                 children: [
                                   Padding(
                                     padding: generalScreenPadding.add(EdgeInsets.only(top: 8)),
-                                    child: DefaultElevation(
+                                    child: BaseShadow(
                                       child: Container(
                                         padding: EdgeInsets.symmetric(vertical: 8),
                                         alignment: Alignment.center,
@@ -97,8 +97,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                   Positioned(
                                     right: 8,
-                                    child: Material(
-                                      elevation: 5,
+                                    child: BaseShadow(
                                       child: Container(
                                         width: 60,
                                         height: 40,
@@ -134,18 +133,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 40,),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              offset: Offset(0, 1), // changes position of shadow
-                            ),
-                          ],
-                        ),
+                      BaseShadow(
                         child: ListTile(
                           title: Text(
                             'Training',
@@ -160,18 +148,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 20,),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.3),
-                              spreadRadius: 4,
-                              blurRadius: 3,
-                              offset: Offset(0, 1), // changes position of shadow
-                            ),
-                          ],
-                        ),
+                      BaseShadow(
                         child: ListTile(
                           title: Text(
                             'Diseases',

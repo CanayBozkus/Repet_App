@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/category_card.dart';
 
 class BlogCategoryBuilder extends StatelessWidget {
@@ -11,8 +12,7 @@ class BlogCategoryBuilder extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         scrollDirection: Axis.horizontal,
         children: [
-          Material(
-            elevation: 5,
+          BaseShadow(
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
-import 'package:repetapp/widgets/base_checkbox.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/calendar.dart';
-import 'package:repetapp/widgets/calendar_detail_row.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/vaccines_view.dart';
@@ -61,7 +59,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                child: DefaultElevation(
+                child: BaseShadow(
                   child: Container(
                     padding: EdgeInsets.all(5),
                     color: Colors.white,
@@ -72,18 +70,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               Positioned(
                 top: 3,
                 right: 20,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
-                  ),
+                child: BaseShadow(
                   child: FlatButton(
                     minWidth: 60,
                     height: 30,

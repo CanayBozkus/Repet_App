@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 import 'base_checkbox.dart';
 
@@ -12,18 +13,7 @@ class VaccinesView extends StatelessWidget {
         ...vaccines.map((e){
           return Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 3,
-                    offset: Offset(0, 0), // changes position of shadow
-                  ),
-                ],
-              ),
+            child: BaseShadow(
               child: ListTile(
                 title: Text(
                   e,

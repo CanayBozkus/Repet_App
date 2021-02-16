@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/widget_functions.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 
 class TrainingBuilderRow extends StatelessWidget {
   const TrainingBuilderRow(
@@ -21,7 +21,7 @@ class TrainingBuilderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(top: height * 0.02),
-      child: DefaultElevation(
+      child: BaseShadow(
         child: InkWell(
           onTap: onTap,
           child: Container(

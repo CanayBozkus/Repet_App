@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 
@@ -45,8 +44,7 @@ class RemainderRow extends StatelessWidget {
     bool hasAlarm = checkAlarms(routine);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
-      child: Material(
-        elevation: 5,
+      child: BaseShadow(
         child: ListTile(
           onTap: onTap,
           leading: SvgPicture.asset(
@@ -125,82 +123,3 @@ class RemainderRow extends StatelessWidget {
     );
   }
 }
-
-/*
-Padding(
-padding: EdgeInsets.only(bottom: height * 0.03),
-child: DefaultElevation(
-child: Container(
-width: double.infinity,
-height: 75.0,
-child: Row(
-mainAxisAlignment: MainAxisAlignment.spaceAround,
-children: [
-Expanded(
-flex: 2,
-child: SvgPicture.asset(
-svg,
-height: 40,
-),
-),
-Expanded(
-flex: 4,
-child: Column(
-mainAxisAlignment:
-MainAxisAlignment.center,
-crossAxisAlignment: CrossAxisAlignment.start,
-children: [
-Text(
-mainText,
-style: TextStyle(
-fontSize: 24,
-fontWeight: FontWeight.w800,
-),
-),
-Text(
-subText,
-style: TextStyle(
-fontSize: 14,
-),
-),
-],
-),
-),
-Expanded(
-flex: 3,
-child: Row(
-children: [
-Material(
-elevation: 3,
-child: Container(
-padding: EdgeInsets.all(8),
-height: 50,
-width: 50,
-child: SvgPicture.asset('assets/icons/clock.svg'),
-),
-),
-SizedBox(
-width: width * 0.02,
-),
-Container(
-height: 50,
-width: 50,
-alignment: Alignment.center,
-color: Color(0xffffdf00),
-child: Text(
-'0',
-style: TextStyle(
-color: Colors.white,
-fontSize: height * 0.05,
-),
-),
-),
-],
-),
-),
-],
-),
-),
-),
-)
-*/

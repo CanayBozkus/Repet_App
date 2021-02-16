@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
     int hour = 0;
     int min = 0;
     bool isActive = true;
+    ScrollController controller = ScrollController();
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
@@ -78,6 +79,7 @@ class _MainScreenState extends State<MainScreen> {
                           padding: EdgeInsets.all(4),
                         ),
                         onPressed: (){
+                          controller.jumpTo(0);
                           setState(() {
                             addNew = true;
                           });
@@ -89,6 +91,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 Expanded(
                   child: ListView(
+                    controller: controller,
                     children: [
                       addNew ? Container(
                         padding: EdgeInsets.symmetric(horizontal: 16),

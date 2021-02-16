@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
+import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +58,7 @@ class _PetNavigatorState extends State<PetNavigator> {
             bottom: 0,
             left: 0,
             right:0,
-            child: DefaultElevation(
+            child: BaseShadow(
               child: Container(
                 height: 110,
                 padding: EdgeInsets.symmetric(
@@ -141,7 +141,7 @@ class _PetNavigatorState extends State<PetNavigator> {
             bottom: widget.showDetail ? 95 : 0,
             left: 0,
             right: 0,
-            child: DefaultElevation(
+            child: BaseShadow(
               child: Container(
                 width: 110,
                 height: 110,
@@ -157,7 +157,7 @@ class _PetNavigatorState extends State<PetNavigator> {
           shownPets['left'] != null ? Positioned(
             bottom: widget.showDetail ? 120 : 25,
             left: 20,
-            child: DefaultElevation(
+            child: BaseShadow(
               isCircular: true,
               child: FlatButton(
                 shape: CircleBorder(),
@@ -180,7 +180,7 @@ class _PetNavigatorState extends State<PetNavigator> {
           shownPets['right'] != null ? Positioned(
             bottom: widget.showDetail ? 120 : 25,
             right: 20,
-            child: DefaultElevation(
+            child: BaseShadow(
               child: FlatButton(
                 shape: CircleBorder(),
                 padding: EdgeInsets.zero,

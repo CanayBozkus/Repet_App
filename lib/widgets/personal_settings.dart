@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
 
 class PersonalSettings extends StatelessWidget {
   FormGenerator _formGenerator = FormGenerator();

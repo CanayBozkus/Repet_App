@@ -5,7 +5,6 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/address_settings.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/general_settings.dart';
