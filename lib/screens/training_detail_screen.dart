@@ -166,7 +166,6 @@ class _TrainingDetailScreenState extends State<TrainingDetailScreen> {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        height: height,
         width: width,
         pageNumber: 5,
       ),

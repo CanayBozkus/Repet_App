@@ -309,7 +309,6 @@ class _MainScreenState extends State<MainScreen> {
         future: _isLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
-        height: height,
         width: width,
         pageNumber: 1,
       ),

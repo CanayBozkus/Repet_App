@@ -29,7 +29,6 @@ class _ForumScreenState extends State<ForumScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -136,7 +135,6 @@ class _ForumScreenState extends State<ForumScreen> {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        height: height,
         width: width,
         pageNumber: 4,
       ),

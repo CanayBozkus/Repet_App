@@ -40,7 +40,6 @@ class SettingsScreen extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     Widget selectedWidget = _selectSettingsWidget();
     return Scaffold(
@@ -57,7 +56,6 @@ class SettingsScreen extends StatelessWidget {
         child: selectedWidget,
       ),
       bottomNavigationBar: BaseBottomBar(
-        height: height,
         width: width,
         pageNumber: 5,
       ),

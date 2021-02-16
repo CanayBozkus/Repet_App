@@ -16,11 +16,11 @@ const bottomNavigationBarRoutes = {
 };
 
 const bottomNavigationBarIcons = {
-  1:Icons.home_outlined,
-  2:Icons.date_range,
-  3:FontAwesomeIcons.trophy,
-  4:Icons.messenger_rounded,
-  5:FontAwesomeIcons.userAlt,
+  1: 'assets/icons/home.svg',
+  2: 'assets/icons/calendar.svg',
+  3: 'assets/icons/trophy.svg',
+  4: 'assets/icons/forum.svg',
+  5: 'assets/icons/account.svg',
 };
 
 enum TrainingStatus {

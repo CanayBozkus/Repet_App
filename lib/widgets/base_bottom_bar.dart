@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BaseBottomBar extends StatefulWidget {
   BaseBottomBar({
     Key key,
-    @required this.height,
+
     @required this.width,
     @required this.pageNumber,
   });
 
-  final double height;
   final double width;
   final int pageNumber;
 
@@ -44,13 +44,13 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
         showSelectedLine = false;
     }
     return Container(
-      height:  widget.height * 0.03 + widget.width*0.16,
+      height: 85,
       child: Stack(
         children: [
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: widget.height * 0.08,
+              height: 50,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -66,39 +66,39 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
           ),
           Positioned(
             left: widget.width * 0.08,
-            bottom: widget.height * 0.02,
+            bottom: 15,
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 1){
                   Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[1]);
                 }
               },
-              child: Icon(
+              child: SvgPicture.asset(
                 bottomNavigationBarIcons[1],
-                size: widget.width*0.08,
                 color: kPrimaryColor,
+                height: 28,
               ),
             ),
           ),
           Positioned(
             left: widget.width * 0.26,
-            bottom: widget.height * 0.02,
+            bottom: 15,
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 2){
                   Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[2]);
                 }
               },
-              child: Icon(
+              child: SvgPicture.asset(
                 bottomNavigationBarIcons[2],
-                size: widget.width*0.08,
                 color: kPrimaryColor,
+                height: 28,
               ),
             ),
           ),
           Positioned(
             left: widget.width * 0.42,
-            bottom: widget.height * 0.02,
+            bottom: 15,
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 3){
@@ -106,8 +106,9 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
                 }
               },
               child: Container(
-                width: widget.width*0.16,
-                height: widget.width*0.16,
+                width: 70,
+                height: 70,
+                padding: EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: widget.pageNumber == 3 ? kPrimaryColor : Colors.white,
@@ -119,9 +120,8 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
                     )
                   ],
                 ),
-                child: Icon(
+                child: SvgPicture.asset(
                   bottomNavigationBarIcons[3],
-                  size: widget.width*0.08,
                   color: widget.pageNumber == 3 ? Colors.white : kPrimaryColor,
                 ),
               ),
@@ -129,42 +129,42 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
           ),
           Positioned(
             right: widget.width * 0.26,
-            bottom: widget.height * 0.02,
+            bottom: 15,
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 4){
                   Navigator.pushNamed(context, bottomNavigationBarRoutes[4]);
                 }
               },
-              child: Icon(
+              child: SvgPicture.asset(
                 bottomNavigationBarIcons[4],
-                size: widget.width*0.08,
                 color: kPrimaryColor,
+                height: 28,
               ),
             ),
           ),
           Positioned(
             right: widget.width * 0.08,
-            bottom: widget.height * 0.02,
+            bottom: 15,
             child: GestureDetector(
               onTap: (){
                 if(widget.pageNumber != 5){
                   Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[5]);
                 }
               },
-              child: Icon(
+              child:SvgPicture.asset(
                 bottomNavigationBarIcons[5],
-                size: widget.width*0.08,
                 color: kPrimaryColor,
+                height: 28,
               ),
             ),
           ),
           Positioned(
             left: widget.width * selectedLinePosition,
-            bottom: widget.height * 0.01,
+            bottom: 8,
             child: Container(
               height: showSelectedLine ? 5 : 0,
-              width: widget.width*0.08,
+              width: 28,
               color: kPrimaryColor,
             ),
           ),

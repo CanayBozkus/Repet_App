@@ -38,7 +38,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -90,7 +89,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         future: _isLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
-        height: height,
         width: width,
         pageNumber: 2,
       ),
