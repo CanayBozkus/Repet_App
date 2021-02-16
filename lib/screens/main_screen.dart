@@ -91,39 +91,59 @@ class _MainScreenState extends State<MainScreen> {
                   child: ListView(
                     children: [
                       addNew ? Container(
-                        height: 100,
                         padding: EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Stack(
                           children: [
-                            TimeSelector(hourOnChanged: (value) => hour = value, minuteOnChanged: (value) => min = value,),
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Switch(
-                                  value: isActive,
-                                  onChanged: (value){
-                                    setState(() {
-                                      isActive = value;
-                                    });
-                                  },
+                                SizedBox(height: 5,),
+                                Container(
+                                  alignment: Alignment.center,
+                                  width: double.maxFinite,
+                                  height: 90,
+                                  child: TimeSelector(hourOnChanged: (value) => hour = value, minuteOnChanged: (value) => min = value, center: true,),
                                 ),
-                                BaseButton(
-                                  text: 'Done',
-                                  onPressed: () async {
-                                    DateTime time = DateTime(2000,7,30,hour,min, 0);
-                                    await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText, time);
-                                    setState(() {
-                                      print(routine);
-                                      addNew = false;
-                                    });
-                                  },
-                                  width: 20,
-                                  fontSize: 12,
-                                ),
+                                SizedBox(height: 15,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BaseButton(
+                                      width: 80,
+                                      fontSize: 13,
+                                      text: 'Delete',
+                                      onPressed: (){},
+                                      backgroundColor: kColorRed,
+                                    ),
+                                    SizedBox(width: 10,),
+                                    BaseButton(
+                                      width: 80,
+                                      fontSize: 13,
+                                      text: 'Done',
+                                      onPressed:() async {
+                                        DateTime time = DateTime(2000,7,30,hour,min, 0);
+                                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText, time);
+                                        setState(() {
+                                          print(routine);
+                                          addNew = false;
+                                        });
+                                      },
+                                      backgroundColor: kColorGreen,
+                                    ),
+                                  ],
+                                )
                               ],
-                            )
+                            ),
+                            Positioned(
+                              right: 0,
+                              child: Switch(
+                                value: isActive,
+                                onChanged: (value){
+                                  setState(() {
+                                    isActive = value;
+                                  });
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ) : SizedBox.shrink(),
