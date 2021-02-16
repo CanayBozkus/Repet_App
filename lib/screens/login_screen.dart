@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/screens/main_screen.dart';
 import 'package:repetapp/screens/registration_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/button_leading_svg.dart';
 import 'package:repetapp/widgets/base_input_field.dart';
@@ -9,16 +10,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/spinner.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = 'LoginScreen';
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
-  String email;
-  String password;
+  final _formGen = FormGenerator();
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  Map _loginValuesStorage = {'email': '', 'password': ''};
+  bool _isLogging = false;
+
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -27,15 +36,13 @@ class LoginScreen extends StatelessWidget {
             FocusScope.of(context).unfocus();
           },
           child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: width * 0.05,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            padding: generalScreenPadding,
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 3),
               children: [
                 //TODO: bu kısmı FormGenerator.loginForm() içerisinden al
                 Container(
-                    height: height * 0.30,
+                    height: 200,
                     width: double.infinity,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -43,55 +50,97 @@ class LoginScreen extends StatelessWidget {
                         SvgPicture.asset(
                           'assets/icons/paw.svg',
                           color: kPrimaryColor,
-                          height: height * 0.15,
+                          height: 100,
                         ),
                         SizedBox(
-                          height: height * 0.02,
+                          height: 10,
                         ),
                         Text(
                           'RePet',
                           style: TextStyle(
-                            fontSize: height * 0.05,
+                            fontSize: 32,
                             fontWeight: FontWeight.w700,
                             color: kPrimaryColor,
                           ),
                         )
                       ],
                     )),
-                BaseInputField(
-                  label: 'Email',
-                  keyboardType: KeyboardTypes.emailAddress,
-                  onChanged: (value) {
-                    email = value;
-                  },
-                ),
+                _formGen.userLoginForm(key: _formKey, loginValuesStorage: _loginValuesStorage),
                 SizedBox(
-                  height: height * 0.035,
+                  height: 10,
                 ),
-                BaseInputField(
-                  label: 'Password',
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  obsecure: true,
-                ),
-                SizedBox(
-                  height: height * 0.035,
-                ),
-                BaseButton(
+                _isLogging ? Spinner() : BaseButton(
                   text: 'Login',
                   onPressed: () async {
                     //TODO: login kısmını UserModel üzerinden gerçekleştir (?) ve provider üzerinde currenUser olarak assign et
                     //TODO: spinner ekle
-                    final user = await _auth.signInWithEmailAndPassword(
-                        email: email, password: password);
-                    if (user != null) {
-                      Navigator.pushReplacementNamed(context, MainScreen.routeName);
+                    bool isValid = _formKey.currentState.validate();
+                    if(isValid){
+                      setState(() {
+                        _isLogging = true;
+                      });
+                      _formKey.currentState.save();
+                      try{
+                        final user = await _auth.signInWithEmailAndPassword(
+                          email: _loginValuesStorage['email'], password: _loginValuesStorage['password'],
+                        );
+                        if (user != null) {
+                          Navigator.pushReplacementNamed(context, MainScreen.routeName);
+                        }
+                        else {
+                          throw new Error();
+                        }
+                      }
+                      catch(e){
+                        String error= e.toString();
+                        String errorMsg;
+                        if(error.contains('invalid-email')){
+                          errorMsg = 'Invalid email. Please enter a valid email.';
+                        }
+                        else if(error.contains('user-not-found')){
+                          errorMsg = 'No account found. Please register or try with another account.';
+                        }
+                        else if(error.contains('wrong-password')){
+                          errorMsg = 'Wrong password. Please try again.';
+                        }
+                        else {
+                          errorMsg = 'Cannot login right now. Please try again later.';
+                        }
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                'Login Failed',
+                                textAlign: TextAlign.center,
+                              ),
+                              titleTextStyle: TextStyle(
+                                color: kPrimaryColor,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w800
+                              ),
+                              content: Container(
+                                height: 100,
+                                child: Text(
+                                  errorMsg,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            );
+                          }
+                        );
+                      }
+                      setState(() {
+                        _isLogging = false;
+                      });
                     }
                   },
                 ),
                 SizedBox(
-                  height: height * 0.02,
+                  height: 15,
                 ),
                 Text(
                   'Forgot password ?',
@@ -99,9 +148,10 @@ class LoginScreen extends StatelessWidget {
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w700,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(
-                  height: height * 0.02,
+                  height: 15,
                 ),
                 ButtonLeadingSvg(
                   svg: 'assets/icons/iconmonstr-facebook-1.svg',
@@ -110,7 +160,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {},
                 ),
                 SizedBox(
-                  height: height * 0.02,
+                  height: 15,
                 ),
                 ButtonLeadingSvg(
                   svg: 'assets/icons/google.svg',
@@ -119,7 +169,7 @@ class LoginScreen extends StatelessWidget {
                   color: Color(0xffdb3522),
                 ),
                 SizedBox(
-                  height: height * 0.02,
+                  height: 15,
                 ),
                 BaseButton(
                   text: 'Register',

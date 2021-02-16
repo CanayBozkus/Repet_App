@@ -610,4 +610,40 @@ class FormGenerator{
       ),
     );
   }
+
+  Widget userLoginForm({@required key, @required loginValuesStorage}){
+    return Form(
+      key: key,
+      child: Column(
+        children: [
+          this.addInput(
+            label: 'Email',
+            keyboard: KeyboardTypes.emailAddress,
+            validator: (String value){
+              if(value.isEmpty){
+                return 'Please enter your email!';
+              }
+              return null;
+            },
+            onsaved: (value){
+              loginValuesStorage['email'] = value;
+            }
+          ),
+          this.addInput(
+              label: 'Password',
+              obsecure: true,
+              validator: (value){
+                if(value.isEmpty){
+                  return 'Please enter your password!';
+                }
+                return null;
+              },
+              onsaved: (value){
+                loginValuesStorage['password'] = value;
+              }
+          )
+        ],
+      ),
+    );
+  }
 }

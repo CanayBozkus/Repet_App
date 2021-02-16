@@ -9,6 +9,7 @@ import 'package:repetapp/widgets/default_elevation.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/spinner.dart';
 
 class PetRegistrationScreen extends StatefulWidget {
   static const routeName = 'PetRegistrationScreen';
@@ -118,10 +119,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                          }
                       },
                       width: 120,
-                    ) : Container(
-                      width: 120,
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
+                    ) : Spinner()
                   ],
                 ),
               ],
