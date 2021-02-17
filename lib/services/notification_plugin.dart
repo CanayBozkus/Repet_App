@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'dart:io' show File, Platform;
 import 'package:rxdart/subjects.dart';
@@ -6,11 +7,13 @@ import 'package:path_provider/path_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 class NotificationPlugin {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   final BehaviorSubject<ReceivedNotification> didReceivedLocalNotificationSubject = BehaviorSubject<ReceivedNotification>();
   InitializationSettings initializationSettings;
+  final MethodChannel platform = MethodChannel('dexterx.dev/flutter_local_notifications_example');
   NotificationPlugin._(){
     init();
   }
@@ -22,6 +25,8 @@ class NotificationPlugin {
     }
     initializePlatformSpecifics();
     tz.initializeTimeZones();
+    String timezone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timezone));
   }
 
   initializePlatformSpecifics(){
@@ -80,6 +85,7 @@ class NotificationPlugin {
   }
 
   Future<void> scheduleNotification({@required id, @required title, @required body, @required payload, @required DateTime schedule}) async {
+    //DO NOT USE. CHECK BEFORE
     var androidChannelSpecifics = AndroidNotificationDetails(
       'REPET_CHANNEL_2',
       'REPET SCHEDULE NOTIFICATION CHANNEL',
@@ -90,7 +96,16 @@ class NotificationPlugin {
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.schedule(id, title, body, schedule, platformChannelSpecifics, payload: payload);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        schedule,
+        platformChannelSpecifics,
+        payload: payload,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+    );
   }
 
   Future<void> showNotificationWithAttachment({@required id, @required title, @required body, @required payload, @required attachment, @required attachmentTitle, @required summaryText}) async {
@@ -132,7 +147,7 @@ class NotificationPlugin {
   }
 
   Future<void> showDailyAtTimeNotification({@required id, @required title, @required body, @required payload, @required time}) async {
-    var notfTime = Time(time.hour, time.minute, 0);
+    tz.TZDateTime notificationTime = tz.TZDateTime.from(time, tz.local);
     var androidChannelSpecifics = AndroidNotificationDetails(
       'REPET_CHANNEL_5',
       'REPET DAILY NOTIFICATION CHANNEL',
@@ -143,7 +158,17 @@ class NotificationPlugin {
     );
     var iosChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
-    await flutterLocalNotificationsPlugin.showDailyAtTime(id, title, body, notfTime, platformChannelSpecifics, payload: payload);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      notificationTime,
+      platformChannelSpecifics,
+      payload: payload,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+    );
   }
 
   Future<void> showWeeklyAtDayAndTimeNotification({@required id, @required title, @required body, @required payload, @required time, @required day}) async {

@@ -96,11 +96,12 @@ class PetModel {
   Future<bool> addRoutine(String routineName, DateTime time, int id, String idName) async {
     this.routines[routineName.toLowerCase()][idName] = ['${time.hour}:${time.minute}', true];
     try{
+      notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time);
       DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
       await document.update({
         'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()],
       });
-      notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time);
+
       return true;
     }
     catch(e){

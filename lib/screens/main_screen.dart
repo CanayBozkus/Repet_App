@@ -123,7 +123,8 @@ class _MainScreenState extends State<MainScreen> {
                                       fontSize: 13,
                                       text: 'Done',
                                       onPressed:() async {
-                                        DateTime time = DateTime(2000,7,30,hour,min, 0);
+                                        DateTime now = DateTime.now();
+                                        DateTime time = DateTime(now.year, now.month, now.day , hour, min, 0);
                                         await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText, time);
                                         setState(() {
                                           print(routine);
