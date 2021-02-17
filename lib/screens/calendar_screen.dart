@@ -20,14 +20,12 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   bool checkBoxValue = true;
-  CalendarModel calendar;
   Future<bool> _isLoading;
   bool _isCalendar = true;
   Future<bool> getCalendarData() async {
     if(!context.read<ProvidedData>().calendar.isDataFetch){
-      await context.read<ProvidedData>().getCalendar();
+      context.read<ProvidedData>().getCalendarData();
     }
-    calendar = context.read<ProvidedData>().calendar;
     return true;
   }
 

@@ -29,4 +29,22 @@ extension DateExtensions on DateTime{
         return 'Invalid';
     }
   }
+
+  String getHourAndMinuteString(){
+    String time = '';
+    if(this.hour < 10){
+      time += '0${this.hour}';
+    }
+    else{
+      time += '${this.hour}';
+    }
+    time += ':';
+    if(this.minute < 10){
+      time += '0${this.minute}';
+    }
+    else{
+      time += '${this.minute}';
+    }
+    return time;
+  }
 }

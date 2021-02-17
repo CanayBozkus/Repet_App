@@ -37,8 +37,8 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getCalendar() async {
-    await calendar.getCalendarData(currentUser.id);
+  void getCalendarData() {
+    calendar.getLocalCalendarData();
     notifyListeners();
   }
 
@@ -73,6 +73,11 @@ class ProvidedData with ChangeNotifier {
 
   void changeCurrentPet(String petId){
     currentShownPetIndex = petId;
+    notifyListeners();
+  }
+
+  void addEvent(String event, DateTime date){
+    calendar.addEvent(event, date);
     notifyListeners();
   }
 }
