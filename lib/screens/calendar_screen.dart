@@ -24,7 +24,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   bool _isCalendar = true;
   Future<bool> getCalendarData() async {
     if(!context.read<ProvidedData>().calendar.isDataFetch){
-      context.read<ProvidedData>().getCalendarData();
+      await context.read<ProvidedData>().getCalendarData();
     }
     return true;
   }

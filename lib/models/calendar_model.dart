@@ -24,11 +24,14 @@ class CalendarModel {
   }
 
   void addEvent(String event, DateTime eventDate){
-    hiveCalendar.CalendarModel calendarEvent = hiveCalendar.CalendarModel(dateTime: eventDate, event: event, isDone: false);
+    hiveCalendar.CalendarModel calendarEvent = hiveCalendar.CalendarModel(dateTime: eventDate, event: event, isDone: false, userId: this.userId);
     databaseManager.addData(model: 'calendarmodel', data: calendarEvent);
     DateTime date = DateTime(eventDate.year, eventDate.month, eventDate.day, 0, 0, 0);
     if(eventCollections.keys.contains(date)){
       eventCollections[date].add({'date': eventDate, 'event': event, 'isDone': false});
+    }
+    else {
+      eventCollections[date] =[{'date': eventDate, 'event': event, 'isDone': false}];
     }
   }
   @deprecated
@@ -45,17 +48,33 @@ class CalendarModel {
   }
 
   void getLocalCalendarData(){
-    List dataList = databaseManager.getAllCalendarEvents();
+    print(1);
+    List dataList = databaseManager.getAllCalendarEvents(this.userId);
+    print(1);
+    print(dataList);
     dataList.forEach((element) {
       DateTime date = DateTime(element.dateTime.year, element.dateTime.month, element.dateTime.day, 0, 0, 0);
+      print(2);
       if(eventCollections.keys.contains(date)){
         eventCollections[date].add({'date': element.dateTime, 'event': element.event, 'isDone': element.isDone});
       }
       else{
         eventCollections[date] = [{'date': element.dateTime, 'event': element.event, 'isDone': element.isDone}];
       }
+      print(2);
       this.isDataFetch = true;
     });
+    print(1);
     print(eventCollections);
+  }
+
+  void updateStatus(DateTime date, bool status){
+    databaseManager.updateEventStatus(date, status);
+    DateTime eventDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
+    eventCollections[eventDay].forEach((element){
+      if(element['date'] == date){
+        element['isDone'] = status;
+      }
+    });
   }
 }

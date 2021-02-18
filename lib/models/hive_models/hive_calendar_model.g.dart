@@ -20,19 +20,22 @@ class CalendarModelAdapter extends TypeAdapter<CalendarModel> {
       dateTime: fields[0] as DateTime,
       event: fields[1] as String,
       isDone: fields[2] as bool,
+      userId: fields[3] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CalendarModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.dateTime)
       ..writeByte(1)
       ..write(obj.event)
       ..writeByte(2)
-      ..write(obj.isDone);
+      ..write(obj.isDone)
+      ..writeByte(3)
+      ..write(obj.userId);
   }
 
   @override

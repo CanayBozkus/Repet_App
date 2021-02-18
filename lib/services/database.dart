@@ -32,6 +32,7 @@ class Database {
     }
     else if(model == 'calendarmodel'){
       _calendarModel.add(data);
+      print('add');
     }
   }
 
@@ -51,8 +52,19 @@ class Database {
     }
   }
 
-  List getAllCalendarEvents(){
-    return _calendarModel.values.toList();
+  List getAllCalendarEvents(String userId){
+    return _calendarModel.values.where((e) => e.userId == userId).toList();
+  }
+  
+  void updateEventStatus(DateTime date, bool status){
+    CalendarModel model = _calendarModel.values.where((element) => element.dateTime == date).first;
+    int index = _calendarModel.values.toList().indexOf(model);
+    model.isDone = status;
+    _calendarModel.putAt(index, model);
+  }
+  
+  void deleteAllCalendar() async {
+    await Hive.box('CalendarModel').clear();
   }
 }
 

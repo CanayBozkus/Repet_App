@@ -37,9 +37,8 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
   }
 
-  void getCalendarData() {
+  Future<void> getCalendarData() async {
     calendar.getLocalCalendarData();
-    notifyListeners();
   }
 
   Future<void> addNewRemainder(PetModel pet, String routineName, DateTime time) async {
@@ -78,6 +77,11 @@ class ProvidedData with ChangeNotifier {
 
   void addEvent(String event, DateTime date){
     calendar.addEvent(event, date);
+    notifyListeners();
+  }
+
+  void updateEventStatus(DateTime date, bool status){
+    calendar.updateStatus(date, status);
     notifyListeners();
   }
 }

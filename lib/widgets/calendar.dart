@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/calendar_model.dart';
+import 'package:repetapp/services/database.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
@@ -30,7 +31,6 @@ class _CalendarState extends State<Calendar> {
   }
   @override
   Widget build(BuildContext context) {
-    _eventCollections = context.watch<ProvidedData>().calendar.eventCollections;
     return TableCalendar(
       onDaySelected: (DateTime date, List<dynamic> events, List<dynamic> holidays){
         bool _addNew = false;
@@ -40,6 +40,8 @@ class _CalendarState extends State<Calendar> {
         int hour=0;
         int min=0;
         String event;
+        DateTime key = DateTime(date.year, date.month, date.day, 0, 0, 0);
+        bool isExist = context.read<ProvidedData>().calendar.eventCollections.keys.contains(key);
         showModalBottomSheet(
           isScrollControlled: true,
           shape: RoundedRectangleBorder(
@@ -142,7 +144,9 @@ class _CalendarState extends State<Calendar> {
                                               width: 80,
                                               fontSize: 13,
                                               text: 'Delete',
-                                              onPressed: (){},
+                                              onPressed: (){
+                                                databaseManager.deleteAllCalendar();
+                                              },
                                               backgroundColor: kColorRed,
                                             ),
                                             SizedBox(width: 10,),
@@ -172,7 +176,7 @@ class _CalendarState extends State<Calendar> {
                                   ),
                                 ),
                               ) : SizedBox.shrink(),
-                              ...events.map((eventData){
+                              ...events = isExist ? context.watch<ProvidedData>().calendar.eventCollections[key].map((eventData){
                                 DateTime date = eventData['date'];
                                 return Padding(
                                   padding: EdgeInsets.symmetric(vertical: 5),
@@ -196,12 +200,14 @@ class _CalendarState extends State<Calendar> {
                                         trailing: BaseCheckBox(
                                           value: eventData['isDone'] ?? false,
                                           color: Color(0xff79c624),
-                                          onChanged: (){},
+                                          onChanged: (value){
+                                            context.read<ProvidedData>().updateEventStatus(date, value);
+                                          },
                                         ),
                                       )
                                   ),
                                 );
-                              }).toList()
+                              }).toList() : [SizedBox.shrink()],
                             ],
                           ),
                         )
@@ -217,7 +223,7 @@ class _CalendarState extends State<Calendar> {
       onVisibleDaysChanged: (DateTime containerStartDate, DateTime containerEndDate, CalendarFormat format){
 
       },
-      events: _eventCollections,
+      events: context.watch<ProvidedData>().calendar.eventCollections,
       holidays: {DateTime(2020, 12, 4): ['tesst', Colors.indigoAccent], DateTime(2020, 12, 3): ['tesst1', Colors.orange]},
       calendarStyle: CalendarStyle(
 

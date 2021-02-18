@@ -9,12 +9,15 @@ class CalendarModel {
   @HiveField(1)
   final String event;
   @HiveField(2)
-  final bool isDone;
+  bool isDone;
+  @HiveField(3)
+  final String userId;
 
 
   CalendarModel({
     this.dateTime,
     this.event,
-    this.isDone,
+    this.isDone = false,
+    this.userId,
   });
 }
