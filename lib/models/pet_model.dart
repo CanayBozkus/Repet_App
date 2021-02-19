@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:repetapp/models/hive_models/hive_pet_model.dart';
+import 'package:repetapp/services/database.dart';
 import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart' as constants;
 
@@ -51,6 +53,25 @@ class PetModel {
         'routines': routines,
         'petTrainingModelId': -1,
       });
+      HivePetModel localPetData = HivePetModel(
+        id: this.id,
+        name: this.name,
+        ownerId: this.ownerId,
+        gender: this.gender,
+        type: constants.petTypeNames[this.type],
+        species: this.species,
+        weight: this.weight,
+        height: this.height,
+        year: this.year,
+        month: this.month,
+        allergies: this.allergies,
+        disabilities: this.disabilities,
+        sicknesses: this.sicknesses,
+        routines: this.routines,
+        petTrainingModelId: -1,
+      );
+      databaseManager.addData(model: 'petModel', data: localPetData);
+
       return true;
     }
     catch(e){
@@ -60,6 +81,26 @@ class PetModel {
   }
 
   Future<bool> getPetData(id) async {
+
+    HivePetModel localPetData = databaseManager.getLocalPet(id);
+    if(localPetData != null){
+      this.id = id;
+      name =localPetData.name;
+      ownerId = localPetData.ownerId;
+      gender = localPetData.gender;
+      type = constants.petTypeNamesReverse[localPetData.type];
+      species = localPetData.species;
+      weight = localPetData.weight;
+      height = localPetData.height;
+      year = localPetData.year;
+      month = localPetData.month;
+      allergies = localPetData.allergies;
+      disabilities = localPetData.disabilities;
+      sicknesses = localPetData.sicknesses;
+      routines = localPetData.routines;
+      return true;
+    }
+
     try {
       DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
       Map petData = pet.data();
@@ -77,6 +118,24 @@ class PetModel {
       disabilities = petData['disabilities'];
       sicknesses = petData['sicknesses'];
       routines = petData['routines'];
+
+      localPetData = HivePetModel(
+        id: this.id,
+        name: this.name,
+        ownerId: this.ownerId,
+        gender: this.gender,
+        type: petData['type'],
+        species: this.species,
+        weight: this.weight,
+        height: this.height,
+        year: this.year,
+        month: this.month,
+        allergies: this.allergies,
+        disabilities: this.disabilities,
+        sicknesses: this.sicknesses,
+        routines: this.routines,
+      );
+      databaseManager.addData(model: 'petModel', data: localPetData);
       return true;
     }
     catch(e){

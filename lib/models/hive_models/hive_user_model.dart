@@ -3,29 +3,29 @@ import 'package:hive/hive.dart';
 part 'hive_user_model.g.dart';
 
 @HiveType(typeId: 0)
-class UserModel {
+class HiveUserModel {
   @HiveField(0)
-  final String id;
+  String id;
   @HiveField(1)
-  final String email;
+  String email;
   @HiveField(2)
-  final String nameSurname;
+  String nameSurname;
   @HiveField(3)
-  final int age;
+  int age;
   @HiveField(4)
-  final int phoneNumber;
+  int phoneNumber;
   @HiveField(5)
-  final String gender;
+  String gender;
   @HiveField(6)
-  final List addresses;
+  List addresses;
   @HiveField(7)
-  final List pets;
+  List pets;
   @HiveField(8)
-  final String calendarId;
+  String calendarId;
   @HiveField(9)
-  final Map currentNotifications;
+  Map currentNotifications;
 
-  UserModel({
+  HiveUserModel({
     this.id,
     this.gender,
     this.pets,

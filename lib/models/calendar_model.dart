@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/services/database.dart';
-import 'package:repetapp/models/hive_models/hive_calendar_model.dart' as hiveCalendar;
+import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
 class CalendarModel {
   CalendarModel(){
     _fireStore = FirebaseFirestore.instance;
@@ -24,7 +24,7 @@ class CalendarModel {
   }
 
   void addEvent(String event, DateTime eventDate){
-    hiveCalendar.CalendarModel calendarEvent = hiveCalendar.CalendarModel(dateTime: eventDate, event: event, isDone: false, userId: this.userId);
+    HiveCalendarModel calendarEvent = HiveCalendarModel(dateTime: eventDate, event: event, isDone: false, userId: this.userId);
     databaseManager.addData(model: 'calendarmodel', data: calendarEvent);
     DateTime date = DateTime(eventDate.year, eventDate.month, eventDate.day, 0, 0, 0);
     if(eventCollections.keys.contains(date)){

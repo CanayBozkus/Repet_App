@@ -2,8 +2,10 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/models/calendar_model.dart';
+import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/services/notification_plugin.dart';
+import 'package:repetapp/services/database.dart';
 
 class UserModel {
   UserModel({this.email, this.age, this.phoneNumber, this.gender = 'Female', this.nameSurname}){
@@ -45,8 +47,24 @@ class UserModel {
           'current_notifications': currentNotifications,
         });
         this.id = newUser.user.uid;
+
+        HiveUserModel localUser = HiveUserModel(
+          id: this.id,
+          nameSurname: this.nameSurname,
+          gender: this.gender,
+          phoneNumber: this.phoneNumber,
+          age: this.age,
+          pets: this.pets,
+          addresses: this.addresses,
+          calendarId: this.calendarId,
+          email: this.email,
+          currentNotifications: this.currentNotifications,
+        );
+        databaseManager.addData(model: 'userModel', data: localUser);
+
         return true;
       }
+      await _deleteUser();
       return false;
     }
     catch(e){
@@ -57,6 +75,22 @@ class UserModel {
   }
   //TODO: static method haline getir, return olarak UserModel() döndür.
   Future<bool> getUserData() async {
+    HiveUserModel localUser = databaseManager.getLocalUserData(_auth.currentUser.uid);
+
+    if(localUser != null){
+      nameSurname = localUser.nameSurname;
+      gender = localUser.gender;
+      phoneNumber = localUser.phoneNumber;
+      age = localUser.age;
+      pets = localUser.pets;
+      addresses = localUser.addresses;
+      calendarId = localUser.calendarId;
+      id = _auth.currentUser.uid;
+      email = _auth.currentUser.email;
+      currentNotifications = localUser.currentNotifications;
+      return true;
+    }
+
     if(FirebaseAuth.instance.currentUser != null){
       DocumentSnapshot user = await _fireStore.collection('UserModel').doc( _auth.currentUser.uid).get();
       Map userData = user.data();
@@ -70,6 +104,20 @@ class UserModel {
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
       currentNotifications = userData['current_notifications'];
+
+      localUser = HiveUserModel(
+        id: this.id,
+        nameSurname: this.nameSurname,
+        gender: this.gender,
+        phoneNumber: this.phoneNumber,
+        age: this.age,
+        pets: this.pets,
+        addresses: this.addresses,
+        calendarId: this.calendarId,
+        email: this.email,
+        currentNotifications: this.currentNotifications,
+      );
+      databaseManager.addData(model: 'userModel', data: localUser);
       return true;
     }
     return false;

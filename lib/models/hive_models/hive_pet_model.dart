@@ -3,39 +3,39 @@ import 'package:hive/hive.dart';
 part 'hive_pet_model.g.dart';
 
 @HiveType(typeId: 1)
-class PetModel {
+class HivePetModel {
   @HiveField(0)
-  final String id;
+  String id;
   @HiveField(1)
-  final String ownerId;
+  String ownerId;
   @HiveField(2)
-  final String name;
+  String name;
   @HiveField(3)
-  final String type;
+  String type;
   @HiveField(4)
-  final String species;
+  String species;
   @HiveField(5)
-  final String gender;
+  String gender;
   @HiveField(6)
-  final double weight;
+  double weight;
   @HiveField(7)
-  final double height;
+  double height;
   @HiveField(8)
-  final int year;
+  int year;
   @HiveField(9)
-  final int month;
+  int month;
   @HiveField(10)
-  final List allergies;
+  List allergies;
   @HiveField(11)
-  final List disabilities;
+  List disabilities;
   @HiveField(12)
-  final List sicknesses;
+  List sicknesses;
   @HiveField(13)
-  final Map routines;
+  Map routines;
   @HiveField(14)
-  final int petTrainingModelId;
+  int petTrainingModelId;
 
-  PetModel({
+  HivePetModel({
     this.id,
     this.gender,
     this.allergies,

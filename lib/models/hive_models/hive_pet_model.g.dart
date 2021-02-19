@@ -6,17 +6,17 @@ part of 'hive_pet_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PetModelAdapter extends TypeAdapter<PetModel> {
+class HivePetModelAdapter extends TypeAdapter<HivePetModel> {
   @override
   final int typeId = 1;
 
   @override
-  PetModel read(BinaryReader reader) {
+  HivePetModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return PetModel(
+    return HivePetModel(
       id: fields[0] as String,
       gender: fields[5] as String,
       allergies: (fields[10] as List)?.cast<dynamic>(),
@@ -36,7 +36,7 @@ class PetModelAdapter extends TypeAdapter<PetModel> {
   }
 
   @override
-  void write(BinaryWriter writer, PetModel obj) {
+  void write(BinaryWriter writer, HivePetModel obj) {
     writer
       ..writeByte(15)
       ..writeByte(0)
@@ -77,7 +77,7 @@ class PetModelAdapter extends TypeAdapter<PetModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is PetModelAdapter &&
+      other is HivePetModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

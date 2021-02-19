@@ -57,7 +57,7 @@ class Database {
   }
   
   void updateEventStatus(DateTime date, bool status){
-    CalendarModel model = _calendarModel.values.where((element) => element.dateTime == date).first;
+    HiveCalendarModel model = _calendarModel.values.where((element) => element.dateTime == date).first;
     int index = _calendarModel.values.toList().indexOf(model);
     model.isDone = status;
     _calendarModel.putAt(index, model);
@@ -65,6 +65,22 @@ class Database {
   
   void deleteAllCalendar() async {
     await Hive.box('CalendarModel').clear();
+  }
+
+  HiveUserModel getLocalUserData(String id){
+    List data = _userModel.values.where((element) => element.id == id).toList();
+    if(data.isEmpty){
+      return null;
+    }
+    return _userModel.values.where((element) => element.id == id).first;
+  }
+
+  HivePetModel getLocalPet(String id){
+    List data = _petModel.values.where((element) => element.id == id).toList();
+    if(data.isEmpty){
+      return null;
+    }
+    return _petModel.values.where((element) => element.id == id).first;
   }
 }
 

@@ -6,17 +6,17 @@ part of 'hive_calendar_model.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CalendarModelAdapter extends TypeAdapter<CalendarModel> {
+class HiveCalendarModelAdapter extends TypeAdapter<HiveCalendarModel> {
   @override
   final int typeId = 3;
 
   @override
-  CalendarModel read(BinaryReader reader) {
+  HiveCalendarModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CalendarModel(
+    return HiveCalendarModel(
       dateTime: fields[0] as DateTime,
       event: fields[1] as String,
       isDone: fields[2] as bool,
@@ -25,7 +25,7 @@ class CalendarModelAdapter extends TypeAdapter<CalendarModel> {
   }
 
   @override
-  void write(BinaryWriter writer, CalendarModel obj) {
+  void write(BinaryWriter writer, HiveCalendarModel obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -44,7 +44,7 @@ class CalendarModelAdapter extends TypeAdapter<CalendarModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CalendarModelAdapter &&
+      other is HiveCalendarModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
