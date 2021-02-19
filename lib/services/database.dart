@@ -14,9 +14,9 @@ class Database {
   initializeDatabase() async {
     Directory document = await getApplicationDocumentsDirectory();
     Hive.init(document.path);
-    Hive.registerAdapter(UserModelAdapter());
-    Hive.registerAdapter(PetModelAdapter());
-    Hive.registerAdapter(CalendarModelAdapter());
+    Hive.registerAdapter(HiveUserModelAdapter());
+    Hive.registerAdapter(HivePetModelAdapter());
+    Hive.registerAdapter(HiveCalendarModelAdapter());
     _userModel = await Hive.openBox('UserModel');
     _petModel = await Hive.openBox('PetModel');
     _calendarModel = await Hive.openBox('CalendarModel');
