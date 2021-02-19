@@ -35,43 +35,8 @@ class PetModel {
   
   Future<bool> createPet() async {
     try{
-      DocumentReference newPet =  _fireStore.collection('PetModel').doc(id);
-      await newPet.set({
-        'id': id,
-        'owner_id': ownerId,
-        'name': name,
-        'gender': gender,
-        'type': constants.petTypeNames[type],
-        'species': species,
-        'weight': weight,
-        'height': height,
-        'year': year,
-        'month': month,
-        'allergies': allergies,
-        'disabilities': disabilities,
-        'sicknesses': sicknesses,
-        'routines': routines,
-        'petTrainingModelId': -1,
-      });
-      HivePetModel localPetData = HivePetModel(
-        id: this.id,
-        name: this.name,
-        ownerId: this.ownerId,
-        gender: this.gender,
-        type: constants.petTypeNames[this.type],
-        species: this.species,
-        weight: this.weight,
-        height: this.height,
-        year: this.year,
-        month: this.month,
-        allergies: this.allergies,
-        disabilities: this.disabilities,
-        sicknesses: this.sicknesses,
-        routines: this.routines,
-        petTrainingModelId: -1,
-      );
-      databaseManager.addData(model: 'petModel', data: localPetData);
-
+      this.createPetForCloud();
+      this.createPetForLocal();
       return true;
     }
     catch(e){
@@ -80,8 +45,65 @@ class PetModel {
     }
   }
 
-  Future<bool> getPetData(id) async {
+  Future<void> createPetForCloud() async {
+    DocumentReference newPet =  _fireStore.collection('PetModel').doc(id);
+    await newPet.set({
+      'id': id,
+      'owner_id': ownerId,
+      'name': name,
+      'gender': gender,
+      'type': constants.petTypeNames[type],
+      'species': species,
+      'weight': weight,
+      'height': height,
+      'year': year,
+      'month': month,
+      'allergies': allergies,
+      'disabilities': disabilities,
+      'sicknesses': sicknesses,
+      'routines': routines,
+      'petTrainingModelId': -1,
+    });
+  }
 
+  void createPetForLocal(){
+    HivePetModel localPetData = HivePetModel(
+      id: this.id,
+      name: this.name,
+      ownerId: this.ownerId,
+      gender: this.gender,
+      type: constants.petTypeNames[this.type],
+      species: this.species,
+      weight: this.weight,
+      height: this.height,
+      year: this.year,
+      month: this.month,
+      allergies: this.allergies,
+      disabilities: this.disabilities,
+      sicknesses: this.sicknesses,
+      routines: this.routines,
+      petTrainingModelId: -1,
+    );
+    databaseManager.addData(model: 'petModel', data: localPetData);
+  }
+
+  Future<bool> getPetData(id) async {
+    bool isLocalDataExist = this.getLocalPetData(id);
+
+    if(!isLocalDataExist){
+      try {
+        bool isCloudDataExist = await this.getCloudPetData(id);
+        return isCloudDataExist;
+      }
+      catch(e){
+        print(e);
+        return false;
+      }
+    }
+    return isLocalDataExist;
+  }
+
+  bool getLocalPetData(String id){
     HivePetModel localPetData = databaseManager.getLocalPet(id);
     if(localPetData != null){
       this.id = id;
@@ -100,48 +122,45 @@ class PetModel {
       routines = localPetData.routines;
       return true;
     }
+    return false;
+  }
 
-    try {
-      DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
-      Map petData = pet.data();
-      this.id = id;
-      name = petData['name'];
-      ownerId = petData['owner_id'];
-      gender = petData['gender'];
-      type = constants.petTypeNamesReverse[petData['type']];
-      species = petData['species'];
-      weight = petData['weight'];
-      height = petData['height'];
-      year = petData['year'];
-      month = petData['month'];
-      allergies = petData['allergies'];
-      disabilities = petData['disabilities'];
-      sicknesses = petData['sicknesses'];
-      routines = petData['routines'];
+  Future<bool> getCloudPetData(String id) async {
+    DocumentSnapshot pet = await _fireStore.collection('PetModel').doc(id).get();
+    Map petData = pet.data();
+    this.id = id;
+    name = petData['name'];
+    ownerId = petData['owner_id'];
+    gender = petData['gender'];
+    type = constants.petTypeNamesReverse[petData['type']];
+    species = petData['species'];
+    weight = petData['weight'];
+    height = petData['height'];
+    year = petData['year'];
+    month = petData['month'];
+    allergies = petData['allergies'];
+    disabilities = petData['disabilities'];
+    sicknesses = petData['sicknesses'];
+    routines = petData['routines'];
 
-      localPetData = HivePetModel(
-        id: this.id,
-        name: this.name,
-        ownerId: this.ownerId,
-        gender: this.gender,
-        type: petData['type'],
-        species: this.species,
-        weight: this.weight,
-        height: this.height,
-        year: this.year,
-        month: this.month,
-        allergies: this.allergies,
-        disabilities: this.disabilities,
-        sicknesses: this.sicknesses,
-        routines: this.routines,
-      );
-      databaseManager.addData(model: 'petModel', data: localPetData);
-      return true;
-    }
-    catch(e){
-      print(e);
-      return false;
-    }
+    HivePetModel localPetData = HivePetModel(
+      id: this.id,
+      name: this.name,
+      ownerId: this.ownerId,
+      gender: this.gender,
+      type: petData['type'],
+      species: this.species,
+      weight: this.weight,
+      height: this.height,
+      year: this.year,
+      month: this.month,
+      allergies: this.allergies,
+      disabilities: this.disabilities,
+      sicknesses: this.sicknesses,
+      routines: this.routines,
+    );
+    databaseManager.addData(model: 'petModel', data: localPetData);
+    return true;
   }
 
   List getAllergies(){

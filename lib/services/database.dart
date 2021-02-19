@@ -82,6 +82,14 @@ class Database {
     }
     return _petModel.values.where((element) => element.id == id).first;
   }
+
+  bool updatePetList(String id, List pets){
+    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
+    int index = _userModel.values.toList().indexOf(model);
+    model.pets = pets;
+    _userModel.putAt(index, model);
+    return true;
+  }
 }
 
 Database databaseManager = Database();

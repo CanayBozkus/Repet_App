@@ -30,10 +30,20 @@ class UserModel {
   Map currentNotifications = {};
 
   Future<bool> createUser() async {
+    bool isCloudDataCreated = await this.createUserForCloud();
+    if(isCloudDataCreated){
+      bool isLocalDataCreated = this.createUserForLocal();
+      return isLocalDataCreated;
+    }
+    return isCloudDataCreated;
+  }
+
+  Future<bool> createUserForCloud() async {
     try{
       final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      if(newUser != null){
-        DocumentReference newDocument = await _fireStore.collection('UserModel').doc(newUser.user.uid);
+      if(newUser != null) {
+        DocumentReference newDocument = await _fireStore.collection('UserModel')
+            .doc(newUser.user.uid);
         await newDocument.set({
           'name_surname': nameSurname,
           'age': age,
@@ -47,21 +57,6 @@ class UserModel {
           'current_notifications': currentNotifications,
         });
         this.id = newUser.user.uid;
-
-        HiveUserModel localUser = HiveUserModel(
-          id: this.id,
-          nameSurname: this.nameSurname,
-          gender: this.gender,
-          phoneNumber: this.phoneNumber,
-          age: this.age,
-          pets: this.pets,
-          addresses: this.addresses,
-          calendarId: this.calendarId,
-          email: this.email,
-          currentNotifications: this.currentNotifications,
-        );
-        databaseManager.addData(model: 'userModel', data: localUser);
-
         return true;
       }
       await _deleteUser();
@@ -73,8 +68,35 @@ class UserModel {
       return false;
     }
   }
+
+  bool createUserForLocal(){
+    HiveUserModel localUser = HiveUserModel(
+      id: this.id,
+      nameSurname: this.nameSurname,
+      gender: this.gender,
+      phoneNumber: this.phoneNumber,
+      age: this.age,
+      pets: this.pets,
+      addresses: this.addresses,
+      calendarId: this.calendarId,
+      email: this.email,
+      currentNotifications: this.currentNotifications,
+    );
+    databaseManager.addData(model: 'userModel', data: localUser);
+    return true;
+  }
+
   //TODO: static method haline getir, return olarak UserModel() döndür.
   Future<bool> getUserData() async {
+    bool isLocalDataExist = this.getLocalUserData();
+    if(!isLocalDataExist){
+      bool isCloudDataExist = await this.getCloudUserData();
+      return isCloudDataExist;
+    }
+    return isLocalDataExist;
+  }
+
+  bool getLocalUserData(){
     HiveUserModel localUser = databaseManager.getLocalUserData(_auth.currentUser.uid);
 
     if(localUser != null){
@@ -90,7 +112,10 @@ class UserModel {
       currentNotifications = localUser.currentNotifications;
       return true;
     }
+    return false;
+  }
 
+  Future<bool> getCloudUserData() async {
     if(FirebaseAuth.instance.currentUser != null){
       DocumentSnapshot user = await _fireStore.collection('UserModel').doc( _auth.currentUser.uid).get();
       Map userData = user.data();
@@ -105,7 +130,7 @@ class UserModel {
       email = _auth.currentUser.email;
       currentNotifications = userData['current_notifications'];
 
-      localUser = HiveUserModel(
+      HiveUserModel localUser = HiveUserModel(
         id: this.id,
         nameSurname: this.nameSurname,
         gender: this.gender,
@@ -123,36 +148,40 @@ class UserModel {
     return false;
   }
 
-  void getCalendarData() async {
-    calendar = CalendarModel();
-    await calendar.getCalendarData(id);
-  }
-
   Future<bool> addPet(PetModel newPet, bool isUserRegistration) async {
-    try {
-      newPet.id = (this.id + newPet.name).replaceAll(' ', '');
-      newPet.ownerId = this.id;
-      bool result = await newPet.createPet();
-      if(result){
-        this.pets.add(newPet.id);
-        DocumentReference userModel = await _fireStore.collection('UserModel').doc(this.id);
-        await userModel.update({
-          'pets': this.pets,
-        });
-      }
-      else {
-        isUserRegistration ? await _deleteUser() : null;
-      }
-      return result;
+    //TODO: üzerinden yeniden geçmek ve hata senaryolarını düzeltmek gerekli
+    newPet.id = (this.id + newPet.name).replaceAll(' ', '');
+    newPet.ownerId = this.id;
+    bool result = await newPet.createPet();
+    if(result){
+      this.pets.add(newPet.id);
+      bool isLocalDataUpdated = this.updateLocalPetList();
+      bool isCloudDataUpdated = await this.updateCloudPetList();
+      
+      return isLocalDataUpdated || isCloudDataUpdated;
     }
-
+    isUserRegistration ? await _deleteUser() : null;
+    return false;
+  }
+  
+  Future<bool> updateCloudPetList() async {
+    try{
+      DocumentReference userModel = await _fireStore.collection('UserModel').doc(this.id);
+      await userModel.update({
+        'pets': this.pets,
+      });
+      return true;
+    }
     catch(e){
       print(e);
-      isUserRegistration ? await _deleteUser() : null;
       return false;
     }
   }
-
+  
+  bool updateLocalPetList(){
+    return databaseManager.updatePetList(id, pets);
+  }
+  
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
   }
