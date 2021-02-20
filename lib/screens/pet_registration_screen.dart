@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/utilities/provided_data.dart';
@@ -96,6 +97,21 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                         });
                          if(_isCreating){
                            if(context.read<ProvidedData>().currentUser != widget.newUser){
+                             bool isConnected = await checkInternetConnection();
+                             if(!isConnected){
+                               showDialog(
+                                 context: context,
+                                 builder: (context) {
+                                   return Container(
+                                     height: 100,
+                                     child: Center(
+                                       child: Text('No Internet Connection'),
+                                     ),
+                                   );
+                                 }
+                               );
+                               return;
+                             }
                              bool userResult = await widget.newUser.createUser();
                              if(userResult){
                                //TODO: ilk eklenecek hayvanı UserModel.createUser() içerisinde gerçekleşecek şekilde ayarla

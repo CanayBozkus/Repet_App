@@ -36,22 +36,6 @@ class Database {
     }
   }
 
-  List getData({@required String model, @required value}){
-    model = model.toLowerCase();
-    print("inn");
-    if(model == 'usermodel'){
-
-    }
-    else if(model == 'petmodel'){
-
-    }
-    else if(model == 'calendarmodel'){
-      return _calendarModel.values.where((instance){
-        return instance.dateTime == value;
-      }).toList();
-    }
-  }
-
   List getAllCalendarEvents(String userId){
     return _calendarModel.values.where((e) => e.userId == userId).toList();
   }
@@ -89,6 +73,20 @@ class Database {
     model.pets = pets;
     _userModel.putAt(index, model);
     return true;
+  }
+
+  void updatePetRoutine(String id, Map routines){
+    HivePetModel model = _petModel.values.where((element) => element.id == id).first;
+    int index = _petModel.values.toList().indexOf(model);
+    model.routines = routines;
+    _petModel.putAt(index, model);
+  }
+
+  void updateCurrentNotifications(Map notifications, String id){
+    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
+    int index = _userModel.values.toList().indexOf(model);
+    model.currentNotifications = notifications;
+    _userModel.putAt(index, model);
   }
 }
 

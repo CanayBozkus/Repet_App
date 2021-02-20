@@ -217,11 +217,13 @@ class UserModel {
     String idName = pet.name.replaceAll(' ', '') + routineName + currentNotifications.length.toString();
     bool result = await pet.addRoutine(routineName, time, currentNotifications.length, idName);
     if(result){
-      currentNotifications[idName] = currentNotifications.length;
-      await _fireStore.collection('UserModel').doc(this.id).update({
-        'current_notifications': currentNotifications,
-      });
+      updateCurrentNotifications(idName);
     }
+  }
+
+  void updateCurrentNotifications(String id){
+    currentNotifications[id] = currentNotifications.length;
+    databaseManager.updateCurrentNotifications(this.currentNotifications, this.id);
   }
 
   Future<void> reActivateRemainder(PetModel pet, String routineName, DateTime time, idName) async {

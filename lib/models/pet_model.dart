@@ -175,17 +175,25 @@ class PetModel {
     this.routines[routineName.toLowerCase()][idName] = ['${time.hour}:${time.minute}', true];
     try{
       notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time);
-      DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
-      await document.update({
-        'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()],
-      });
-
+      addRoutineToCloud(routineName);
+      addRoutineToLocal();
       return true;
     }
     catch(e){
       print(e);
       return false;
     }
+  }
+
+  Future<void> addRoutineToCloud(String routineName) async {
+    DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
+    await document.update({
+      'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()],
+    });
+  }
+
+  void addRoutineToLocal(){
+    databaseManager.updatePetRoutine(this.id, this.routines);
   }
 
   Future<void> cancelRoutine(id, routineName) async {
