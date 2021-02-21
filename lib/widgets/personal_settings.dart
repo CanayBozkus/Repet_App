@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/models/user_model.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel user = context.read<ProvidedData>().currentUser;
+    UserModel user = context.watch<ProvidedData>().currentUser;
     return Container(
       child: Column(
         children: [
@@ -66,7 +67,8 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                           isActive = false;
                         });
                       }
-                    }
+                    },
+                    validator: FormGenerator.nameValidatorGenerator('a valid')
                   ),
                   FormGenerator.settingsPageInput(
                     label: user.email,
@@ -82,10 +84,12 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                           isActive = false;
                         });
                       }
-                    }
+                    },
+                    validator: FormGenerator.mailValidator,
                   ),
                   FormGenerator.settingsPageInput(
                     label: user.phoneNumber == null ? 'Phone Number' : user.phoneNumber.toString(),
+                    keyboardType: KeyboardTypes.number,
                     svg: 'assets/icons/cellphone.svg',
                     onChanged: (String value){
                       if(value.isNotEmpty){
@@ -103,6 +107,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                   FormGenerator.settingsPageInput(
                     label: user.age.toString(),
                     svg: 'assets/icons/cake.svg',
+                    keyboardType: KeyboardTypes.number,
                     onChanged: (String value){
                       if(value.isNotEmpty){
                         setState(() {
@@ -114,12 +119,13 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                           isActive = false;
                         });
                       }
-                    }
+                    },
                   ),
-                  FormGenerator.settingsPageInput(
-                    label: user.gender,
+                  FormGenerator.settingsPageDropdown(
+                    categories: ['Male', 'Female'],
+                    hint: user.gender,
                     svg: 'assets/icons/gender.svg',
-                    onChanged: (String value){
+                    onChanged: (value) {
                       if(value.isNotEmpty){
                         setState(() {
                           isActive = true;
@@ -130,7 +136,12 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                           isActive = false;
                         });
                       }
-                    }
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a gender!';
+                      }
+                    },
                   ),
                   SizedBox(height: 30,),
                   Padding(

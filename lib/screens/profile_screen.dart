@@ -8,10 +8,12 @@ import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
+import 'package:repetapp/widgets/general_settings.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:repetapp/widgets/pet_settings.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const routeName = 'ProfileScreen';
@@ -29,7 +31,10 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: (){
-              Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.generalSettings);
+              Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
+                'title': 'Settings',
+                'widget': GeneralSettings(),
+              });
             },
             color: Colors.white,
             iconSize: 30,
@@ -103,6 +108,10 @@ class ProfileScreen extends StatelessWidget {
                                         child: FlatButton(
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           onPressed: (){
+                                            Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
+                                              'title': 'Profile',
+                                              'widget': PetSettings(),
+                                            });
                                           },
                                           padding: EdgeInsets.zero,
                                           child: Icon(FontAwesomeIcons.solidEdit, size: 24,),

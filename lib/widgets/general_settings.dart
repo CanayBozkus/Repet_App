@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
+import 'package:repetapp/widgets/address_settings.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/help.dart';
+import 'package:repetapp/widgets/personal_settings.dart';
 
 class GeneralSettings extends StatelessWidget {
   const GeneralSettings({
@@ -29,7 +32,10 @@ class GeneralSettings extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
-                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.personalSettings);
+                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
+                        'title': 'Personal Info',
+                        'widget': PersonalSettings(),
+                      });
                     },
                   ),
                 ),
@@ -42,7 +48,10 @@ class GeneralSettings extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
-                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.addressSettings);
+                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments: {
+                        'title': 'Addresses',
+                        'widget': AddressSettings(),
+                      });
                     },
                   ),
                 ),
@@ -66,7 +75,10 @@ class GeneralSettings extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
-                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments: SettingsWidget.help);
+                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
+                        'title': 'Help',
+                        'widget': Help(),
+                      });
                     },
                   ),
                 ),

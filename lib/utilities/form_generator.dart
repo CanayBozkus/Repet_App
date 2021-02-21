@@ -147,12 +147,13 @@ class FormGenerator{
     );
   }
 
-  static Widget settingsPageInput({String label, String svg, bool isEnabled = true, Function onChanged, Function validator}){
+  static Widget settingsPageInput({String label, String svg, bool isEnabled = true, Function onChanged, Function validator, KeyboardTypes keyboardType = KeyboardTypes.text,}){
     return BaseShadow(
       child: TextFormField(
+        keyboardType: keyBoards[keyboardType],
         style: TextStyle(
           fontSize: 16,
-          color: Color(0xff636363),
+          color: kPrimaryColor,
           fontWeight: FontWeight.w700,
         ),
         decoration: InputDecoration(
@@ -187,6 +188,67 @@ class FormGenerator{
           ),
         ),
         onChanged: onChanged,
+        validator: validator,
+      ),
+    );
+  }
+
+  static Widget settingsPageDropdown({List categories, Function onChanged, String hint, Function validator, value, bool isEnabled = true, String svg}){
+    return BaseShadow(
+      child: DropdownButtonFormField(
+        hint: Text(hint),
+        style: TextStyle(
+          fontSize: 16,
+          color: Color(0xff636363),
+          fontWeight: FontWeight.w700,
+        ),
+        value: value,
+        items: categories.map((e){
+          return DropdownMenuItem(
+            value: e,
+            child: Container(
+              child: Text(
+                e,
+                style: TextStyle(
+                  color: kPrimaryColor,
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: onChanged,
+        decoration: InputDecoration(
+          enabled: isEnabled,
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 5),
+          prefixIcon: svg != null ? Padding(
+            padding: EdgeInsets.all(12.0),
+            child: SvgPicture.asset(
+              svg,
+              color: kPrimaryColor,
+            ),
+          ) : SizedBox.shrink(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: 1
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade200,
+                width: 1.5
+            ),
+          ),
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: 1
+            ),
+          ),
+        ),
+
+        icon: Icon(Icons.arrow_drop_down, color: kPrimaryColor,),
+        iconSize: 30,
         validator: validator,
       ),
     );
