@@ -65,7 +65,39 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     )),
-                _formGen.userLoginForm(key: _formKey, loginValuesStorage: _loginValuesStorage),
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      FormGenerator.addInput(
+                          label: 'Email',
+                          keyboard: KeyboardTypes.emailAddress,
+                          validator: (String value){
+                            if(value.isEmpty){
+                              return 'Please enter your email!';
+                            }
+                            return null;
+                          },
+                          onsaved: (value){
+                            _loginValuesStorage['email'] = value;
+                          }
+                      ),
+                      FormGenerator.addInput(
+                        label: 'Password',
+                        obsecure: true,
+                        validator: (value){
+                          if(value.isEmpty){
+                            return 'Please enter your password!';
+                          }
+                          return null;
+                        },
+                        onsaved: (value){
+                          _loginValuesStorage['password'] = value;
+                        }
+                      )
+                    ],
+                  ),
+                ),
                 SizedBox(
                   height: 10,
                 ),

@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/utilities/provided_data.dart';
+import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/base_button.dart';
 
-class PersonalSettings extends StatelessWidget {
-  FormGenerator _formGenerator = FormGenerator();
+class PersonalSettings extends StatefulWidget {
+  @override
+  _PersonalSettingsState createState() => _PersonalSettingsState();
+}
+
+class _PersonalSettingsState extends State<PersonalSettings> {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  bool isActive = false;
+
   @override
   Widget build(BuildContext context) {
+    UserModel user = context.read<ProvidedData>().currentUser;
     return Container(
       child: Column(
         children: [
@@ -24,7 +37,7 @@ class PersonalSettings extends StatelessWidget {
                 ),
                 SizedBox(width: 20,),
                 Text(
-                  'Mehmet Özgün',
+                  user.nameSurname,
                   style: TextStyle(
                     fontSize: 26,
                     color: Color(0xff636363),
@@ -35,8 +48,106 @@ class PersonalSettings extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _formGenerator.personalInfoForm(),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  FormGenerator.settingsPageInput(
+                    label: user.nameSurname,
+                    svg: 'assets/icons/account.svg',
+                    onChanged: (String value){
+                      if(value.isNotEmpty){
+                        setState(() {
+                          isActive = true;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          isActive = false;
+                        });
+                      }
+                    }
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: user.email,
+                    svg: 'assets/icons/email.svg',
+                    onChanged: (String value){
+                      if(value.isNotEmpty){
+                        setState(() {
+                          isActive = true;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          isActive = false;
+                        });
+                      }
+                    }
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: user.phoneNumber == null ? 'Phone Number' : user.phoneNumber.toString(),
+                    svg: 'assets/icons/cellphone.svg',
+                    onChanged: (String value){
+                      if(value.isNotEmpty){
+                        setState(() {
+                          isActive = true;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          isActive = false;
+                        });
+                      }
+                    }
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: user.age.toString(),
+                    svg: 'assets/icons/cake.svg',
+                    onChanged: (String value){
+                      if(value.isNotEmpty){
+                        setState(() {
+                          isActive = true;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          isActive = false;
+                        });
+                      }
+                    }
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: user.gender,
+                    svg: 'assets/icons/gender.svg',
+                    onChanged: (String value){
+                      if(value.isNotEmpty){
+                        setState(() {
+                          isActive = true;
+                        });
+                      }
+                      else {
+                        setState(() {
+                          isActive = false;
+                        });
+                      }
+                    }
+                  ),
+                  SizedBox(height: 30,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 50),
+                    child: BaseButton(
+                      text: 'Save',
+                      width: 100,
+                      onPressed: isActive ? (){
+
+                      } : null,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
+
         ],
       ),
     );

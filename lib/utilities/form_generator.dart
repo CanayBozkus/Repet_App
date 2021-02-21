@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
@@ -8,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class FormGenerator{
 
-  String _mailValidator(String value){
+  static String mailValidator(String value){
     if(value.isEmpty){
       return 'Please enter a email!';
     }
@@ -18,7 +19,7 @@ class FormGenerator{
     return null;
   }
 
-  String _passwordValidator(String value){
+  static String passwordValidator(String value){
     if(value.isEmpty){
       return 'Please enter a password!';
     }
@@ -28,7 +29,7 @@ class FormGenerator{
     return null;
   }
 
-  Function _nameValidatorGenerator(name){
+  static Function nameValidatorGenerator(name){
     return (String value){
       if(value.isEmpty){
         return 'Please enter $name name!';
@@ -40,7 +41,7 @@ class FormGenerator{
     };
   }
 
-  Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged, initialValue}){
+  static Widget addInput({String label, KeyboardTypes keyboard, bool obsecure, Function validator, Function onsaved, Function onchanged, initialValue}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: BaseShadow(
@@ -78,7 +79,7 @@ class FormGenerator{
     );
   }
 
-  Widget addDropdown({List categories, Function onChanged, String hint, Function validator, value}){
+  static Widget addDropdown({List categories, Function onChanged, String hint, Function validator, value}){
     return BaseShadow(
       borderRadius: BorderRadius.circular(10.0),
       child: DropdownButtonFormField(
@@ -146,7 +147,7 @@ class FormGenerator{
     );
   }
 
-  Widget settingsPageInput({String label, String svg, bool isEnabled = true}){
+  static Widget settingsPageInput({String label, String svg, bool isEnabled = true, Function onChanged, Function validator}){
     return BaseShadow(
       child: TextFormField(
         style: TextStyle(
@@ -185,127 +186,8 @@ class FormGenerator{
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget userRegisterForm({@required final userModel, @required final key, stateController}){
-    return Form(
-      key: key,
-      child: ListView(
-        padding: EdgeInsets.symmetric(horizontal: 2),
-        children: [
-          this.addInput(label: 'Mail', keyboard: KeyboardTypes.emailAddress,
-            onsaved: (String value){
-              userModel.email = value;
-            },
-            validator: _mailValidator,
-          ),
-          this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
-            onsaved: (String value){
-              userModel.password = value;
-            },
-            validator: _passwordValidator,
-            onchanged: (value)=> userModel.password=value,
-          ),
-          this.addInput(label: 'Password', keyboard: KeyboardTypes.text, obsecure: true,
-            validator: (String value){
-              if(value != userModel.password){
-                return "Passwords does not match!";
-              }
-              return null;
-            },
-          ),
-          this.addInput(label: 'Name', keyboard: KeyboardTypes.text,
-            onsaved: (String value){
-              userModel.nameSurname = value;
-            },
-            validator: _nameValidatorGenerator('your'),
-          ),
-          this.addInput(label: 'Age', keyboard: KeyboardTypes.number,
-            onsaved: (String value){
-              userModel.age = int.parse(value);
-            },
-            validator: (String value){
-              if(value.isEmpty){
-                return 'Please enter your age! Exp: 21';
-              }
-            },
-          ),
-          this.addDropdown(categories:['Male', 'Female'], hint: 'Cinsiyet',
-              onChanged: (value){
-                userModel.gender = value;
-              },
-            validator: (value){
-              if(value == null){
-                return 'Please select a gender!';
-              }
-            }
-          ),
-          SizedBox(height: 8,),
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: BaseCheckBox(
-                  value: userModel.newsSetterConfirmation,
-                  onChanged: (value){
-                    stateController((){
-                      userModel.newsSetterConfirmation = value;
-                    });
-                  },
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  "Repet\’in bana özel kampanya, tanıtım ve fırsatlarından haberdar olmak istiyorum",
-                  overflow: TextOverflow.clip,
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: 3,),
-          RichText(
-            text: TextSpan(
-              text: "Üye olmakla ",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Color(0xFF6f6f6f),
-                fontWeight: FontWeight.w600,
-              ),
-              children: [
-                TextSpan(
-                  text: "Kullanım koşullarını ",
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                  ),
-                ),
-                TextSpan(
-                    text: "onaylamış olursunuz."
-                )
-              ],
-            ),
-          ),
-          SizedBox(height: 3,),
-          RichText(
-            text: TextSpan(
-              text: "Kişisel verilerinize dair Aydınlatma Metni için  ",
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Color(0xFF6f6f6f),
-                fontWeight: FontWeight.w600,
-              ),
-              children: [
-                TextSpan(
-                    text: "tıklayınız.",
-                  style: TextStyle(
-                    color: kPrimaryColor,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
+        onChanged: onChanged,
+        validator: validator,
       ),
     );
   }
@@ -362,13 +244,13 @@ class FormGenerator{
             ],
           ),
           SizedBox(height: 12,),
-          this.addInput(label: 'Name', keyboard: KeyboardTypes.text, initialValue: petModel.name,
+          FormGenerator.addInput(label: 'Name', keyboard: KeyboardTypes.text, initialValue: petModel.name,
             onsaved: (String value){
               petModel.name = value;
             },
-            validator: _nameValidatorGenerator('your pet\'s'),
+            validator: FormGenerator.nameValidatorGenerator('your pet\'s'),
           ),
-          this.addDropdown(categories:['Erkek', 'Dişi'], hint: 'Cinsiyet', value: petModel.gender, onChanged: (value){
+          FormGenerator.addDropdown(categories:['Erkek', 'Dişi'], hint: 'Cinsiyet', value: petModel.gender, onChanged: (value){
             petModel.gender = value;
           },
             validator: (value){
@@ -377,7 +259,7 @@ class FormGenerator{
               }
             }
           ),
-          this.addInput(label: 'Species', keyboard: KeyboardTypes.text, initialValue: petModel.name,
+          FormGenerator.addInput(label: 'Species', keyboard: KeyboardTypes.text, initialValue: petModel.name,
             onsaved: (String value){
               petModel.species = value;
             },
@@ -387,7 +269,7 @@ class FormGenerator{
               }
             },
           ),
-          this.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number, initialValue: petModel.weight != null ? petModel.weight.toString() : null,
+          FormGenerator.addInput(label: 'Ağırlık / kg', keyboard: KeyboardTypes.number, initialValue: petModel.weight != null ? petModel.weight.toString() : null,
             onsaved: (String value){
               petModel.weight = double.parse(value);
             },
@@ -401,7 +283,7 @@ class FormGenerator{
               return null;
             },
           ),
-          this.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number, initialValue: petModel.height != null ? petModel.height.toString() :null,
+          FormGenerator.addInput(label: 'Boy / metre', keyboard: KeyboardTypes.number, initialValue: petModel.height != null ? petModel.height.toString() :null,
             onsaved: (String value){
               petModel.height = double.parse(value);
             },
@@ -418,7 +300,7 @@ class FormGenerator{
           Row(
             children: [
               Expanded(
-                child: this.addInput(label: 'Yıl (*)', keyboard: KeyboardTypes.number, initialValue: petModel.year != null ? petModel.year.toString() : null,
+                child: FormGenerator.addInput(label: 'Yıl (*)', keyboard: KeyboardTypes.number, initialValue: petModel.year != null ? petModel.year.toString() : null,
                   onsaved: (String value){
                     petModel.year = int.parse(value);
                   },
@@ -435,7 +317,7 @@ class FormGenerator{
               ),
               SizedBox(width: 16,),
               Expanded(
-                child: this.addInput(label: 'Ay (optional)', keyboard: KeyboardTypes.number, initialValue:  petModel.month != null ? petModel.month.toString() : null,
+                child: FormGenerator.addInput(label: 'Ay (optional)', keyboard: KeyboardTypes.number, initialValue:  petModel.month != null ? petModel.month.toString() : null,
                   onsaved: (String value){
                     petModel.month = int.parse(value);
                   },
@@ -538,68 +420,4 @@ class FormGenerator{
     )).toList();
   }
 
-  Widget personalInfoForm(){
-    return Form(
-      child: ListView(
-        children: [
-          settingsPageInput(label: 'mehmet ozgun', svg: 'assets/icons/account.svg'),
-          settingsPageInput(label: 'mehmet.ozgun@gmail.com', svg: 'assets/icons/email.svg'),
-          settingsPageInput(label: '+905552431183', svg: 'assets/icons/cellphone.svg'),
-          settingsPageInput(label: '03.07.1973', svg: 'assets/icons/cake.svg'),
-          settingsPageInput(label: 'Erkek', svg: 'assets/icons/gender.svg'),
-        ],
-      ),
-    );
-  }
-
-  Widget addressForm(){
-    return Form(
-      child: ListView(
-        children: [
-          settingsPageInput(label: 'Daire veya Bina No',),
-          settingsPageInput(label: 'Sokak Adı',),
-          settingsPageInput(label: 'İlce',),
-          settingsPageInput(label: 'Şehir',),
-          settingsPageInput(label: 'Posta Kodu',),
-          settingsPageInput(label: 'Ülke',),
-        ],
-      ),
-    );
-  }
-
-  Widget userLoginForm({@required key, @required loginValuesStorage}){
-    return Form(
-      key: key,
-      child: Column(
-        children: [
-          this.addInput(
-            label: 'Email',
-            keyboard: KeyboardTypes.emailAddress,
-            validator: (String value){
-              if(value.isEmpty){
-                return 'Please enter your email!';
-              }
-              return null;
-            },
-            onsaved: (value){
-              loginValuesStorage['email'] = value;
-            }
-          ),
-          this.addInput(
-              label: 'Password',
-              obsecure: true,
-              validator: (value){
-                if(value.isEmpty){
-                  return 'Please enter your password!';
-                }
-                return null;
-              },
-              onsaved: (value){
-                loginValuesStorage['password'] = value;
-              }
-          )
-        ],
-      ),
-    );
-  }
 }

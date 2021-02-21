@@ -117,7 +117,7 @@ class _CalendarState extends State<Calendar> {
                                       children: [
                                         Form(
                                           key: _formKey,
-                                          child: FormGenerator().addInput(
+                                          child: FormGenerator.addInput(
                                             label: 'Task',
                                             onsaved: (value){
                                                 event = value;

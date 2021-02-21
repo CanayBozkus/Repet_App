@@ -26,7 +26,18 @@ class AddressSettings extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: _formGenerator.addressForm(),
+            child: Form(
+              child: ListView(
+                children: [
+                  FormGenerator.settingsPageInput(label: 'Daire veya Bina No',),
+                  FormGenerator.settingsPageInput(label: 'Sokak Adı',),
+                  FormGenerator.settingsPageInput(label: 'İlce',),
+                  FormGenerator.settingsPageInput(label: 'Şehir',),
+                  FormGenerator.settingsPageInput(label: 'Posta Kodu',),
+                  FormGenerator.settingsPageInput(label: 'Ülke',),
+                ],
+              ),
+            ),
           ),
         ],
       ),

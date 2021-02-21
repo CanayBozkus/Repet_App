@@ -3,13 +3,22 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 
 class BaseButton extends StatelessWidget {
-  const BaseButton({this.onPressed, this.width, this.text, this.empty = false, this.fontSize = 20, this.backgroundColor = kPrimaryColor});
+  const BaseButton({
+    this.onPressed,
+    this.width,
+    this.text,
+    this.empty = false,
+    this.fontSize = 20,
+    this.backgroundColor = kPrimaryColor,
+    this.isActive = true,
+  });
   final double width;
   final Function onPressed;
   final String text;
   final bool empty;
   final double fontSize;
   final Color backgroundColor;
+  final bool isActive;
   @override
   Widget build(BuildContext context) {
     return BaseShadow(
@@ -17,6 +26,7 @@ class BaseButton extends StatelessWidget {
       child: Container(
         height: fontSize*2.5,
         child: FlatButton(
+          disabledColor: backgroundColor.withOpacity(0.8),
           color: !empty ? backgroundColor : Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
@@ -36,7 +46,7 @@ class BaseButton extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          onPressed: onPressed ?? (){},
+          onPressed: onPressed,
         ),
       ),
     );
