@@ -6,6 +6,7 @@ import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/services/database.dart';
+import 'package:repetapp/utilities/constants.dart';
 
 class UserModel {
   UserModel({this.email, this.age, this.phoneNumber, this.gender = 'Female', this.nameSurname}){
@@ -213,21 +214,21 @@ class UserModel {
     });
   }
 
-  Future<void> addRemainder(PetModel pet, String routineName, DateTime time) async {
-    String idName = pet.name.replaceAll(' ', '') + routineName + currentNotifications.length.toString();
-    bool result = await pet.addRoutine(routineName, time, currentNotifications.length, idName);
+  Future<void> addRemainder(PetModel pet, Remainders remainder, DateTime time, int notificationId, bool isActive) async {
+    String remainderName = pet.name.replaceAll(' ', '') + remainderTitles[remainder] + currentNotifications.length.toString();
+    bool result = await pet.addRoutine(remainderTitles[remainder], time, notificationId, remainderName, isActive);
     if(result){
-      updateCurrentNotifications(idName);
+      updateCurrentNotifications(remainderName);
     }
   }
 
   void updateCurrentNotifications(String id){
-    currentNotifications[id] = currentNotifications.length;
+    //currentNotifications[id] = currentNotifications.length;
     databaseManager.updateCurrentNotifications(this.currentNotifications, this.id);
   }
 
   Future<void> reActivateRemainder(PetModel pet, String routineName, DateTime time, idName) async {
-    bool result = await pet.addRoutine(routineName, time, currentNotifications[idName], idName);
+    //bool result = await pet.addRoutine(routineName, time, currentNotifications[idName], idName);
   }
 
   Future<void> cancelRemainder(PetModel pet, id, routineName) async {

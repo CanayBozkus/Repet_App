@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:repetapp/widgets/time_selector.dart';
+import 'package:repetapp/utilities/extensions.dart';
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
 
@@ -21,9 +22,9 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  void _openBottomSheet({String headerText, }){
+  void _openBottomSheet({Remainders remainder, }){
     final pet = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex];
-    final Map routine = pet.routines[headerText.toLowerCase()];
+    final List routine = pet.routines[remainderTitles[remainder].toLowerCase()];
     bool addNew = false;
     int hour = 0;
     int min = 0;
@@ -64,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                       Expanded(
                         child: Text(
-                          headerText,
+                          remainderTitles[remainder],
                           style: TextStyle(
                             fontSize: 20,
                             color: kPrimaryColor,
@@ -125,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                                       onPressed:() async {
                                         DateTime now = DateTime.now();
                                         DateTime time = DateTime(now.year, now.month, now.day , hour, min, 0);
-                                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, headerText, time);
+                                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, remainder, time, isActive);
                                         setState(() {
                                           print(routine);
                                           addNew = false;
@@ -151,7 +152,8 @@ class _MainScreenState extends State<MainScreen> {
                           ],
                         ),
                       ) : SizedBox.shrink(),
-                      ...routine.keys.map((id){
+                      ...routine.map((element){
+                        DateTime elementTime = element.time;
                         return Container(
                           height: 70,
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -167,23 +169,23 @@ class _MainScreenState extends State<MainScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                routine[id][0],
+                                elementTime.getHourAndMinuteString(),
                                 style: TextStyle(
                                   fontSize: 36,
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
                               Switch(
-                                value: routine[id][1],
+                                value: element.isActive,
                                 onChanged: (value) async {
                                   if(value){
-                                    List timeList = routine[id][0].split(':');
-                                    DateTime time = DateTime(2000,7,30,int.parse(timeList[0]), int.parse(timeList[1]), 0);
-                                    await Provider.of<ProvidedData>(context, listen: false).currentUser.reActivateRemainder(pet, headerText, time, id);
+                                    //List timeList = routine[id][0].split(':');
+                                    //DateTime time = DateTime(2000,7,30,int.parse(timeList[0]), int.parse(timeList[1]), 0);
+                                    //await Provider.of<ProvidedData>(context, listen: false).currentUser.reActivateRemainder(pet, headerText, time, id);
                                   }
                                   else {
-                                    routine[id][1] = value;
-                                    await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
+                                    //routine[id][1] = value;
+                                    //await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
                                   }
                                   setState(() {
                                     print(routine);
@@ -227,8 +229,6 @@ class _MainScreenState extends State<MainScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: BaseAppBar(title: 'Hatırlatıcı', context: context,),
       body: FutureBuilder(
@@ -253,52 +253,23 @@ class _MainScreenState extends State<MainScreen> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      vertical: height * 0.01,
+                      vertical: 10,
                     ),
                     child: ListView(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 5, vertical: height * 0.02),
+                          horizontal: 5, vertical: 0),
                       children: [
-                        RemainderRow(
-                          mainText: 'Feeding',
-                          svg: 'assets/icons/feeding.svg',
-                          svgColor: Color(0xfff87024),
-                          onTap: (){
-                            _openBottomSheet(headerText: 'Feeding');
-                          },
-                        ),
-                        RemainderRow(
-                          mainText: 'Walking',
-                          svg: 'assets/icons/walking.svg',
-                          svgColor: Color(0xff79c619),
-                          onTap: (){
-                            _openBottomSheet(headerText: 'Walking');
-                          },
-                        ),
-                        RemainderRow(
-                          mainText: 'Water',
-                          svg: 'assets/icons/water.svg',
-                          svgColor: Color(0xff04a3ff),
-                          onTap: (){
-                            _openBottomSheet(headerText: 'Water');
-                          },
-                        ),
-                        RemainderRow(
-                          mainText: 'Grooming',
-                          svg: 'assets/icons/grooming.svg',
-                          svgColor: Color(0xff883404),
-                          onTap: (){
-                            _openBottomSheet(headerText: 'Grooming');
-                          },
-                        ),
-                        RemainderRow(
-                          mainText: 'Playing',
-                          svg: 'assets/icons/playing.svg',
-                          svgColor: Color(0xff79c624),
-                          onTap: (){
-                            _openBottomSheet(headerText: 'Playing');
-                          },
-                        ),
+                        ...Remainders.values.map((remainder){
+                          print(remainder);
+                          return RemainderRow(
+                            mainText: remainderTitles[remainder],
+                            svg: remainderIcons[remainder],
+                            svgColor: remainderSvgColors[remainder],
+                            onTap: (){
+                              _openBottomSheet(remainder: remainder);
+                            },
+                          );
+                        }).toList(),
                       ],
                     ),
                   ),
@@ -310,7 +281,6 @@ class _MainScreenState extends State<MainScreen> {
         future: _isLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 1,
       ),
     );

@@ -2,6 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/models/user_model.dart';
+import 'package:repetapp/services/database.dart';
+
+import 'constants.dart';
 
 class ProvidedData with ChangeNotifier {
   double width;
@@ -12,6 +15,7 @@ class ProvidedData with ChangeNotifier {
   String currentShownPetIndex;
   bool isDataFetched = false;
   CalendarModel calendar = CalendarModel();
+  int nextNotificationId;
 
   void updateWidthHeight(width, height){
     this.width = width;
@@ -23,6 +27,7 @@ class ProvidedData with ChangeNotifier {
     await this.getUserData();
     await this.getPets();
     this.isDataFetched = true;
+    this._getNextNotificationId();
     notifyListeners();
   }
 
@@ -41,8 +46,12 @@ class ProvidedData with ChangeNotifier {
     calendar.getLocalCalendarData();
   }
 
-  Future<void> addNewRemainder(PetModel pet, String routineName, DateTime time) async {
-    await currentUser.addRemainder(pet, routineName, time);
+  void _getNextNotificationId(){
+    this.nextNotificationId = databaseManager.getNextNotificationId();
+  }
+
+  Future<void> addNewRemainder(PetModel pet, Remainders remainder, DateTime time, bool isActive) async {
+    await currentUser.addRemainder(pet, remainder, time, nextNotificationId, isActive);
     notifyListeners();
   }
 

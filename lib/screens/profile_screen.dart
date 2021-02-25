@@ -20,7 +20,6 @@ class ProfileScreen extends StatelessWidget {
   final FormGenerator _formGenerator = FormGenerator();
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
     return Scaffold(
       appBar: BaseAppBar(
@@ -177,7 +176,6 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 5,
       ),
     );

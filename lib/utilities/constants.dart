@@ -49,6 +49,38 @@ enum SettingsWidget {
   pet,
 }
 
+enum Remainders {
+  feeding,
+  water,
+  playing,
+  grooming,
+  walking,
+}
+
+const remainderSvgColors = {
+  Remainders.feeding: Color(0xfff87024),
+  Remainders.grooming: Color(0xff883404),
+  Remainders.playing: Color(0xff79c624),
+  Remainders.walking: Color(0xff79c619),
+  Remainders.water: Color(0xff04a3ff),
+};
+
+const remainderIcons = {
+  Remainders.feeding: 'assets/icons/feeding.svg',
+  Remainders.grooming: 'assets/icons/grooming.svg',
+  Remainders.playing: 'assets/icons/playing.svg',
+  Remainders.walking: 'assets/icons/walking.svg',
+  Remainders.water: 'assets/icons/water.svg',
+};
+
+const remainderTitles = {
+  Remainders.feeding: 'Feeding',
+  Remainders.grooming: 'Grooming',
+  Remainders.playing: 'Playing',
+  Remainders.walking: 'Walking',
+  Remainders.water: 'Water',
+};
+
 const kPrimaryColor = Color(0xFFFDA15A);
 const kColorRed = Color(0xffef1111);
 const kColorGreen = Color(0xff79c624);

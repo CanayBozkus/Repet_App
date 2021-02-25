@@ -2,24 +2,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:repetapp/models/hive_models/hive_notification_model.dart';
 import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/hive_models/hive_pet_model.dart';
 import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
+import 'package:repetapp/models/remainder_field_model.dart';
 
 
 class Database {
   Box _userModel;
   Box _petModel;
   Box _calendarModel;
+  Box _notificationModel;
   initializeDatabase() async {
     Directory document = await getApplicationDocumentsDirectory();
     Hive.init(document.path);
     Hive.registerAdapter(HiveUserModelAdapter());
     Hive.registerAdapter(HivePetModelAdapter());
     Hive.registerAdapter(HiveCalendarModelAdapter());
+    Hive.registerAdapter(HiveNotificationModelAdapter());
     _userModel = await Hive.openBox('UserModel');
     _petModel = await Hive.openBox('PetModel');
     _calendarModel = await Hive.openBox('CalendarModel');
+    _notificationModel = await Hive.openBox('NotificationModel');
   }
 
   void addData({@required String model, @required data}){
@@ -78,6 +83,10 @@ class Database {
   void updatePetRoutine(String id, Map routines){
     HivePetModel model = _petModel.values.where((element) => element.id == id).first;
     int index = _petModel.values.toList().indexOf(model);
+    model.routines.keys.map((key){
+      model.routines[key] = routines[key].map((e) => e.toMap()).toList();
+      return true;
+    });
     model.routines = routines;
     _petModel.putAt(index, model);
   }
@@ -87,6 +96,19 @@ class Database {
     int index = _userModel.values.toList().indexOf(model);
     model.currentNotifications = notifications;
     _userModel.putAt(index, model);
+  }
+
+  int getNextNotificationId(){
+    return _notificationModel.values.length;
+  }
+
+  void addNewNotification(String name, int id, String userId){
+    HiveNotificationModel newNotf = HiveNotificationModel(id: id, name: name, userId: userId);
+    _notificationModel.add(newNotf);
+  }
+
+  void deletePets(){
+    Hive.box('PetModel').clear();
   }
 }
 

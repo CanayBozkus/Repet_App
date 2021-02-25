@@ -90,7 +90,6 @@ class TrainingScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 5,
       ),
     );

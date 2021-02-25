@@ -56,7 +56,6 @@ class LeaderBoardScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 3,
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/models/hive_models/hive_pet_model.dart';
+import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/services/database.dart';
 import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart' as constants;
+import 'package:repetapp/utilities/extensions.dart';
 
 class PetModel {
   PetModel(){
@@ -23,11 +25,11 @@ class PetModel {
   List disabilities = [];
   List sicknesses = [];
   Map routines = { //TODO: routinelerin içinde saat kısmı için string olarak değil datetime olarak tut.
-    'feeding' : {},
-    'water': {},
-    'walking': {},
-    'grooming': {},
-    'playing': {},
+    'feeding' : [],
+    'water': [],
+    'walking': [],
+    'grooming': [],
+    'playing': [],
   };
 
   int petTrainingModelId;
@@ -119,7 +121,10 @@ class PetModel {
       allergies = localPetData.allergies;
       disabilities = localPetData.disabilities;
       sicknesses = localPetData.sicknesses;
-      routines = localPetData.routines;
+      localPetData.routines.keys.map((key){
+        routines[key] = localPetData.routines[key].map((e) => RemainderFieldModel.fromMap(e)).toList();
+        return true;
+      });
       return true;
     }
     return false;
@@ -141,7 +146,10 @@ class PetModel {
     allergies = petData['allergies'];
     disabilities = petData['disabilities'];
     sicknesses = petData['sicknesses'];
-    routines = petData['routines'];
+    petData['routines'].keys.map((key){
+      routines[key] = petData['routines'][key].map((e) => RemainderFieldModel.fromMap(e)).toList();
+      return true;
+    });
 
     HivePetModel localPetData = HivePetModel(
       id: this.id,
@@ -157,7 +165,7 @@ class PetModel {
       allergies: this.allergies,
       disabilities: this.disabilities,
       sicknesses: this.sicknesses,
-      routines: this.routines,
+      routines: petData['routines'],
     );
     databaseManager.addData(model: 'petModel', data: localPetData);
     return true;
@@ -171,10 +179,11 @@ class PetModel {
     return constants.disabilities;
   }
 
-  Future<bool> addRoutine(String routineName, DateTime time, int id, String idName) async {
-    this.routines[routineName.toLowerCase()][idName] = ['${time.hour}:${time.minute}', true];
+  Future<bool> addRoutine(String routineName, DateTime time, int id, String idName, bool isActive) async {
+    this.routines[routineName.toLowerCase()].add(RemainderFieldModel(time: time, isActive: isActive, id: id));
+
     try{
-      notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time);
+      isActive ? notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time) : null;
       addRoutineToCloud(routineName);
       addRoutineToLocal();
       return true;
@@ -188,7 +197,7 @@ class PetModel {
   Future<void> addRoutineToCloud(String routineName) async {
     DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
     await document.update({
-      'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()],
+      'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()].map((e) => e.toMap()).toList(),
     });
   }
 

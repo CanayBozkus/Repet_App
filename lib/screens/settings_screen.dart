@@ -12,7 +12,6 @@ class SettingsScreen extends StatelessWidget {
   String appbarTitle;
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: BaseAppBar(
         activeBackButton: true,
@@ -27,7 +26,6 @@ class SettingsScreen extends StatelessWidget {
         child: settingsWidgetParams['widget'],
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 5,
       ),
     );

@@ -135,7 +135,6 @@ class _ForumScreenState extends State<ForumScreen> {
         ),
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 4,
       ),
     );

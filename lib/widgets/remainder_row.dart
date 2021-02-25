@@ -39,9 +39,9 @@ class RemainderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
-    double percentage = calculateDailyPercentage(routine);
-    bool hasAlarm = checkAlarms(routine);
+    //final Map routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
+    double percentage = 0; //calculateDailyPercentage(routine);
+    bool hasAlarm = true; //checkAlarms(routine);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: BaseShadow(
@@ -60,7 +60,7 @@ class RemainderRow extends StatelessWidget {
             ),
           ),
           subtitle: Text(
-            'Günde ' + routine.length.toString() + ' defa',
+            'Günde ' + ' defa',
             style: TextStyle(
               fontSize: 14,
             ),

@@ -87,7 +87,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
         future: _isLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
-        width: width,
         pageNumber: 2,
       ),
     );

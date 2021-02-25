@@ -5,12 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class BaseBottomBar extends StatefulWidget {
   BaseBottomBar({
     Key key,
-
-    @required this.width,
     @required this.pageNumber,
   });
 
-  final double width;
   final int pageNumber;
 
   @override
