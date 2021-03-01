@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/services/database.dart';
 import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
+import 'package:add_2_calendar/add_2_calendar.dart';
+
 class CalendarModel {
   CalendarModel(){
     _fireStore = FirebaseFirestore.instance;
@@ -33,6 +35,15 @@ class CalendarModel {
     else {
       eventCollections[date] =[{'date': eventDate, 'event': event, 'isDone': false}];
     }
+    Event localCalendarEvent = Event(
+      title: event,
+      description: '',
+      location: '',
+      startDate: eventDate,
+      endDate: eventDate.add(Duration(hours: 1)),
+      allDay: false,
+    );
+    Add2Calendar.addEvent2Cal(localCalendarEvent);
   }
   @deprecated
   Future<bool> getCalendarData(documentId) async {
@@ -48,24 +59,17 @@ class CalendarModel {
   }
 
   void getLocalCalendarData(){
-    print(1);
     List dataList = databaseManager.getAllCalendarEvents(this.userId);
-    print(1);
-    print(dataList);
     dataList.forEach((element) {
       DateTime date = DateTime(element.dateTime.year, element.dateTime.month, element.dateTime.day, 0, 0, 0);
-      print(2);
       if(eventCollections.keys.contains(date)){
         eventCollections[date].add({'date': element.dateTime, 'event': element.event, 'isDone': element.isDone});
       }
       else{
         eventCollections[date] = [{'date': element.dateTime, 'event': element.event, 'isDone': element.isDone}];
       }
-      print(2);
       this.isDataFetch = true;
     });
-    print(1);
-    print(eventCollections);
   }
 
   void updateStatus(DateTime date, bool status){

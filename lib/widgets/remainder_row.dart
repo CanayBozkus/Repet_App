@@ -39,7 +39,6 @@ class RemainderRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final List routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[remainderTitles[remainder].toLowerCase()];
     Map status = calculateDailyStatus(routine);
-    print(status['percentage']);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: BaseShadow(
@@ -108,7 +107,6 @@ class RemainderRow extends StatelessWidget {
                   child: Text(
                     '%' + (status['percentage']*100).toInt().toString(),
                     style: TextStyle(
-
                       fontSize: 18,
                     ),
                   ),
