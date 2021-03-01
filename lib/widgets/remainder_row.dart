@@ -1,36 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 
 class RemainderRow extends StatelessWidget {
-  RemainderRow({this.svg, this.mainText, this.svgColor, this.onTap});
-  final String svg;
-  final String mainText;
-  final Color svgColor;
+  RemainderRow({this.onTap, this.remainder});
   final Function onTap;
+  final Remainders remainder;
 
-  double calculateDailyPercentage(Map routine){
+  Map calculateDailyStatus(List routine){
     int countOpens = 0;
     int countTimes = 0;
     DateTime currentTime = DateTime.now();
-    for(var id in routine.keys){
-      List time = routine[id][0].split(':');
-      if(routine[id][1]){
+    for(var instance in routine){
+      if(instance.isActive){
         countOpens +=1;
-        DateTime notfTime = DateTime(currentTime.year, currentTime.month, currentTime.day, int.parse(time[0]), int.parse(time[1]), 0);
+        DateTime notfTime = DateTime(currentTime.year, currentTime.month, currentTime.day, instance.time.hour, instance.time.minute, 0);
         if(notfTime.isBefore(currentTime)){
           countTimes +=1;
         }
       }
     }
-    return countOpens != 0 ? countTimes/countOpens : 0;
+    return {'percentage': countOpens != 0 ? countTimes/countOpens : 0.0, 'opens': countOpens, 'hasAlarm': checkAlarms(routine)};
   }
 
   bool checkAlarms(routine){
-    for(var id in routine.keys){
-      if(routine[id][1]){
+    for(var instance in routine){
+      if(instance.isActive){
         return true;
       }
     }
@@ -39,28 +37,28 @@ class RemainderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final Map routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[mainText.toLowerCase()];
-    double percentage = 0; //calculateDailyPercentage(routine);
-    bool hasAlarm = true; //checkAlarms(routine);
+    final List routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[remainderTitles[remainder].toLowerCase()];
+    Map status = calculateDailyStatus(routine);
+    print(status['percentage']);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: BaseShadow(
         child: ListTile(
           onTap: onTap,
           leading: SvgPicture.asset(
-            svg,
+            remainderIcons[remainder],
             height: 40,
-            color: svgColor,
+            color: remainderSvgColors[remainder],
           ),
           title: Text(
-            mainText,
+            remainderTitles[remainder],
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w800,
             ),
           ),
           subtitle: Text(
-            'Günde ' + ' defa',
+            'Günde ' + status['opens'].toString() + ' defa',
             style: TextStyle(
               fontSize: 14,
             ),
@@ -69,7 +67,7 @@ class RemainderRow extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                hasAlarm ? Container(
+                status['hasAlarm'] ? Container(
                   padding: EdgeInsets.all(8),
                   height: 50,
                   width: 50,
@@ -96,7 +94,7 @@ class RemainderRow extends StatelessWidget {
                       begin: Alignment.bottomCenter,
                       end: Alignment.topCenter,
                       colors: [Color(0xff79c624), Colors.white],
-                      stops: [percentage, 0]
+                      stops: [status['percentage'], 0]
                     ),
                     boxShadow: [
                       BoxShadow(
@@ -108,7 +106,7 @@ class RemainderRow extends StatelessWidget {
                     ],
                   ),
                   child: Text(
-                    '%' + (percentage*100).toInt().toString(),
+                    '%' + (status['percentage']*100).toInt().toString(),
                     style: TextStyle(
 
                       fontSize: 18,

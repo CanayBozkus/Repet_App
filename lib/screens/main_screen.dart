@@ -258,9 +258,7 @@ class _MainScreenState extends State<MainScreen> {
                       children: [
                         ...Remainders.values.map((remainder){
                           return RemainderRow(
-                            mainText: remainderTitles[remainder],
-                            svg: remainderIcons[remainder],
-                            svgColor: remainderSvgColors[remainder],
+                            remainder: remainder,
                             onTap: (){
                               _openBottomSheet(remainder: remainder);
                             },
