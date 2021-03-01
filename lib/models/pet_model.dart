@@ -107,6 +107,7 @@ class PetModel {
 
   bool getLocalPetData(String id){
     HivePetModel localPetData = databaseManager.getLocalPet(id);
+
     if(localPetData != null){
       this.id = id;
       name =localPetData.name;
@@ -121,9 +122,10 @@ class PetModel {
       allergies = localPetData.allergies;
       disabilities = localPetData.disabilities;
       sicknesses = localPetData.sicknesses;
-      localPetData.routines.keys.map((key){
-        routines[key] = localPetData.routines[key].map((e) => RemainderFieldModel.fromMap(e)).toList();
-        return true;
+      localPetData.routines.keys.forEach((key){
+        localPetData.routines[key].forEach((e){
+          routines[key].add(RemainderFieldModel.fromMap(data: e, isLocal: true));
+        });
       });
       return true;
     }
@@ -146,11 +148,11 @@ class PetModel {
     allergies = petData['allergies'];
     disabilities = petData['disabilities'];
     sicknesses = petData['sicknesses'];
-    petData['routines'].keys.map((key){
-      routines[key] = petData['routines'][key].map((e) => RemainderFieldModel.fromMap(e)).toList();
-      return true;
+    petData['routines'].keys.forEach((key){
+      petData['routines'][key].forEach((e){
+        routines[key].add(RemainderFieldModel.fromMap(data: e, isLocal: false));
+      });
     });
-
     HivePetModel localPetData = HivePetModel(
       id: this.id,
       name: this.name,
@@ -179,13 +181,15 @@ class PetModel {
     return constants.disabilities;
   }
 
-  Future<bool> addRoutine(String routineName, DateTime time, int id, String idName, bool isActive) async {
-    this.routines[routineName.toLowerCase()].add(RemainderFieldModel(time: time, isActive: isActive, id: id));
-
+  Future<bool> addRoutine(constants.Remainders remainder , DateTime time, int id,  bool isActive) async {
+    RemainderFieldModel newRemainder = RemainderFieldModel(time: time, isActive: isActive, id: id);
+    String remainderTitle = constants.remainderTitles[remainder];
+    this.routines[remainderTitle.toLowerCase()].add(newRemainder);
     try{
-      isActive ? notificationPlugin.showDailyAtTimeNotification(id: id, title: '$routineName Time', body: '${this.name} needs ${routineName.toLowerCase()}.', payload: null, time: time) : null;
-      addRoutineToCloud(routineName);
+      isActive ? notificationPlugin.showDailyAtTimeNotification(id: id, title: '$remainderTitle Time', body: '${this.name} needs ${remainderTitle.toLowerCase()}.', payload: null, time: time) : null;
+      addRoutineToCloud(remainderTitle);
       addRoutineToLocal();
+      databaseManager.addNewNotification(remainderTitle + this.name + id.toString(), id, this.ownerId,);
       return true;
     }
     catch(e){
@@ -202,7 +206,14 @@ class PetModel {
   }
 
   void addRoutineToLocal(){
-    databaseManager.updatePetRoutine(this.id, this.routines);
+    Map newRoutines = {};
+    this.routines.keys.forEach((key){
+      newRoutines[key] = [];
+      routines[key].forEach((e){
+        newRoutines[key].add(e.toMap());
+      });
+    });
+    databaseManager.updatePetRoutine(this.id, newRoutines);
   }
 
   Future<void> cancelRoutine(id, routineName) async {

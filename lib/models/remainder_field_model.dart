@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class RemainderFieldModel {
   DateTime time;
   bool isActive;
@@ -17,9 +19,17 @@ class RemainderFieldModel {
     };
   }
 
-  static RemainderFieldModel fromMap(Map data){
+  static RemainderFieldModel fromMap({Map data, bool isLocal}){
+    DateTime time;
+    if(isLocal){
+      time = data['time'];
+    }
+    else {
+      Timestamp timestamp = data['time'];
+      time = timestamp.toDate();
+    }
     return RemainderFieldModel(
-      time: data['time'],
+      time: time,
       isActive: data['isActive'],
       id: data['id'],
     );

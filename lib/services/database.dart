@@ -83,19 +83,9 @@ class Database {
   void updatePetRoutine(String id, Map routines){
     HivePetModel model = _petModel.values.where((element) => element.id == id).first;
     int index = _petModel.values.toList().indexOf(model);
-    model.routines.keys.map((key){
-      model.routines[key] = routines[key].map((e) => e.toMap()).toList();
-      return true;
-    });
     model.routines = routines;
+    print(model.routines);
     _petModel.putAt(index, model);
-  }
-
-  void updateCurrentNotifications(Map notifications, String id){
-    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
-    int index = _userModel.values.toList().indexOf(model);
-    model.currentNotifications = notifications;
-    _userModel.putAt(index, model);
   }
 
   int getNextNotificationId(){

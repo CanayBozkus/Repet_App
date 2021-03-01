@@ -20,7 +20,6 @@ class HiveUserModelAdapter extends TypeAdapter<HiveUserModel> {
       id: fields[0] as String,
       gender: fields[5] as String,
       pets: (fields[7] as List)?.cast<dynamic>(),
-      currentNotifications: (fields[9] as Map)?.cast<dynamic, dynamic>(),
       nameSurname: fields[2] as String,
       email: fields[1] as String,
       age: fields[3] as int,
@@ -33,7 +32,7 @@ class HiveUserModelAdapter extends TypeAdapter<HiveUserModel> {
   @override
   void write(BinaryWriter writer, HiveUserModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -51,9 +50,7 @@ class HiveUserModelAdapter extends TypeAdapter<HiveUserModel> {
       ..writeByte(7)
       ..write(obj.pets)
       ..writeByte(8)
-      ..write(obj.calendarId)
-      ..writeByte(9)
-      ..write(obj.currentNotifications);
+      ..write(obj.calendarId);
   }
 
   @override

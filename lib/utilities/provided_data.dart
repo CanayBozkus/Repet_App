@@ -52,6 +52,7 @@ class ProvidedData with ChangeNotifier {
 
   Future<void> addNewRemainder(PetModel pet, Remainders remainder, DateTime time, bool isActive) async {
     await currentUser.addRemainder(pet, remainder, time, nextNotificationId, isActive);
+    nextNotificationId++;
     notifyListeners();
   }
 

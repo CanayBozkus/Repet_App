@@ -22,14 +22,11 @@ class HiveUserModel {
   List pets;
   @HiveField(8)
   String calendarId;
-  @HiveField(9)
-  Map currentNotifications;
 
   HiveUserModel({
     this.id,
     this.gender,
     this.pets,
-    this.currentNotifications,
     this.nameSurname,
     this.email,
     this.age,

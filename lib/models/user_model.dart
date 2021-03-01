@@ -28,7 +28,6 @@ class UserModel {
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
   bool newsSetterConfirmation = true;
-  Map currentNotifications = {};
 
   Future<bool> createUser() async {
     bool isCloudDataCreated = await this.createUserForCloud();
@@ -55,7 +54,6 @@ class UserModel {
           'pets': pets,
           'newsSetterConfirmation': newsSetterConfirmation,
           'calendar_id': await CalendarModel.createCalendar(newUser.user.uid),
-          'current_notifications': currentNotifications,
         });
         this.id = newUser.user.uid;
         return true;
@@ -81,7 +79,6 @@ class UserModel {
       addresses: this.addresses,
       calendarId: this.calendarId,
       email: this.email,
-      currentNotifications: this.currentNotifications,
     );
     databaseManager.addData(model: 'userModel', data: localUser);
     return true;
@@ -110,7 +107,6 @@ class UserModel {
       calendarId = localUser.calendarId;
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
-      currentNotifications = localUser.currentNotifications;
       return true;
     }
     return false;
@@ -129,7 +125,6 @@ class UserModel {
       calendarId = userData['calendar_id'];
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
-      currentNotifications = userData['current_notifications'];
 
       HiveUserModel localUser = HiveUserModel(
         id: this.id,
@@ -141,7 +136,6 @@ class UserModel {
         addresses: this.addresses,
         calendarId: this.calendarId,
         email: this.email,
-        currentNotifications: this.currentNotifications,
       );
       databaseManager.addData(model: 'userModel', data: localUser);
       return true;
@@ -215,16 +209,7 @@ class UserModel {
   }
 
   Future<void> addRemainder(PetModel pet, Remainders remainder, DateTime time, int notificationId, bool isActive) async {
-    String remainderName = pet.name.replaceAll(' ', '') + remainderTitles[remainder] + currentNotifications.length.toString();
-    bool result = await pet.addRoutine(remainderTitles[remainder], time, notificationId, remainderName, isActive);
-    if(result){
-      updateCurrentNotifications(remainderName);
-    }
-  }
-
-  void updateCurrentNotifications(String id){
-    //currentNotifications[id] = currentNotifications.length;
-    databaseManager.updateCurrentNotifications(this.currentNotifications, this.id);
+    bool result = await pet.addRoutine(remainder, time, notificationId,  isActive);
   }
 
   Future<void> reActivateRemainder(PetModel pet, String routineName, DateTime time, idName) async {
@@ -232,6 +217,6 @@ class UserModel {
   }
 
   Future<void> cancelRemainder(PetModel pet, id, routineName) async {
-    await pet.cancelRoutine(currentNotifications[id], routineName);
+    //await pet.cancelRoutine(currentNotifications[id], routineName);
   }
 }

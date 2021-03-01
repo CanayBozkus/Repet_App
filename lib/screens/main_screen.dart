@@ -128,7 +128,6 @@ class _MainScreenState extends State<MainScreen> {
                                         DateTime time = DateTime(now.year, now.month, now.day , hour, min, 0);
                                         await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, remainder, time, isActive);
                                         setState(() {
-                                          print(routine);
                                           addNew = false;
                                         });
                                       },
@@ -188,7 +187,7 @@ class _MainScreenState extends State<MainScreen> {
                                     //await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
                                   }
                                   setState(() {
-                                    print(routine);
+
                                   });
                                 },
                               ),
@@ -260,7 +259,6 @@ class _MainScreenState extends State<MainScreen> {
                           horizontal: 5, vertical: 0),
                       children: [
                         ...Remainders.values.map((remainder){
-                          print(remainder);
                           return RemainderRow(
                             mainText: remainderTitles[remainder],
                             svg: remainderIcons[remainder],
