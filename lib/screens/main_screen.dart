@@ -178,13 +178,11 @@ class _MainScreenState extends State<MainScreen> {
                                 value: element.isActive,
                                 onChanged: (value) async {
                                   if(value){
-                                    //List timeList = routine[id][0].split(':');
-                                    //DateTime time = DateTime(2000,7,30,int.parse(timeList[0]), int.parse(timeList[1]), 0);
-                                    //await Provider.of<ProvidedData>(context, listen: false).currentUser.reActivateRemainder(pet, headerText, time, id);
+                                    await Provider.of<ProvidedData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
                                   }
                                   else {
                                     //routine[id][1] = value;
-                                    //await Provider.of<ProvidedData>(context, listen: false).cancelRemainder(pet, id, headerText.toLowerCase());
+                                    await Provider.of<ProvidedData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
                                   }
                                   setState(() {
 

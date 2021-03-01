@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/services/database.dart';
 
@@ -56,8 +57,8 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> reActivateNewRemainder(PetModel pet, String routineName, DateTime time, id) async {
-    await currentUser.reActivateRemainder(pet, routineName, time, id);
+  Future<void> updateRemainderStatus(PetModel pet, RemainderFieldModel remainderFieldModel, Remainders remainder, bool newStatus) async {
+    await currentUser.updateRemainderStatus(pet, remainderFieldModel, remainder, newStatus);
     notifyListeners();
   }
 

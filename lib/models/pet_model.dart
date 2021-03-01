@@ -187,8 +187,8 @@ class PetModel {
     this.routines[remainderTitle.toLowerCase()].add(newRemainder);
     try{
       isActive ? notificationPlugin.showDailyAtTimeNotification(id: id, title: '$remainderTitle Time', body: '${this.name} needs ${remainderTitle.toLowerCase()}.', payload: null, time: time) : null;
-      addRoutineToCloud(remainderTitle);
-      addRoutineToLocal();
+      addUpdateRoutineToCloud(remainderTitle);
+      addUpdateRoutineToLocal();
       databaseManager.addNewNotification(remainderTitle + this.name + id.toString(), id, this.ownerId,);
       return true;
     }
@@ -198,14 +198,14 @@ class PetModel {
     }
   }
 
-  Future<void> addRoutineToCloud(String routineName) async {
+  Future<void> addUpdateRoutineToCloud(String routineName) async {
     DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
     await document.update({
       'routines.${routineName.toLowerCase()}': this.routines[routineName.toLowerCase()].map((e) => e.toMap()).toList(),
     });
   }
 
-  void addRoutineToLocal(){
+  void addUpdateRoutineToLocal(){
     Map newRoutines = {};
     this.routines.keys.forEach((key){
       newRoutines[key] = [];
@@ -222,5 +222,17 @@ class PetModel {
       'routines.$routineName': this.routines[routineName],
     });
     notificationPlugin.cancelNotification(id: id);
+  }
+
+  void updateRemainderStatus(RemainderFieldModel remainderField, constants.Remainders remainder,  bool newStatus){
+    List routineField = this.routines[constants.remainderTitles[remainder].toLowerCase()];
+    RemainderFieldModel model = routineField.where((element) => element.id == remainderField.id).first;
+    String remainderTitle = constants.remainderTitles[remainder];
+    model.isActive = newStatus;
+    newStatus ?
+      notificationPlugin.showDailyAtTimeNotification(id: remainderField.id, title: '$remainderTitle Time', body: '${this.name} needs ${remainderTitle.toLowerCase()}.', payload: null, time: remainderField.time) :
+      notificationPlugin.cancelNotification(id: remainderField.id);
+    addUpdateRoutineToLocal();
+    addUpdateRoutineToCloud(constants.remainderTitles[remainder]);
   }
 }

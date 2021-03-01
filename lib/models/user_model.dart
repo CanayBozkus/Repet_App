@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/pet_model.dart';
+import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/services/database.dart';
 import 'package:repetapp/utilities/constants.dart';
@@ -212,8 +213,8 @@ class UserModel {
     bool result = await pet.addRoutine(remainder, time, notificationId,  isActive);
   }
 
-  Future<void> reActivateRemainder(PetModel pet, String routineName, DateTime time, idName) async {
-    //bool result = await pet.addRoutine(routineName, time, currentNotifications[idName], idName);
+  Future<void> updateRemainderStatus(PetModel pet, RemainderFieldModel remainderField, Remainders remainder, bool newStatus) async {
+    pet.updateRemainderStatus(remainderField, remainder, newStatus);
   }
 
   Future<void> cancelRemainder(PetModel pet, id, routineName) async {
