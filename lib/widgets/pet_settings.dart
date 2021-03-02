@@ -7,6 +7,8 @@ import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/spinner.dart';
+import 'dart:async';
 
 class PetSettings extends StatefulWidget {
   @override
@@ -15,6 +17,7 @@ class PetSettings extends StatefulWidget {
 
 class _PetSettingsState extends State<PetSettings> {
   bool isActive = false;
+  bool isUpdating = false;
   Map<String, dynamic> updatedValues = {};
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -66,9 +69,10 @@ class _PetSettingsState extends State<PetSettings> {
                       activateSaveButton(value.isNotEmpty, 'name', value);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
+                      if(value.contains(RegExp(r'[0-9]'))){
+                        return 'Name cannot contain number.';
                       }
+                      return null;
                     },
                   ),
                   FormGenerator.settingsPageInput(
@@ -78,9 +82,10 @@ class _PetSettingsState extends State<PetSettings> {
                       activateSaveButton(value.isNotEmpty, 'species', value);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
+                      if(value.contains(RegExp(r'[0-9]'))){
+                        return 'Species cannot contain number.';
                       }
+                      return null;
                     },
                   ),
                   FormGenerator.settingsPageDropdown(
@@ -91,9 +96,7 @@ class _PetSettingsState extends State<PetSettings> {
                       activateSaveButton(value.isNotEmpty, 'gender', value);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
-                      }
+                      return null;
                     },
                   ),
                   FormGenerator.settingsPageInput(
@@ -104,9 +107,7 @@ class _PetSettingsState extends State<PetSettings> {
                       activateSaveButton(value.isNotEmpty, 'weight', value.isNotEmpty ? double.parse(value) : 0);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
-                      }
+                      return null;
                     },
                   ),
                   Row(
@@ -150,9 +151,7 @@ class _PetSettingsState extends State<PetSettings> {
                       activateSaveButton(value.isNotEmpty, 'height', value.isNotEmpty ? double.parse(value) : 0);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
-                      }
+                      return null;
                     },
                   ),
                   FormGenerator.settingsPageInput(
@@ -168,15 +167,26 @@ class _PetSettingsState extends State<PetSettings> {
                   SizedBox(height: 20,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
-                    child: BaseButton(
+                    child: isUpdating ? Spinner() : BaseButton(
                       text: 'Save',
                       width: 100,
                       onPressed: isActive ? () async {
-                        print(updatedValues);
-                        bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
-                        if(result){
-                          updatedValues = {};
-                          _formKey.currentState.reset();
+                        FocusScope.of(context).unfocus();
+                        if(_formKey.currentState.validate()){
+                          bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
+                          setState(() {
+                            isUpdating = true;
+                          });
+                          if(result){
+                            updatedValues = {};
+                            _formKey.currentState.reset();
+                          }
+                          //TODO: error popupı göster, giriş sayfasındaki popupı genel hale getirerek kullan
+                          Timer(Duration(seconds: 1), (){
+                            setState(() {
+                              isUpdating = false;
+                            });
+                          });
                         }
                       } : null,
                     ),
