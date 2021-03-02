@@ -100,6 +100,19 @@ class Database {
   void deletePets(){
     Hive.box('PetModel').clear();
   }
+
+  void updatePetData(String id, Map data){
+    HivePetModel model = _petModel.values.where((element) => element.id == id).first;
+    int index = _petModel.values.toList().indexOf(model);
+    model.name = data['name'] ?? model.name;
+    model.species = data['species'] ?? model.species;
+    model.gender = data['gender'] ?? model.gender;
+    model.month = data['month'] ?? model.month;
+    model.year = data['year'] ?? model.year;
+    model.height = data['height'] ?? model.height;
+    model.weight = data['weight'] ?? model.weight;
+    _petModel.putAt(index, model);
+  }
 }
 
 Database databaseManager = Database();

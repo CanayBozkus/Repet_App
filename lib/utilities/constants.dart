@@ -84,6 +84,7 @@ const remainderTitles = {
 const kPrimaryColor = Color(0xFFFDA15A);
 const kColorRed = Color(0xffef1111);
 const kColorGreen = Color(0xff79c624);
+const kGreyTextColor = Color(0xff636363);
 
 const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);
 
@@ -170,6 +171,6 @@ const kDefaultTextStyle = TextStyle(
 );
 
 const kProfileBuilderTextStyle = TextStyle(
-    color: Color(0xff636363),
+    color: kGreyTextColor,
     fontWeight: FontWeight.w700
 );

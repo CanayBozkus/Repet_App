@@ -8,21 +8,12 @@ import 'package:repetapp/services/database.dart';
 import 'constants.dart';
 
 class ProvidedData with ChangeNotifier {
-  double width;
-  double height;
-
   UserModel currentUser = UserModel();
   Map<String, PetModel> pets;
   String currentShownPetIndex;
   bool isDataFetched = false;
   CalendarModel calendar = CalendarModel();
   int nextNotificationId;
-
-  void updateWidthHeight(width, height){
-    this.width = width;
-    this.height = height;
-    notifyListeners();
-  }
 
   Future<void> getData() async {
     await this.getUserData();
@@ -94,5 +85,11 @@ class ProvidedData with ChangeNotifier {
   void updateEventStatus(DateTime date, bool status){
     calendar.updateStatus(date, status);
     notifyListeners();
+  }
+
+  Future<bool> updatePetData(Map<String, dynamic> data) async {
+    bool result = await pets[currentShownPetIndex].updateData(data);
+    notifyListeners();
+    return result;
   }
 }

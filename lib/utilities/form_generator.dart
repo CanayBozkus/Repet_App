@@ -147,7 +147,7 @@ class FormGenerator{
     );
   }
 
-  static Widget settingsPageInput({String label, String svg, bool isEnabled = true, Function onChanged, Function validator, KeyboardTypes keyboardType = KeyboardTypes.text,}){
+  static Widget settingsPageInput({String label, String svg, bool isEnabled = true, Function onChanged, Function validator, KeyboardTypes keyboardType = KeyboardTypes.text, bool disableKeyboard = false}){
     return BaseShadow(
       child: TextFormField(
         keyboardType: keyBoards[keyboardType],
@@ -157,8 +157,13 @@ class FormGenerator{
           fontWeight: FontWeight.w700,
         ),
         decoration: InputDecoration(
-          enabled: isEnabled,
+          enabled: isEnabled && !disableKeyboard,
           labelText: label,
+          labelStyle: TextStyle(
+            fontSize: 16,
+            color: kGreyTextColor,
+            fontWeight: FontWeight.w700,
+          ),
           contentPadding: EdgeInsets.symmetric(vertical: 16,),
           prefixIcon: svg != null ? Padding(
             padding: EdgeInsets.all(12.0),

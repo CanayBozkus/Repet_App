@@ -235,4 +235,36 @@ class PetModel {
     addUpdateRoutineToLocal();
     addUpdateRoutineToCloud(constants.remainderTitles[remainder]);
   }
+
+  Future<bool> updateData(Map<String, dynamic> data) async {
+    bool isCloudUpdated = await this.updateCloudData(data);
+    if(isCloudUpdated){
+      this.updateLocalData(data);
+      this.name = data['name'] ?? this.name;
+      this.species = data['species'] ?? this.species;
+      this.gender = data['gender'] ?? this.gender;
+      this.month = data['month'] ?? this.month;
+      this.year = data['year'] ?? this.year;
+      this.height = data['height'] ?? this.height;
+      this.weight = data['weight'] ?? this.weight;
+      return true;
+    }
+    return false;
+  }
+
+  void updateLocalData(Map<String, dynamic> data){
+    databaseManager.updatePetData(id, data);
+  }
+
+  Future<bool> updateCloudData(Map<String, dynamic> data) async {
+    try{
+      DocumentReference document = await _fireStore.collection('PetModel').doc(this.id);
+      await document.update(data);
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+  }
 }

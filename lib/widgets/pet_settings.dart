@@ -15,6 +15,24 @@ class PetSettings extends StatefulWidget {
 
 class _PetSettingsState extends State<PetSettings> {
   bool isActive = false;
+  Map<String, dynamic> updatedValues = {};
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  void activateSaveButton(bool isNotEmpty, String key, value){
+    if(isNotEmpty){
+      updatedValues[key] = value;
+      setState(() {
+        isActive = true;
+      });
+    }
+    else {
+      updatedValues.remove(key);
+      setState(() {
+        isActive = updatedValues.isNotEmpty;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
@@ -24,6 +42,7 @@ class _PetSettingsState extends State<PetSettings> {
         children: [
           Expanded(
             child: Form(
+              key: _formKey,
               child: ListView(
                 padding: EdgeInsets.symmetric(vertical: 20, horizontal: 5),
                 children: [
@@ -40,23 +59,11 @@ class _PetSettingsState extends State<PetSettings> {
                       ),
                     ),
                   ),
-                  FormGenerator.settingsPageInput(label: currentPet.name, svg: 'assets/icons/dog.svg',),
-                  FormGenerator.settingsPageInput(label: currentPet.species, svg: 'assets/icons/species.svg',),
-                  FormGenerator.settingsPageDropdown(
-                    categories: ['Male', 'Female'],
-                    hint: currentPet.gender,
-                    svg: 'assets/icons/gender.svg',
+                  FormGenerator.settingsPageInput(
+                    label: currentPet.name,
+                    svg: 'assets/icons/dog.svg',
                     onChanged: (value) {
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
+                      activateSaveButton(value.isNotEmpty, 'name', value);
                     },
                     validator: (value) {
                       if (value == null) {
@@ -64,19 +71,113 @@ class _PetSettingsState extends State<PetSettings> {
                       }
                     },
                   ),
-                  FormGenerator.settingsPageInput(label: '${currentPet.weight} kg', svg: 'assets/icons/weight.svg',),
-                  FormGenerator.settingsPageInput(label: '${currentPet.year} year ${currentPet.month} month', svg: 'assets/icons/cake.svg',),
-                  FormGenerator.settingsPageInput(label: '${currentPet.height} m', svg: 'assets/icons/height.svg',),
-                  FormGenerator.settingsPageInput(label: 'Alerji', svg: 'assets/icons/peanut.svg',),
-                  FormGenerator.settingsPageInput(label: 'Engel', svg: 'assets/icons/wheelchair.svg',),
-                  SizedBox(height: 30,),
+                  FormGenerator.settingsPageInput(
+                    label: currentPet.species,
+                    svg: 'assets/icons/species.svg',
+                    onChanged: (value) {
+                      activateSaveButton(value.isNotEmpty, 'species', value);
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a gender!';
+                      }
+                    },
+                  ),
+                  FormGenerator.settingsPageDropdown(
+                    categories: ['Male', 'Female'],
+                    hint: currentPet.gender,
+                    svg: 'assets/icons/gender.svg',
+                    onChanged: (value) {
+                      activateSaveButton(value.isNotEmpty, 'gender', value);
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a gender!';
+                      }
+                    },
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: '${currentPet.weight} kg',
+                    svg: 'assets/icons/weight.svg',
+                    keyboardType: KeyboardTypes.number,
+                    onChanged: (String value) {
+                      activateSaveButton(value.isNotEmpty, 'weight', value.isNotEmpty ? double.parse(value) : 0);
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a gender!';
+                      }
+                    },
+                  ),
+                  Row(
+                    children: [
+                      Expanded( 
+                        child: FormGenerator.settingsPageInput(
+                          label: '${currentPet.year} year',
+                          svg: 'assets/icons/cake.svg',
+                          keyboardType: KeyboardTypes.number,
+                          onChanged: (value) {
+                            activateSaveButton(value.isNotEmpty, 'year', value.isNotEmpty ? int.parse(value) : 0);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a gender!';
+                            }
+                          },
+                        ),
+                      ),
+                      Expanded(
+                        child: FormGenerator.settingsPageInput(
+                          label: '${currentPet.month} month',
+                          keyboardType: KeyboardTypes.number,
+                          onChanged: (value) {
+                            activateSaveButton(value.isNotEmpty, 'month', value.isNotEmpty ? int.parse(value) : 0);
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a gender!';
+                            }
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: '${currentPet.height} m',
+                    keyboardType: KeyboardTypes.number,
+                    svg: 'assets/icons/height.svg',
+                    onChanged: (value) {
+                      activateSaveButton(value.isNotEmpty, 'height', value.isNotEmpty ? double.parse(value) : 0);
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Please select a gender!';
+                      }
+                    },
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: 'Alerji',
+                    svg: 'assets/icons/peanut.svg',
+                    disableKeyboard: true,
+                  ),
+                  FormGenerator.settingsPageInput(
+                    label: 'Engel',
+                    svg: 'assets/icons/wheelchair.svg',
+                    disableKeyboard: true,
+                  ),
+                  SizedBox(height: 20,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: BaseButton(
                       text: 'Save',
                       width: 100,
-                      onPressed: isActive ? (){
-
+                      onPressed: isActive ? () async {
+                        print(updatedValues);
+                        bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
+                        if(result){
+                          updatedValues = {};
+                          _formKey.currentState.reset();
+                        }
                       } : null,
                     ),
                   ),
