@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
@@ -172,7 +173,32 @@ class _PetSettingsState extends State<PetSettings> {
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
-                        if(_formKey.currentState.validate()){
+                        bool isConnected = await checkInternetConnection();
+                        if(!isConnected){
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Error',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  titleTextStyle: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800
+                                  ),
+                                  content: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No Internet Connection'),
+                                    ),
+                                  ),
+                                );
+                              }
+                          );
+                        }
+                        else if(_formKey.currentState.validate()){
                           bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
                           setState(() {
                             isUpdating = true;

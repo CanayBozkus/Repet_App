@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/screens/login_screen.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
@@ -102,10 +103,21 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                                showDialog(
                                  context: context,
                                  builder: (context) {
-                                   return Container(
-                                     height: 100,
-                                     child: Center(
-                                       child: Text('No Internet Connection'),
+                                   return AlertDialog(
+                                     title: Text(
+                                       'Error',
+                                       textAlign: TextAlign.center,
+                                     ),
+                                     titleTextStyle: TextStyle(
+                                         color: kPrimaryColor,
+                                         fontSize: 22,
+                                         fontWeight: FontWeight.w800
+                                     ),
+                                     content: Container(
+                                       height: 100,
+                                       child: Center(
+                                         child: Text('No Internet Connection'),
+                                       ),
                                      ),
                                    );
                                  }
