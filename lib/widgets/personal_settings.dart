@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
+import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/base_button.dart';
+import 'package:repetapp/widgets/spinner.dart';
 
 class PersonalSettings extends StatefulWidget {
   @override
@@ -14,9 +18,24 @@ class PersonalSettings extends StatefulWidget {
 
 class _PersonalSettingsState extends State<PersonalSettings> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
   bool isActive = false;
+  bool isUpdating = false;
+  Map<String, dynamic> updatedValues = {};
 
+  void activateSaveButton(bool isNotEmpty, String key, value){
+    if(isNotEmpty){
+      updatedValues[key] = value;
+      setState(() {
+        isActive = true;
+      });
+    }
+    else {
+      updatedValues.remove(key);
+      setState(() {
+        isActive = updatedValues.isNotEmpty;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     UserModel user = context.watch<ProvidedData>().currentUser;
@@ -57,68 +76,51 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                     label: user.nameSurname,
                     svg: 'assets/icons/account.svg',
                     onChanged: (String value){
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
+                      activateSaveButton(value.isNotEmpty, 'nameSurname', value);
                     },
-                    validator: FormGenerator.nameValidatorGenerator('a valid')
+                    validator: (value) {
+                      if(value.contains(RegExp(r'[0-9]'))){
+                        return 'Name cannot contain number.';
+                      }
+                      return null;
+                    },
                   ),
                   FormGenerator.settingsPageInput(
                     label: user.email,
                     svg: 'assets/icons/email.svg',
                     onChanged: (String value){
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
+                      activateSaveButton(value.isNotEmpty, 'email', value);
                     },
-                    validator: FormGenerator.mailValidator,
+                    validator: (String value){
+                      if(value.isEmpty){
+                        return null;
+                      }
+                      if(!value.contains('@')){
+                        return 'Invalid email.';
+                      }
+                      return null;
+                    },
                   ),
                   FormGenerator.settingsPageInput(
                     label: user.phoneNumber == null ? 'Phone Number' : user.phoneNumber.toString(),
                     keyboardType: KeyboardTypes.number,
                     svg: 'assets/icons/cellphone.svg',
                     onChanged: (String value){
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
-                    }
+                      activateSaveButton(value.isNotEmpty, 'phoneNumber', value.isNotEmpty ? int.parse(value) : 0);
+                    },
+                    validator: (value) {
+                      return null;
+                    },
                   ),
                   FormGenerator.settingsPageInput(
                     label: user.age.toString(),
                     svg: 'assets/icons/cake.svg',
                     keyboardType: KeyboardTypes.number,
                     onChanged: (String value){
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
+                      activateSaveButton(value.isNotEmpty, 'age', value.isNotEmpty ? int.parse(value) : 0);
+                    },
+                    validator: (value) {
+                      return null;
                     },
                   ),
                   FormGenerator.settingsPageDropdown(
@@ -126,31 +128,60 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                     hint: user.gender,
                     svg: 'assets/icons/gender.svg',
                     onChanged: (value) {
-                      if(value.isNotEmpty){
-                        setState(() {
-                          isActive = true;
-                        });
-                      }
-                      else {
-                        setState(() {
-                          isActive = false;
-                        });
-                      }
+                      activateSaveButton(value.isNotEmpty, 'gender', value);
                     },
                     validator: (value) {
-                      if (value == null) {
-                        return 'Please select a gender!';
-                      }
+                      return null;
                     },
                   ),
                   SizedBox(height: 30,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
-                    child: BaseButton(
+                    child: isUpdating ? Spinner() : BaseButton(
                       text: 'Save',
                       width: 100,
-                      onPressed: isActive ? (){
-
+                      onPressed: isActive ? () async {
+                        FocusScope.of(context).unfocus();
+                        bool isConnected = await checkInternetConnection();
+                        if(!isConnected){
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Error',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  titleTextStyle: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800
+                                  ),
+                                  content: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No Internet Connection'),
+                                    ),
+                                  ),
+                                );
+                              }
+                          );
+                        }
+                        else if(_formKey.currentState.validate()){
+                          bool result = await context.read<ProvidedData>().updatePersonalData(updatedValues);
+                          setState(() {
+                            isUpdating = true;
+                          });
+                          if(result){
+                            updatedValues = {};
+                            _formKey.currentState.reset();
+                          }
+                          Timer(Duration(seconds: 1), (){
+                            setState(() {
+                              isUpdating = false;
+                            });
+                          });
+                        }
                       } : null,
                     ),
                   ),

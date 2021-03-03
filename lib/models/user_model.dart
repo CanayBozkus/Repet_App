@@ -220,4 +220,29 @@ class UserModel {
   Future<void> cancelRemainder(PetModel pet, id, routineName) async {
     //await pet.cancelRoutine(currentNotifications[id], routineName);
   }
+
+  Future<bool> updateData(Map<String, dynamic> data) async {
+    bool isCloudUpdated = await this.updateCloudData(data);
+    if(isCloudUpdated){
+      this.updateLocalData(data);
+
+      return true;
+    }
+    return false;
+  }
+
+  void updateLocalData(Map<String, dynamic> data){
+
+  }
+
+  Future<bool> updateCloudData(Map<String, dynamic> data) async {
+    try{
+
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+  }
 }

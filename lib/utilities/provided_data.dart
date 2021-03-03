@@ -92,4 +92,10 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  Future<bool> updatePersonalData(Map<String, dynamic> data) async {
+    bool result = await currentUser.updateData(data);
+    notifyListeners();
+    return result;
+  }
 }
