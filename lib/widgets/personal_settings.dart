@@ -143,13 +143,46 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
                         bool isConnected = await checkInternetConnection();
+                        String password;
+                        setState(() {
+                          isUpdating = true;
+                        });
                         if(!isConnected){
                           showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Error',
+                                  textAlign: TextAlign.center,
+                                ),
+                                titleTextStyle: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w800
+                                ),
+                                content: Container(
+                                  height: 100,
+                                  child: Center(
+                                    child: Text('No Internet Connection'),
+                                  ),
+                                ),
+                              );
+                            }
+                          );
+                          setState(() {
+                            isUpdating = false;
+                          });
+                        }
+                        else if(_formKey.currentState.validate()){
+                          if(updatedValues.keys.contains('email')){
+                            await showDialog(
                               context: context,
                               builder: (context) {
+                                final GlobalKey<FormState> _formPasswordKey = new GlobalKey<FormState>();
                                 return AlertDialog(
                                   title: Text(
-                                    'Error',
+                                    'Please enter your password',
                                     textAlign: TextAlign.center,
                                   ),
                                   titleTextStyle: TextStyle(
@@ -158,20 +191,79 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                       fontWeight: FontWeight.w800
                                   ),
                                   content: Container(
-                                    height: 100,
-                                    child: Center(
-                                      child: Text('No Internet Connection'),
+                                    height: 200,
+                                    child: Form(
+                                      key: _formPasswordKey,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          FormGenerator.addInput(
+                                            label: 'Password',
+                                            obsecure: true,
+                                            validator: (value){
+                                              if(value.isEmpty){
+                                                return 'Please enter your password!';
+                                              }
+                                              return null;
+                                            },
+                                            onsaved: (value){
+                                              password = value;
+                                            }
+                                          ),
+                                          BaseButton(
+                                            text: 'Continue',
+                                            onPressed: (){
+                                              if(_formPasswordKey.currentState.validate()){
+                                                _formPasswordKey.currentState.save();
+                                                Navigator.pop(context);
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
                               }
-                          );
-                        }
-                        else if(_formKey.currentState.validate()){
+                            );
+                            String errorMsg = await context.read<ProvidedData>().updateEmail(updatedValues['email'], password);
+
+                            if(errorMsg != null){
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'Failed',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    titleTextStyle: TextStyle(
+                                        color: kPrimaryColor,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w800
+                                    ),
+                                    content: Container(
+                                      height: 100,
+                                      child: Text(
+                                        errorMsg,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              );
+                              setState(() {
+                                isUpdating = false;
+                              });
+                              return;
+                            }
+                            updatedValues.remove('email');
+                          }
+
                           bool result = await context.read<ProvidedData>().updatePersonalData(updatedValues);
-                          setState(() {
-                            isUpdating = true;
-                          });
                           if(result){
                             updatedValues = {};
                             _formKey.currentState.reset();

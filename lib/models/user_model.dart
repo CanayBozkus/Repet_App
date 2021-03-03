@@ -225,24 +225,63 @@ class UserModel {
     bool isCloudUpdated = await this.updateCloudData(data);
     if(isCloudUpdated){
       this.updateLocalData(data);
-
+      this.email = data['email'] ?? this.email;
+      this.gender = data['gender'] ?? this.gender;
+      this.age = data['age'] ?? this.age;
+      this.addresses = data['addresses'] ?? this.addresses;
+      this.phoneNumber = data['phoneNumber'] ?? this.phoneNumber;
+      this.nameSurname = data['nameSurname'] ?? this.nameSurname;
       return true;
     }
     return false;
   }
 
   void updateLocalData(Map<String, dynamic> data){
-
+    databaseManager.updatePersonalData(id, data);
   }
 
   Future<bool> updateCloudData(Map<String, dynamic> data) async {
     try{
-
+      DocumentReference document = await _fireStore.collection('UserModel').doc(this.id);
+      await document.update(data);
       return true;
     }
     catch(e){
       print(e);
       return false;
+    }
+  }
+
+  Future<String> updateEmail(String email, String password) async {
+    try{
+      await _auth.currentUser.reauthenticateWithCredential(
+        EmailAuthProvider.credential(
+          email: this.email,
+          password: password,
+        ),
+      );
+      _auth.currentUser.getIdToken();
+      await _auth.currentUser.updateEmail(email);
+      this.updateLocalData({'email': email});
+      this.email = email;
+      return null;
+    }
+    on FirebaseAuthException catch(e){
+      print(e);
+      switch(e.code){
+        case 'invalid-email':
+          return 'Invalid email. Please enter a valid email.';
+          break;
+        case 'email-already-in-use':
+          return 'This email is being used by another user. Please try with another email';
+          break;
+        case 'wrong-password':
+          return 'Wrong password entered. Please try again.';
+          break;
+        default:
+          return 'An error happened please try again later.';
+      }
+      return null;
     }
   }
 }

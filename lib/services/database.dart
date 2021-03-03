@@ -113,6 +113,18 @@ class Database {
     model.weight = data['weight'] ?? model.weight;
     _petModel.putAt(index, model);
   }
+
+  void updatePersonalData(String id, Map data){
+    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
+    int index = _userModel.values.toList().indexOf(model);
+    model.email = data['email'] ?? model.email;
+    model.gender = data['gender'] ?? model.gender;
+    model.age = data['age'] ?? model.age;
+    model.addresses = data['addresses'] ?? model.addresses;
+    model.phoneNumber = data['phoneNumber'] ?? model.phoneNumber;
+    model.nameSurname = data['nameSurname'] ?? model.nameSurname;
+    _userModel.putAt(index, model);
+  }
 }
 
 Database databaseManager = Database();

@@ -98,4 +98,10 @@ class ProvidedData with ChangeNotifier {
     notifyListeners();
     return result;
   }
+
+  Future<String> updateEmail(email, password) async {
+    String result = await currentUser.updateEmail(email, password);
+    notifyListeners();
+    return result;
+  }
 }
