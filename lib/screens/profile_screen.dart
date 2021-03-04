@@ -14,10 +14,20 @@ import 'package:repetapp/utilities/provided_data.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:repetapp/widgets/pet_settings.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static const routeName = 'ProfileScreen';
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   final FormGenerator _formGenerator = FormGenerator();
+
+  final List expansionPanelExpansionValues = [false, false];
+
   @override
   Widget build(BuildContext context) {
     PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
@@ -131,8 +141,100 @@ class ProfileScreen extends StatelessWidget {
                                   FormGenerator.settingsPageInput(label: '${currentPet.weight} kg', svg: 'assets/icons/weight.svg', isEnabled: false),
                                   FormGenerator.settingsPageInput(label: '${currentPet.year} year ${currentPet.month} month', svg: 'assets/icons/cake.svg', isEnabled: false),
                                   FormGenerator.settingsPageInput(label: '${currentPet.height} m', svg: 'assets/icons/height.svg', isEnabled: false),
-                                  FormGenerator.settingsPageInput(label: 'Alerji', svg: 'assets/icons/peanut.svg', isEnabled: false),
-                                  FormGenerator.settingsPageInput(label: 'Engel', svg: 'assets/icons/wheelchair.svg', isEnabled: false),
+                                  BaseShadow(
+                                    child: ExpansionPanelList(
+                                      elevation: 0,
+                                      dividerColor: Colors.grey.shade400,
+                                      expandedHeaderPadding: EdgeInsets.zero,
+                                      expansionCallback: (int index, bool isExpanded){
+                                        setState(() {
+                                          expansionPanelExpansionValues[index] = !expansionPanelExpansionValues[index];
+                                        });
+                                      },
+                                      children: [
+                                        ExpansionPanel(
+                                          isExpanded: expansionPanelExpansionValues[0],
+                                          canTapOnHeader: true,
+                                          headerBuilder: (BuildContext context, bool isExpanded) {
+                                            return Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.all(18.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/peanut.svg',
+                                                    color: kPrimaryColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Allergy',
+                                                  style: kSettingsInputLabelStyle,
+                                                )
+                                              ],
+                                            );
+                                          },
+                                          body: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.symmetric(horizontal: 20),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ...currentPet.allergies.map((e){
+                                                  return Container(
+                                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                                    child: Text(
+                                                      e,
+                                                      style: kSettingsInputLabelStyle,
+                                                      textAlign: TextAlign.start,
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        ExpansionPanel(
+                                          isExpanded: expansionPanelExpansionValues[1],
+                                          canTapOnHeader: true,
+                                          headerBuilder: (BuildContext context, bool isExpanded) {
+                                            return Row(
+                                              children: [
+                                                Padding(
+                                                  padding: EdgeInsets.all(14.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/wheelchair.svg',
+                                                    color: kPrimaryColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Disability',
+                                                  style: kSettingsInputLabelStyle,
+                                                )
+                                              ],
+                                            );
+                                          },
+                                          body: Container(
+                                            width: double.infinity,
+                                            padding: EdgeInsets.symmetric(horizontal: 20),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                ...currentPet.disabilities.map((e){
+                                                  return Container(
+                                                    margin: EdgeInsets.symmetric(vertical: 5),
+                                                    child: Text(
+                                                      e,
+                                                      style: kSettingsInputLabelStyle,
+                                                      textAlign: TextAlign.start,
+                                                    ),
+                                                  );
+                                                }).toList(),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),

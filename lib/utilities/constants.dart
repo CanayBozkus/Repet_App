@@ -174,3 +174,9 @@ const kProfileBuilderTextStyle = TextStyle(
     color: kGreyTextColor,
     fontWeight: FontWeight.w700
 );
+
+const kSettingsInputLabelStyle = TextStyle(
+  fontSize: 16,
+  color: kGreyTextColor,
+  fontWeight: FontWeight.w700,
+);

@@ -159,11 +159,7 @@ class FormGenerator{
         decoration: InputDecoration(
           enabled: isEnabled && !disableKeyboard,
           labelText: label,
-          labelStyle: TextStyle(
-            fontSize: 16,
-            color: kGreyTextColor,
-            fontWeight: FontWeight.w700,
-          ),
+          labelStyle: kSettingsInputLabelStyle,
           contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           prefixIcon: svg != null ? Padding(
             padding: EdgeInsets.all(12.0),
