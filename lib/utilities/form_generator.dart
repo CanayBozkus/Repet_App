@@ -128,7 +128,7 @@ class FormGenerator{
     );
   }
 
-  Widget addListTile({String text, Function onTap, bool checked}){
+  static Widget addCheckableListTile({String text, Function onTap, bool checked}){
     return Padding(
       padding: EdgeInsets.symmetric(vertical:6.0),
       child: BaseShadow(
@@ -164,14 +164,14 @@ class FormGenerator{
             color: kGreyTextColor,
             fontWeight: FontWeight.w700,
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 16,),
+          contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
           prefixIcon: svg != null ? Padding(
             padding: EdgeInsets.all(12.0),
             child: SvgPicture.asset(
               svg,
               color: kPrimaryColor,
             ),
-          ) : SizedBox.shrink(),
+          ) : null,
           suffixIcon: isEnabled ? Icon(Icons.arrow_forward_ios ,color: kPrimaryColor,) : SizedBox.shrink(),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -458,7 +458,7 @@ class FormGenerator{
   }
 
   List _allergiesForm({@required petModel, stateController}){
-    return petModel.getAllergies().map((e) => this.addListTile(text: e, onTap: (){
+    return petModel.getAllergies().map((e) => FormGenerator.addCheckableListTile(text: e, onTap: (){
       if(petModel.allergies.contains(e)){
         petModel.allergies.remove(e);
       }
@@ -473,7 +473,7 @@ class FormGenerator{
   }
 
   List _disabilitiesForm({@required petModel, stateController}){
-    return petModel.getDisabilities().map((e) => this.addListTile(text: e, onTap: (){
+    return petModel.getDisabilities().map((e) => FormGenerator.addCheckableListTile(text: e, onTap: (){
       if(petModel.disabilities.contains(e)){
         petModel.disabilities.remove(e);
       }

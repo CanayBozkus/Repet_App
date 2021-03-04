@@ -155,10 +155,89 @@ class _PetSettingsState extends State<PetSettings> {
                       return null;
                     },
                   ),
-                  FormGenerator.settingsPageInput(
-                    label: 'Alerji',
-                    svg: 'assets/icons/peanut.svg',
-                    disableKeyboard: true,
+                  GestureDetector(
+                    child: FormGenerator.settingsPageInput(
+                      label: 'Alerji',
+                      svg: 'assets/icons/peanut.svg',
+                      disableKeyboard: true,
+                    ),
+                    onTap: (){
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        context: context,
+                        builder: (context){
+                          return GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            child: StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState){
+                                return Container(
+                                  height: 500,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        child: Row(
+                                          children: [
+                                            FlatButton(
+                                              shape: CircleBorder(),
+                                              child: Container(
+                                                child: Icon(Icons.close, size: 36,),
+                                                padding: EdgeInsets.all(4),
+                                              ),
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                'Alerji',
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  color: kPrimaryColor,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 90,
+                                              padding: EdgeInsets.all(4),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: ListView(
+                                          padding: EdgeInsets.symmetric(horizontal: 12),
+                                          children: [
+                                            ...currentPet.getAllergies().map((e){
+                                              return FormGenerator.addCheckableListTile(
+                                                text: e,
+                                                onTap: (){
+
+                                                  //activateSaveButton(isNotEmpty, 'allergies', value);
+                                                },
+                                                checked: currentPet.allergies.contains(e),
+                                              );
+                                            }).toList(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                   FormGenerator.settingsPageInput(
                     label: 'Engel',

@@ -48,3 +48,20 @@ extension DateExtensions on DateTime{
     return time;
   }
 }
+
+extension ListExtension on List{
+  bool shallowListComparision(List list){
+    if(this == null){
+      return list == null;
+    }
+    else if(this.length != list.length){
+      return false;
+    }
+    for(var element in this){
+      if(!list.contains(element)){
+        return false;
+      }
+    }
+    return true;
+  }
+}
