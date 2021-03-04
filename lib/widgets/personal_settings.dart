@@ -142,11 +142,11 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
-                        bool isConnected = await checkInternetConnection();
-                        String password;
                         setState(() {
                           isUpdating = true;
                         });
+                        bool isConnected = await checkInternetConnection();
+                        String password;
                         if(!isConnected){
                           showDialog(
                             context: context,

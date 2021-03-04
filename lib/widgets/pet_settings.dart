@@ -173,36 +173,39 @@ class _PetSettingsState extends State<PetSettings> {
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
+                        setState(() {
+                          isUpdating = true;
+                        });
                         bool isConnected = await checkInternetConnection();
                         if(!isConnected){
                           showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: Text(
-                                    'Error',
-                                    textAlign: TextAlign.center,
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(
+                                  'Error',
+                                  textAlign: TextAlign.center,
+                                ),
+                                titleTextStyle: TextStyle(
+                                    color: kPrimaryColor,
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w800
+                                ),
+                                content: Container(
+                                  height: 100,
+                                  child: Center(
+                                    child: Text('No Internet Connection'),
                                   ),
-                                  titleTextStyle: TextStyle(
-                                      color: kPrimaryColor,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w800
-                                  ),
-                                  content: Container(
-                                    height: 100,
-                                    child: Center(
-                                      child: Text('No Internet Connection'),
-                                    ),
-                                  ),
-                                );
-                              }
+                                ),
+                              );
+                            }
                           );
+                          setState(() {
+                            isUpdating = false;
+                          });
                         }
                         else if(_formKey.currentState.validate()){
                           bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
-                          setState(() {
-                            isUpdating = true;
-                          });
                           if(result){
                             updatedValues = {};
                             _formKey.currentState.reset();
