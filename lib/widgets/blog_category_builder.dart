@@ -9,7 +9,7 @@ class BlogCategoryBuilder extends StatelessWidget {
     return Container(
       height: 110,
       child: ListView(
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
         scrollDirection: Axis.horizontal,
         children: [
           BaseShadow(
@@ -18,8 +18,8 @@ class BlogCategoryBuilder extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  ...kBlogPageCategoryImages.keys.map((title){
-                    return CategoryCard(title: title, svg: kBlogPageCategoryImages[title], color: kBlogPageCategoryColors[title],);
+                  ...ForumCategories.values.map((category){
+                    return CategoryCard(title: kForumCategoryTitles[category], svg: kBlogPageCategoryImages[category], color: kBlogPageCategoryColors[category],);
                   }).toList(),
                 ],
               ),

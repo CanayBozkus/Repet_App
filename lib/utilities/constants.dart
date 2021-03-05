@@ -85,21 +85,36 @@ const kPrimaryColor = Color(0xFFFDA15A);
 const kColorRed = Color(0xffef1111);
 const kColorGreen = Color(0xff79c624);
 const kGreyTextColor = Color(0xff636363);
+const kColorBlue = Color(0xff32a7f2);
 
 const generalScreenPadding = EdgeInsets.symmetric(horizontal: 20);
 
+enum ForumCategories {
+  food,
+  care,
+  training,
+  social,
+}
+
+const kForumCategoryTitles = {
+  ForumCategories.care : 'Care',
+  ForumCategories.food: 'Food',
+  ForumCategories.social: 'Social',
+  ForumCategories.training: 'Training',
+};
+
 const kBlogPageCategoryImages = {
-  'Food': 'assets/icons/bowl.svg',
-  'Care': 'assets/icons/hand-heart.svg',
-  'Training': 'assets/icons/school.svg',
-  'Social': 'assets/icons/heart-multiple.svg',
+  ForumCategories.food: 'assets/icons/bowl.svg',
+  ForumCategories.care: 'assets/icons/hand-heart.svg',
+  ForumCategories.training: 'assets/icons/school.svg',
+  ForumCategories.social: 'assets/icons/heart-multiple.svg',
 };
 
 const kBlogPageCategoryColors = {
-  'Food': Color(0xfffd3c1d),
-  'Care': Color(0xff5adb78),
-  'Training': Color(0xff2f6cf5),
-  'Social': Color(0xfffda15a),
+  ForumCategories.food: Color(0xfffd3c1d),
+  ForumCategories.care: Color(0xff5adb78),
+  ForumCategories.training: Color(0xff2f6cf5),
+  ForumCategories.social: Color(0xfffda15a),
 };
 
 enum PetTypes {
