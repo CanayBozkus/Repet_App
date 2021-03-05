@@ -110,73 +110,74 @@ class _ForumScreenState extends State<ForumScreen> {
                       ],
                     ),
                   ),
-                  BaseShadow(
-                    child: ExpansionPanelList(
-                      elevation: 0,
-                      dividerColor: Colors.grey.shade400,
-                      expandedHeaderPadding: EdgeInsets.zero,
-                      expansionCallback: (int index, bool isExpanded){
-                        setState(() {
-                          isExpansionExpanded = !isExpansionExpanded;
-                        });
-                      },
-                      children: [
-                        ExpansionPanel(
-                          isExpanded: isExpansionExpanded,
-                          canTapOnHeader: true,
-                          headerBuilder: (BuildContext context, bool isExpanded) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.public,
-                                    color: kPrimaryColor,
-                                    size: 28,
-                                  ),
-                                  SizedBox(width: 5,),
-                                  Text(
-                                    categoryHintText,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          body: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ...ForumCategories.values.map((category){
-                                  return  RadioListTile<ForumCategories>(
-                                    title: Text(kForumCategoryTitles[category]),
-                                    value: category,
-                                    groupValue: selectedCategory,
-                                    onChanged: (ForumCategories value) {
-                                      setState(() {
-                                        selectedCategory = category;
-                                        categoryHintText = kForumCategoryTitles[category];
-                                      });
-                                    },
-                                  );
-                                }).toList(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   Expanded(
                     child: Form(
                       child: ListView(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         children: [
+                          BaseShadow(
+                            child: ExpansionPanelList(
+                              elevation: 0,
+                              dividerColor: Colors.grey.shade400,
+                              expandedHeaderPadding: EdgeInsets.zero,
+                              expansionCallback: (int index, bool isExpanded){
+                                setState(() {
+                                  isExpansionExpanded = !isExpansionExpanded;
+                                });
+                              },
+                              children: [
+                                ExpansionPanel(
+                                  isExpanded: isExpansionExpanded,
+                                  canTapOnHeader: true,
+                                  headerBuilder: (BuildContext context, bool isExpanded) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.public,
+                                            color: kPrimaryColor,
+                                            size: 28,
+                                          ),
+                                          SizedBox(width: 5,),
+                                          Text(
+                                            categoryHintText,
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  body: Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        ...ForumCategories.values.map((category){
+                                          return  RadioListTile<ForumCategories>(
+                                            title: Text(kForumCategoryTitles[category]),
+                                            value: category,
+                                            groupValue: selectedCategory,
+                                            onChanged: (ForumCategories value) {
+                                              setState(() {
+                                                selectedCategory = category;
+                                                categoryHintText = kForumCategoryTitles[category];
+                                              });
+                                            },
+                                          );
+                                        }).toList(),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           BaseShadow(
                             child: TextFormField(
                               decoration: InputDecoration(
