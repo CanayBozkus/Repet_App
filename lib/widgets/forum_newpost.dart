@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/models/forum_model.dart';
+import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'base_shadow.dart';
 
 class ForumNewPost extends StatefulWidget {
@@ -16,6 +18,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
   final ForumModel _forumModel = ForumModel();
   @override
   Widget build(BuildContext context) {
+    UserModel _currentUser = context.read<GeneralProviderData>().currentUser;
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -46,9 +49,15 @@ class _ForumNewPostState extends State<ForumNewPost> {
               Container(
                 width: 80,
                 child: FlatButton(
-                  onPressed: (){
+                  onPressed: () async {
                     if(_formKey.currentState.validate()){
-
+                      _formKey.currentState.save();
+                      _forumModel.postedDate = DateTime.now();
+                      _forumModel.ownerId = _currentUser.id;
+                      _forumModel.ownerPhoto = 'profile.svg';
+                      _forumModel.parentId = null;
+                      await _forumModel.post();
+                      Navigator.pop(context);
                     }
                   },
                   child: Text(

@@ -1,4 +1,5 @@
 import 'package:repetapp/utilities/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForumModel {
   String id;
@@ -7,9 +8,24 @@ class ForumModel {
   DateTime postedDate;
   String ownerId;
   String ownerPhoto;
-  int likeCount;
+  int likeCount = 0;
   ForumCategories category = ForumCategories.food;
   String parentId;
   List likedBy = [];
+  FirebaseFirestore _fireStore;
 
+  Future<void> post() async {
+    DocumentReference newPost =  _fireStore.collection('PetModel').doc();
+    await newPost.set({
+      'title': this.title,
+      'content': this.content,
+      'posted_date': this.postedDate,
+      'owener_id': this.ownerId,
+      'owner_photo': this.ownerPhoto,
+      'like_count': this.likeCount,
+      'parent_id': this.parentId,
+      'category': kForumCategoryTitles[this.category],
+      'liked_by': this.likedBy,
+    });
+  }
 }
