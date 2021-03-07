@@ -8,7 +8,7 @@ import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -23,7 +23,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   void _openBottomSheet({Remainders remainder, }){
-    final pet = context.read<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex];
+    final pet = context.read<GeneralProviderData>().pets[context.read<GeneralProviderData>().currentShownPetIndex];
     final List routine = pet.routines[remainderTitles[remainder].toLowerCase()];
     bool addNew = false;
     int hour = 0;
@@ -126,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                                       onPressed:() async {
                                         DateTime now = DateTime.now();
                                         DateTime time = DateTime(now.year, now.month, now.day , hour, min, 0);
-                                        await Provider.of<ProvidedData>(context, listen: false).addNewRemainder(pet, remainder, time, isActive);
+                                        await Provider.of<GeneralProviderData>(context, listen: false).addNewRemainder(pet, remainder, time, isActive);
                                         setState(() {
                                           addNew = false;
                                         });
@@ -178,11 +178,11 @@ class _MainScreenState extends State<MainScreen> {
                                 value: element.isActive,
                                 onChanged: (value) async {
                                   if(value){
-                                    await Provider.of<ProvidedData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
+                                    await Provider.of<GeneralProviderData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
                                   }
                                   else {
                                     //routine[id][1] = value;
-                                    await Provider.of<ProvidedData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
+                                    await Provider.of<GeneralProviderData>(context, listen: false).updateRemainderStatus(pet, element, remainder, value);
                                   }
                                   setState(() {
 
@@ -204,11 +204,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Future<bool> getMainScreenData() async {
-    if(context.read<ProvidedData>().isDataFetched){
+    if(context.read<GeneralProviderData>().isDataFetched){
       return true;
     }
     try{
-      await context.read<ProvidedData>().getData();
+      await context.read<GeneralProviderData>().getData();
       return true;
     }
 
@@ -221,7 +221,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     _isLoading = getMainScreenData();
-    context.read<ProvidedData>().currentUser.setNotificationSettings();
+    context.read<GeneralProviderData>().currentUser.setNotificationSettings();
     super.initState();
   }
   @override

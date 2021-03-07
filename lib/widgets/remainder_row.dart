@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 
 class RemainderRow extends StatelessWidget {
@@ -37,7 +37,7 @@ class RemainderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List routine = context.watch<ProvidedData>().pets[context.read<ProvidedData>().currentShownPetIndex].routines[remainderTitles[remainder].toLowerCase()];
+    final List routine = context.watch<GeneralProviderData>().pets[context.read<GeneralProviderData>().currentShownPetIndex].routines[remainderTitles[remainder].toLowerCase()];
     Map status = calculateDailyStatus(routine);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),

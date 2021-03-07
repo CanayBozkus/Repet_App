@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/route_generator.dart';
 import 'package:repetapp/services/database.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'utilities/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     }
     return false;
   }
-  final ProvidedData providedData = ProvidedData();
+  final GeneralProviderData providedData = GeneralProviderData();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

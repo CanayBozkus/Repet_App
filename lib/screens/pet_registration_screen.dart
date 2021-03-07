@@ -6,7 +6,7 @@ import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
 
@@ -97,7 +97,7 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                           }
                         });
                          if(_isCreating){
-                           if(context.read<ProvidedData>().currentUser != widget.newUser){
+                           if(context.read<GeneralProviderData>().currentUser != widget.newUser){
                              bool isConnected = await checkInternetConnection();
                              if(!isConnected){
                                showDialog(
@@ -135,8 +135,8 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
                              }
                            }
                            else{
-                             bool petResult = await context.read<ProvidedData>().currentUser.addPet(_petModel, false);
-                             context.read<ProvidedData>().updatePetsMap(_petModel);
+                             bool petResult = await context.read<GeneralProviderData>().currentUser.addPet(_petModel, false);
+                             context.read<GeneralProviderData>().updatePetsMap(_petModel);
                              if(petResult){
                                Navigator.pop(context);
                              }

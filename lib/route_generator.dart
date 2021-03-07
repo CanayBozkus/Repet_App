@@ -3,6 +3,7 @@ import 'package:repetapp/route_generator.dart';
 import 'package:repetapp/screens/calendar_screen.dart';
 import 'package:repetapp/screens/error_screen.dart';
 import 'package:repetapp/screens/forum_screen.dart';
+import 'package:repetapp/screens/forum_subscreen.dart';
 import 'package:repetapp/screens/leaderboard_screen.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/main_screen.dart';
@@ -31,6 +32,7 @@ class RouteGenerator {
       case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen(newUser: args,));
       case SettingsScreen.routeName: return MaterialPageRoute(builder: (_) => SettingsScreen(settingsWidgetParams: args,));
       case ForumScreen.routeName: return MaterialPageRoute(builder: (_) => ForumScreen());
+      case ForumSubScreen.routeName: return MaterialPageRoute(builder: (_) => ForumSubScreen(screen: args,));
       default: return MaterialPageRoute(builder: (_) => ErrorScreen());
     }
   }

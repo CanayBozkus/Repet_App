@@ -8,7 +8,7 @@ import 'package:repetapp/widgets/button_leading_svg.dart';
 import 'package:repetapp/widgets/base_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
 

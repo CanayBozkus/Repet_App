@@ -8,7 +8,7 @@ import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/spinner.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 
 class AddressSettings extends StatefulWidget {
@@ -38,7 +38,7 @@ class _AddressSettingsState extends State<AddressSettings> {
   }
   @override
   Widget build(BuildContext context) {
-    List addresses = context.watch<ProvidedData>().currentUser.addresses;
+    List addresses = context.watch<GeneralProviderData>().currentUser.addresses;
     Map address = addresses != null ? addresses[0] : {};
     return Container(
       padding: EdgeInsets.only(top: 20),
@@ -139,7 +139,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                           });
                         }
                         else {
-                          bool result = await context.read<ProvidedData>().updatePersonalData({'addresses': [updatedValues]});
+                          bool result = await context.read<GeneralProviderData>().updatePersonalData({'addresses': [updatedValues]});
                           if(result){
                             updatedValues = {};
                             _formKey.currentState.reset();

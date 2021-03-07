@@ -7,7 +7,7 @@ import 'package:repetapp/services/database.dart';
 
 import 'constants.dart';
 
-class ProvidedData with ChangeNotifier {
+class GeneralProviderData with ChangeNotifier {
   UserModel currentUser = UserModel();
   Map<String, PetModel> pets;
   String currentShownPetIndex;

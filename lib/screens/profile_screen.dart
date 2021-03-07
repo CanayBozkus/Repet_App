@@ -10,7 +10,7 @@ import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/general_settings.dart';
 import 'package:repetapp/widgets/pet_navigator.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:repetapp/widgets/pet_settings.dart';
@@ -30,7 +30,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
+    PetModel currentPet = context.watch<GeneralProviderData>().pets[context.watch<GeneralProviderData>().currentShownPetIndex];
     return Scaffold(
       appBar: BaseAppBar(
         title: 'Profile',
@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         backgroundColor: Colors.white,
         onPressed: (){
-          Navigator.pushNamed(context, PetRegistrationScreen.routeName, arguments: context.read<ProvidedData>().currentUser);
+          Navigator.pushNamed(context, PetRegistrationScreen.routeName, arguments: context.read<GeneralProviderData>().currentUser);
         },
       ),
       body: GestureDetector(

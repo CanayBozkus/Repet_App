@@ -6,7 +6,7 @@ import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/helpers.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/spinner.dart';
@@ -38,7 +38,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
   }
   @override
   Widget build(BuildContext context) {
-    UserModel user = context.watch<ProvidedData>().currentUser;
+    UserModel user = context.watch<GeneralProviderData>().currentUser;
     return Container(
       child: Column(
         children: [
@@ -226,7 +226,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                 );
                               }
                             );
-                            String errorMsg = await context.read<ProvidedData>().updateEmail(updatedValues['email'], password);
+                            String errorMsg = await context.read<GeneralProviderData>().updateEmail(updatedValues['email'], password);
 
                             if(errorMsg != null){
                               showDialog(
@@ -263,7 +263,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                             updatedValues.remove('email');
                           }
 
-                          bool result = await context.read<ProvidedData>().updatePersonalData(updatedValues);
+                          bool result = await context.read<GeneralProviderData>().updatePersonalData(updatedValues);
                           if(result){
                             updatedValues = {};
                             _formKey.currentState.reset();

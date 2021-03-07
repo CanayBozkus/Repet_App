@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/screens/error_screen.dart';
+import 'package:repetapp/screens/forum_subscreen.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
-import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/blog_category_builder.dart';
 import 'package:repetapp/widgets/forum_card.dart';
+import 'package:repetapp/widgets/forum_newpost.dart';
 
 class ForumScreen extends StatefulWidget {
   static const routeName = 'ForumScreen';
@@ -17,18 +17,17 @@ class ForumScreen extends StatefulWidget {
 }
 
 class _ForumScreenState extends State<ForumScreen> {
-  int selected = 0;
-  PageController _controller;
   Future<bool> isConnectedToInternet;
-  bool isExpansionExpanded = false;
-  ForumCategories selectedCategory = ForumCategories.food;
-  String categoryHintText = 'Choose a Type';
+  PageController _controller;
+  bool _isFloatingActionButtonShown = true;
+  int _selectedForumScreen = 0;
+  bool _isForum = false;
   @override
   void initState() {
-     _controller = PageController(
-      initialPage: 0,
-    );
      isConnectedToInternet = checkInternetConnection();
+     _controller = PageController(
+       initialPage: 0,
+     );
     super.initState();
   }
   @override
@@ -36,6 +35,7 @@ class _ForumScreenState extends State<ForumScreen> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,14 +44,16 @@ class _ForumScreenState extends State<ForumScreen> {
       },
       child: Scaffold(    
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        floatingActionButton: selected == 0 ? FloatingActionButton(
+        floatingActionButton: _isFloatingActionButtonShown ? FloatingActionButton(
           child: Icon(
             Icons.add,
             color: kPrimaryColor,
             size: 45,
           ),
           backgroundColor: Colors.white,
-          onPressed: (){},
+          onPressed: (){
+            Navigator.pushNamed(context, ForumSubScreen.routeName, arguments: ForumNewPost());
+          },
         ) : null,
         body: SafeArea(
           child: FutureBuilder(
@@ -71,168 +73,80 @@ class _ForumScreenState extends State<ForumScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 100,
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 80,
-                          child: IconButton(
-                            icon: Icon(Icons.clear, size: 32,),
-                            onPressed: (){},
-                          ),
-                        ),
-                        Text(
-                          'Text Post',
-                          style: TextStyle(
-                            color: kPrimaryColor,
-                            fontSize: 24,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        Container(
-                          width: 80,
-                          child: FlatButton(
-                            onPressed: (){},
-                            child: Text(
-                              'Post',
-                              style: TextStyle(
-                                color: kColorBlue,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Form(
-                      child: ListView(
-                        padding: EdgeInsets.symmetric(vertical: 5),
-                        children: [
-                          BaseShadow(
-                            child: ExpansionPanelList(
-                              elevation: 0,
-                              dividerColor: Colors.grey.shade400,
-                              expandedHeaderPadding: EdgeInsets.zero,
-                              expansionCallback: (int index, bool isExpanded){
-                                setState(() {
-                                  isExpansionExpanded = !isExpansionExpanded;
-                                });
-                              },
-                              children: [
-                                ExpansionPanel(
-                                  isExpanded: isExpansionExpanded,
-                                  canTapOnHeader: true,
-                                  headerBuilder: (BuildContext context, bool isExpanded) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.public,
-                                            color: kPrimaryColor,
-                                            size: 28,
-                                          ),
-                                          SizedBox(width: 5,),
-                                          Text(
-                                            categoryHintText,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                  body: Container(
-                                    width: double.infinity,
-                                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                                    margin: EdgeInsets.symmetric(vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        ...ForumCategories.values.map((category){
-                                          return  RadioListTile<ForumCategories>(
-                                            title: Text(kForumCategoryTitles[category]),
-                                            value: category,
-                                            groupValue: selectedCategory,
-                                            onChanged: (ForumCategories value) {
-                                              setState(() {
-                                                selectedCategory = category;
-                                                categoryHintText = kForumCategoryTitles[category];
-                                              });
-                                            },
-                                          );
-                                        }).toList(),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          BaseShadow(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                hintText: 'Title',
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                focusColor: kPrimaryColor,
-                                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.grey.shade200,
-                                      width: 1.5
-                                  ),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                          BaseShadow(
-                            child: TextFormField(
-                              maxLines: 10,
-                              decoration: InputDecoration(
-                                hintText: 'Post text here.',
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                ),
-                                focusColor: kPrimaryColor,
-                                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.white,
-                                      width: 1.5
-                                  ),
-                                ),
-                              ),
-                              style: TextStyle(
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                        ],
+                  SizedBox(height: 20,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      BaseButton(
+                        text: 'Forum',
+                        onPressed: (){
+                          setState(() {
+                            _isForum = true;
+                            _selectedForumScreen = 0;
+                            _isFloatingActionButtonShown = true;
+                            _controller.animateToPage(_selectedForumScreen, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                          });
+                        },
+                        width: 150,
+                        empty: !_isForum,
                       ),
+                      BaseButton(
+                        text: 'Blog',
+                        onPressed: (){
+                          setState(() {
+                            _isForum = false;
+                            _selectedForumScreen = 1;
+                            _isFloatingActionButtonShown = false;
+                            _controller.animateToPage(_selectedForumScreen, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                          });
+                        },
+                        width: 150,
+                        empty: _isForum,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Expanded(
+                    child: PageView(
+                      controller: _controller,
+                      onPageChanged: (index){
+                        setState(() {
+                          _selectedForumScreen = index;
+                          _isForum = index == 0;
+                          _isFloatingActionButtonShown = index == 0;
+                        });
+                      },
+                      children: [
+                        ListView(
+                          padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+                          children: [
+                            ForumCard(),
+                            ForumCard(),
+                            ForumCard(),
+                            ForumCard(),
+                            ForumCard(),
+                            ForumCard(),
+                          ],
+                        ),
+                        ListView(
+                          children: [
+                            BlogCategoryBuilder(),
+                            Padding(
+                              padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+                              child: Column(
+                                children: [
+                                  ForumCard(),
+                                  ForumCard(),
+                                  ForumCard(),
+                                  ForumCard(),
+                                  ForumCard(),
+                                  ForumCard(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -248,80 +162,3 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 }
-/*
-Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    BaseButton(
-                      text: 'Forum',
-                      onPressed: (){
-                        setState(() {
-                          selected = 0;
-                          _controller.animateToPage(selected, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
-                        });
-                      },
-                      width: 150,
-                      empty: !(selected == 0),
-                    ),
-                    BaseButton(
-                      text: 'Blog',
-                      onPressed: (){
-                        setState(() {
-                          selected = 1;
-                          _controller.animateToPage(selected, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
-                        });
-                      },
-                      width: 150,
-                      empty: selected == 0,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10,),
-                Expanded(
-                  child: PageView(
-                    controller: _controller,
-                    onPageChanged: (index){
-                      setState(() {
-                        selected = index;
-                      });
-                    },
-                    children: [
-                      ListView(
-                        padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-                        children: [
-                          ForumCard(),
-                          ForumCard(),
-                          ForumCard(),
-                          ForumCard(),
-                          ForumCard(),
-                          ForumCard(),
-                        ],
-                      ),
-                      ListView(
-                        children: [
-                          BlogCategoryBuilder(),
-                          Padding(
-                            padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-                            child: Column(
-                              children: [
-                                ForumCard(),
-                                ForumCard(),
-                                ForumCard(),
-                                ForumCard(),
-                                ForumCard(),
-                                ForumCard(),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
- */

@@ -5,7 +5,7 @@ import 'package:repetapp/widgets/base_app_bar.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/calendar.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/vaccines_view.dart';
 
@@ -23,8 +23,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Future<bool> _isLoading;
   bool _isCalendar = true;
   Future<bool> getCalendarData() async {
-    if(!context.read<ProvidedData>().calendar.isDataFetch){
-      await context.read<ProvidedData>().getCalendarData();
+    if(!context.read<GeneralProviderData>().calendar.isDataFetch){
+      await context.read<GeneralProviderData>().getCalendarData();
     }
     return true;
   }

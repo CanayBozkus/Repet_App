@@ -4,7 +4,7 @@ import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/address_settings.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/help.dart';
 import 'package:repetapp/widgets/personal_settings.dart';
@@ -102,7 +102,7 @@ class GeneralSettings extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap:  () async {
-                      await context.read<ProvidedData>().signOut();
+                      await context.read<GeneralProviderData>().signOut();
                       Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                     },
                   ),

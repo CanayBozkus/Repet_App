@@ -3,7 +3,7 @@ import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 
 class PetNavigator extends StatefulWidget {
@@ -20,9 +20,9 @@ class _PetNavigatorState extends State<PetNavigator> {
   Map<String, PetModel> shownPets;
 
   Map<String, PetModel> getNavigationPets(BuildContext context){
-    String currentPetIndex = context.watch<ProvidedData>().currentShownPetIndex;
-    List petIds = context.watch<ProvidedData>().currentUser.pets;
-    Map<String, PetModel> pets = context.watch<ProvidedData>().pets;
+    String currentPetIndex = context.watch<GeneralProviderData>().currentShownPetIndex;
+    List petIds = context.watch<GeneralProviderData>().currentUser.pets;
+    Map<String, PetModel> pets = context.watch<GeneralProviderData>().pets;
     int currentIndex = petIds.indexOf(currentPetIndex);
     int previousIndex = (currentIndex -1) % petIds.length;
     int nextIndex = (currentIndex + 1) % petIds.length;
@@ -163,7 +163,7 @@ class _PetNavigatorState extends State<PetNavigator> {
                 shape: CircleBorder(),
                 padding: EdgeInsets.zero,
                 onPressed: (){
-                  context.read<ProvidedData>().changeCurrentPet(shownPets['left'].id);
+                  context.read<GeneralProviderData>().changeCurrentPet(shownPets['left'].id);
                 },
                 child: Container(
                   width: 90,
@@ -185,7 +185,7 @@ class _PetNavigatorState extends State<PetNavigator> {
                 shape: CircleBorder(),
                 padding: EdgeInsets.zero,
                 onPressed: (){
-                  context.read<ProvidedData>().changeCurrentPet(shownPets['right'].id);
+                  context.read<GeneralProviderData>().changeCurrentPet(shownPets['right'].id);
                 },
                 child: Container(
                   width: 90,

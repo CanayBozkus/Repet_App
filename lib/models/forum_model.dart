@@ -1,3 +1,5 @@
+import 'package:repetapp/utilities/constants.dart';
+
 class ForumModel {
   String id;
   String title;
@@ -6,7 +8,7 @@ class ForumModel {
   String ownerId;
   String ownerPhoto;
   int likeCount;
-  String contentType;
+  ForumCategories category = ForumCategories.food;
   String parentId;
   List likedBy = [];
 

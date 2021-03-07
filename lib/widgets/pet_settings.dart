@@ -3,10 +3,10 @@ import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/utilities/helpers.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
 import 'dart:async';
@@ -39,7 +39,7 @@ class _PetSettingsState extends State<PetSettings> {
 
   @override
   Widget build(BuildContext context) {
-    PetModel currentPet = context.watch<ProvidedData>().pets[context.watch<ProvidedData>().currentShownPetIndex];
+    PetModel currentPet = context.watch<GeneralProviderData>().pets[context.watch<GeneralProviderData>().currentShownPetIndex];
     return Container(
       padding: generalScreenPadding,
       child: Column(
@@ -284,7 +284,7 @@ class _PetSettingsState extends State<PetSettings> {
                           });
                         }
                         else if(_formKey.currentState.validate()){
-                          bool result = await context.read<ProvidedData>().updatePetData(updatedValues);
+                          bool result = await context.read<GeneralProviderData>().updatePetData(updatedValues);
                           if(result){
                             updatedValues = {};
                             _formKey.currentState.reset();

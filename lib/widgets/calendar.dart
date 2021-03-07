@@ -10,7 +10,7 @@ import 'package:repetapp/widgets/spinner.dart';
 import 'package:repetapp/widgets/time_selector.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:repetapp/utilities/extensions.dart';
-import 'package:repetapp/utilities/provided_data.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/extensions.dart';
 class Calendar extends StatefulWidget {
@@ -41,7 +41,7 @@ class _CalendarState extends State<Calendar> {
         int min=0;
         String event;
         DateTime key = DateTime(date.year, date.month, date.day, 0, 0, 0);
-        bool isExist = context.read<ProvidedData>().calendar.eventCollections.keys.contains(key);
+        bool isExist = context.read<GeneralProviderData>().calendar.eventCollections.keys.contains(key);
         showModalBottomSheet(
           isScrollControlled: true,
           shape: RoundedRectangleBorder(
@@ -161,7 +161,7 @@ class _CalendarState extends State<Calendar> {
                                                     _addNew = false;
                                                     _formKey.currentState.save();
                                                     DateTime eventDate = DateTime(date.year, date.month, date.day, hour, min, 0);
-                                                    context.read<ProvidedData>().addEvent(event, eventDate);
+                                                    context.read<GeneralProviderData>().addEvent(event, eventDate);
                                                     //TODO: ekleme kısmı
                                                     _isAdding = false;
                                                   }
@@ -176,7 +176,7 @@ class _CalendarState extends State<Calendar> {
                                   ),
                                 ),
                               ) : SizedBox.shrink(),
-                              ...events = isExist ? context.watch<ProvidedData>().calendar.eventCollections[key].map((eventData){
+                              ...events = isExist ? context.watch<GeneralProviderData>().calendar.eventCollections[key].map((eventData){
                                 DateTime date = eventData['date'];
                                 return Padding(
                                   padding: EdgeInsets.symmetric(vertical: 5),
@@ -201,7 +201,7 @@ class _CalendarState extends State<Calendar> {
                                           value: eventData['isDone'] ?? false,
                                           color: Color(0xff79c624),
                                           onChanged: (value){
-                                            context.read<ProvidedData>().updateEventStatus(date, value);
+                                            context.read<GeneralProviderData>().updateEventStatus(date, value);
                                           },
                                         ),
                                       )
@@ -223,7 +223,7 @@ class _CalendarState extends State<Calendar> {
       onVisibleDaysChanged: (DateTime containerStartDate, DateTime containerEndDate, CalendarFormat format){
 
       },
-      events: context.watch<ProvidedData>().calendar.eventCollections,
+      events: context.watch<GeneralProviderData>().calendar.eventCollections,
       holidays: {DateTime(2020, 12, 4): ['tesst', Colors.indigoAccent], DateTime(2020, 12, 3): ['tesst1', Colors.orange]},
       calendarStyle: CalendarStyle(
 
