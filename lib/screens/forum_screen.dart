@@ -6,8 +6,10 @@ import 'package:repetapp/utilities/helpers.dart';
 import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/blog_category_builder.dart';
+import 'package:repetapp/widgets/blog_view.dart';
 import 'package:repetapp/widgets/forum_card.dart';
 import 'package:repetapp/widgets/forum_newpost.dart';
+import 'package:repetapp/widgets/forum_view.dart';
 
 class ForumScreen extends StatefulWidget {
   static const routeName = 'ForumScreen';
@@ -21,7 +23,7 @@ class _ForumScreenState extends State<ForumScreen> {
   PageController _controller;
   bool _isFloatingActionButtonShown = true;
   int _selectedForumScreen = 0;
-  bool _isForum = false;
+  bool _isForum = true;
   @override
   void initState() {
      isConnectedToInternet = checkInternetConnection();
@@ -117,35 +119,8 @@ class _ForumScreenState extends State<ForumScreen> {
                         });
                       },
                       children: [
-                        ListView(
-                          padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-                          children: [
-                            ForumCard(),
-                            ForumCard(),
-                            ForumCard(),
-                            ForumCard(),
-                            ForumCard(),
-                            ForumCard(),
-                          ],
-                        ),
-                        ListView(
-                          children: [
-                            BlogCategoryBuilder(),
-                            Padding(
-                              padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-                              child: Column(
-                                children: [
-                                  ForumCard(),
-                                  ForumCard(),
-                                  ForumCard(),
-                                  ForumCard(),
-                                  ForumCard(),
-                                  ForumCard(),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                        ForumView(),
+                        BlogView(),
                       ],
                     ),
                   ),

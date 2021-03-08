@@ -2,6 +2,9 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ForumModel {
+  ForumModel(){
+    _fireStore = FirebaseFirestore.instance;
+  }
   String id;
   String title;
   String content;
@@ -15,7 +18,7 @@ class ForumModel {
   FirebaseFirestore _fireStore;
 
   Future<void> post() async {
-    DocumentReference newPost =  _fireStore.collection('PetModel').doc();
+    DocumentReference newPost =  _fireStore.collection('ForumModel').doc();
     await newPost.set({
       'title': this.title,
       'content': this.content,
