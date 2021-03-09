@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class ForumCard extends StatelessWidget {
+  ForumCard({this.category, this.name, this.content, this.title, this.photoSvg, this.likeCount});
+  final String name;
+  final String category;
+  final String title;
+  final String content;
+  final String photoSvg;
+  final int likeCount;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,8 +24,8 @@ class ForumCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SvgPicture.asset('assets/icons/profile.svg', height: 70,),
-                    Text('Peter Watts',),
+                    SvgPicture.asset('assets/icons/$photoSvg', height: 70,),
+                    Text(name,),
                     BaseShadow(
                       child: Container(
                         width: 90,
@@ -26,7 +33,7 @@ class ForumCard extends StatelessWidget {
                         alignment: Alignment.center,
                         color: Color(0xff54ac14),
                         child: Text(
-                          'Care',
+                          category,
                           style: TextStyle(
                               color: Colors.white
                           ),
@@ -44,7 +51,7 @@ class ForumCard extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Puppy Care',
+                        title,
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w800
@@ -52,7 +59,7 @@ class ForumCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'If the time is right for getting a puppy you will now have to choose the best match. Perhaps your future Perhaps your future Perhaps your future Perhaps your future Perhaps your future',
+                      content,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(),
@@ -61,7 +68,7 @@ class ForumCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Icon(Icons.favorite, color: Color(0xffff3636),),
-                        Text('79'),
+                        Text(likeCount.toString()),
                       ],
                     )
                   ],

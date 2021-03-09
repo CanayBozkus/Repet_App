@@ -10,7 +10,6 @@ import 'package:repetapp/widgets/pet_navigator.dart';
 import 'package:repetapp/widgets/remainder_row.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
-import 'package:add_2_calendar/add_2_calendar.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:repetapp/widgets/time_selector.dart';
 import 'package:repetapp/utilities/extensions.dart';
@@ -204,11 +203,11 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
   Future<bool> getMainScreenData() async {
-    if(context.read<GeneralProviderData>().isDataFetched){
+    if(context.read<GeneralProviderData>().isMainScreenDataFetched){
       return true;
     }
     try{
-      await context.read<GeneralProviderData>().getData();
+      await context.read<GeneralProviderData>().getMainScreenData();
       return true;
     }
 

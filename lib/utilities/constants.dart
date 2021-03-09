@@ -103,6 +103,13 @@ const kForumCategoryTitles = {
   ForumCategories.training: 'Training',
 };
 
+const kForumCategoryTitlesReverse = {
+  'Care': ForumCategories.care,
+  'Food': ForumCategories.food,
+  'Social': ForumCategories.social,
+  'Training': ForumCategories.training,
+};
+
 const kBlogPageCategoryImages = {
   ForumCategories.food: 'assets/icons/bowl.svg',
   ForumCategories.care: 'assets/icons/hand-heart.svg',

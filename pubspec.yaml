@@ -29,7 +29,6 @@ dependencies:
   firebase_auth: ^0.20.0+1
   cloud_firestore: ^0.16.0
   provider: ^4.3.3
-  add_2_calendar: ^1.4.0
   rxdart: ^0.24.1
   path_provider: ^1.6.11
   http: ^0.12.1

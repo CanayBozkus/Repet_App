@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:repetapp/models/calendar_model.dart';
+import 'package:repetapp/models/forum_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/models/user_model.dart';
@@ -11,14 +12,16 @@ class GeneralProviderData with ChangeNotifier {
   UserModel currentUser = UserModel();
   Map<String, PetModel> pets;
   String currentShownPetIndex;
-  bool isDataFetched = false;
+  bool isMainScreenDataFetched = false;
   CalendarModel calendar = CalendarModel();
   int nextNotificationId;
-
-  Future<void> getData() async {
+  
+  List<ForumModel> forumScreenDataList = [];
+  
+  Future<void> getMainScreenData() async {
     await this.getUserData();
     await this.getPets();
-    this.isDataFetched = true;
+    this.isMainScreenDataFetched = true;
     this._getNextNotificationId();
     notifyListeners();
   }
@@ -63,7 +66,7 @@ class GeneralProviderData with ChangeNotifier {
     currentUser = UserModel();
     pets = {};
     currentShownPetIndex = '';
-    isDataFetched = false;
+    isMainScreenDataFetched = false;
     notifyListeners();
   }
 
@@ -103,5 +106,11 @@ class GeneralProviderData with ChangeNotifier {
     String result = await currentUser.updateEmail(email, password);
     notifyListeners();
     return result;
+  }
+
+  Future<void> getForumScreenData(DateTime time, int limit) async {
+    List<ForumModel> newData = await ForumModel.getPostPaginatedWithDateTime(time, limit);
+    forumScreenDataList = [...forumScreenDataList, ...newData];
+    notifyListeners();
   }
 }

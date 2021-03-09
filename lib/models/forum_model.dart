@@ -10,6 +10,7 @@ class ForumModel {
   String content;
   DateTime postedDate;
   String ownerId;
+  String ownerName;
   String ownerPhoto;
   int likeCount = 0;
   ForumCategories category = ForumCategories.food;
@@ -29,11 +30,28 @@ class ForumModel {
       'parent_id': this.parentId,
       'category': kForumCategoryTitles[this.category],
       'liked_by': this.likedBy,
+      'owner_name': this.ownerName,
     });
   }
 
-  static Future<void> getPostPaginatedWithDateTime(DateTime time, int limit) async {
-    QuerySnapshot dataList = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true).limit(limit).get();
-    print(dataList);
+  static Future<List<ForumModel>> getPostPaginatedWithDateTime(DateTime time, int limit) async {
+    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true).where('posted_date', isLessThan: time).limit(limit).get();
+    List<QueryDocumentSnapshot> dataList = dataListRaw.docs;
+    List<ForumModel> forumInstanceList = [];
+    dataList.forEach((element) {
+      ForumModel forumInstance = ForumModel();
+      Map<String, dynamic> data = element.data();
+      forumInstance.title = data['title'];
+      forumInstance.content = data['content'];
+      forumInstance.category = kForumCategoryTitlesReverse[data['category']];
+      forumInstance.postedDate = data['posted_date'].toDate();
+      forumInstance.likeCount = data['like_count'];
+      forumInstance.likedBy = data['liked_by'];
+      forumInstance.parentId = data['parent_id'];
+      forumInstance.ownerPhoto = data['owner_photo'];
+      forumInstance.ownerName = data['owner_name'] ?? 'no name';
+      forumInstanceList.add(forumInstance);
+    });
+    return forumInstanceList;
   }
 }
