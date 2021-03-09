@@ -44,7 +44,7 @@ class _ForumViewState extends State<ForumView> {
       controller: _scrollController,
       itemBuilder: (BuildContext context, int index){
         if(length == 0 || index == length){
-          return Spinner();
+          return context.watch<GeneralProviderData>().isAllForumDataFetched ? Text('You have seen all posts') : Spinner();
         }
         ForumModel model = itemList[index];
         return ForumCard(

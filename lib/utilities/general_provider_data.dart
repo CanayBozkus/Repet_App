@@ -17,7 +17,8 @@ class GeneralProviderData with ChangeNotifier {
   int nextNotificationId;
   
   List<ForumModel> forumScreenDataList = [];
-  
+  bool isAllForumDataFetched = false;
+
   Future<void> getMainScreenData() async {
     await this.getUserData();
     await this.getPets();
@@ -110,7 +111,12 @@ class GeneralProviderData with ChangeNotifier {
 
   Future<void> getForumScreenData(DateTime time, int limit) async {
     List<ForumModel> newData = await ForumModel.getPostPaginatedWithDateTime(time, limit);
-    forumScreenDataList = [...forumScreenDataList, ...newData];
+    if(newData.isEmpty){
+      isAllForumDataFetched = true;
+    }
+    else{
+      forumScreenDataList = [...forumScreenDataList, ...newData];
+    }
     notifyListeners();
   }
 }
