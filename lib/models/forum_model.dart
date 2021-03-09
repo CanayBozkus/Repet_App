@@ -31,4 +31,9 @@ class ForumModel {
       'liked_by': this.likedBy,
     });
   }
+
+  static Future<void> getPostPaginatedWithDateTime(DateTime time, int limit) async {
+    QuerySnapshot dataList = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true).limit(limit).get();
+    print(dataList);
+  }
 }
