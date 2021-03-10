@@ -48,12 +48,7 @@ class _ForumViewState extends State<ForumView> {
         }
         ForumModel model = itemList[index];
         return ForumCard(
-          category: kForumCategoryTitles[model.category],
-          title: model.postedDate.month.toString() + ' ' + model.postedDate.day.toString(),
-          content: model.content,
-          name: model.ownerName,
-          photoSvg: model.ownerPhoto,
-          likeCount: model.likeCount,
+          forumModel: model,
         );
       },
     );

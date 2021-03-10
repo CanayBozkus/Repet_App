@@ -24,7 +24,7 @@ class ForumModel {
       'title': this.title,
       'content': this.content,
       'posted_date': this.postedDate,
-      'owener_id': this.ownerId,
+      'owner_id': this.ownerId,
       'owner_photo': this.ownerPhoto,
       'like_count': this.likeCount,
       'parent_id': this.parentId,
@@ -50,8 +50,26 @@ class ForumModel {
       forumInstance.parentId = data['parent_id'];
       forumInstance.ownerPhoto = data['owner_photo'];
       forumInstance.ownerName = data['owner_name'] ?? 'no name';
+      forumInstance.ownerId = data['owner_id'];
       forumInstanceList.add(forumInstance);
     });
     return forumInstanceList;
+  }
+
+  Future<void> likeOrDislike(String userId) async {
+    if(this.likedBy.contains(userId)){
+      this.likedBy.remove(userId);
+      this.likeCount -=1;
+    }
+    else {
+      this.likedBy.add(userId);
+      this.likeCount +=1;
+    }
+
+    DocumentReference newPost =  _fireStore.collection('ForumModel').doc();
+    await newPost.update({
+      'liked_by': this.likedBy,
+      'like_count': this.likeCount,
+    });
   }
 }

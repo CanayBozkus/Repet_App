@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/models/forum_model.dart';
+import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
+
 class ForumCard extends StatelessWidget {
-  ForumCard({this.category, this.name, this.content, this.title, this.photoSvg, this.likeCount});
-  final String name;
-  final String category;
-  final String title;
-  final String content;
-  final String photoSvg;
-  final int likeCount;
+  ForumCard({@required this.forumModel});
+  final ForumModel forumModel;
   @override
   Widget build(BuildContext context) {
+    String userId = context.read<GeneralProviderData>().currentUser.id;
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: BaseShadow(
@@ -24,8 +25,8 @@ class ForumCard extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    SvgPicture.asset('assets/icons/$photoSvg', height: 70,),
-                    Text(name,),
+                    SvgPicture.asset('assets/icons/${forumModel.ownerPhoto}', height: 70,),
+                    Text(forumModel.ownerName,),
                     BaseShadow(
                       child: Container(
                         width: 90,
@@ -33,7 +34,7 @@ class ForumCard extends StatelessWidget {
                         alignment: Alignment.center,
                         color: Color(0xff54ac14),
                         child: Text(
-                          category,
+                          kForumCategoryTitles[forumModel.category],
                           style: TextStyle(
                               color: Colors.white
                           ),
@@ -51,7 +52,7 @@ class ForumCard extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        title,
+                        forumModel.title,
                         style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w800
@@ -59,7 +60,7 @@ class ForumCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      content,
+                      forumModel.content,
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(),
@@ -67,8 +68,24 @@ class ForumCard extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Icon(Icons.favorite, color: Color(0xffff3636),),
-                        Text(likeCount.toString()),
+                        ClipOval(
+                          child: Material(
+                            shape: CircleBorder(),
+                            color: Colors.transparent,
+                            child: IconButton(
+                              icon: Icon(
+                                forumModel.likedBy.contains(userId) ? Icons.favorite : Icons.favorite_border,
+                                color: Color(0xffff3636),
+                              ),
+                              splashRadius: 30,
+                              onPressed: () async {
+                                await context.read<GeneralProviderData>().likeOrDislikeForumPost(forumModel, userId);
+                              },
+                              padding: EdgeInsets.zero,
+                            ),
+                          ),
+                        ),
+                        Text(forumModel.likeCount.toString()),
                       ],
                     )
                   ],

@@ -119,4 +119,9 @@ class GeneralProviderData with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> likeOrDislikeForumPost(ForumModel model, String userId) async {
+    await model.likeOrDislike(userId);
+    notifyListeners();
+  }
 }
