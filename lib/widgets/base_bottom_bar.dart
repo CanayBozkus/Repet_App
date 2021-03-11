@@ -139,7 +139,7 @@ class _BaseBottomBarState extends State<BaseBottomBar> {
                     GestureDetector(
                       onTap: (){
                         if(widget.pageNumber != 4){
-                          Navigator.pushNamed(context, bottomNavigationBarRoutes[4]);
+                          Navigator.pushReplacementNamed(context, bottomNavigationBarRoutes[4]);
                         }
                       },
                       child: SvgPicture.asset(
