@@ -16,6 +16,7 @@ class _BlogViewState extends State<BlogView> {
   List<ForumModel> _itemList = [];
   int _length;
   ScrollController _scrollController = ScrollController();
+  List<ForumCategories> _filterList;
   @override
   void initState() {
     if(Provider.of<GeneralProviderData>(context, listen: false).forumScreenBlogDataList.isEmpty){
@@ -37,8 +38,9 @@ class _BlogViewState extends State<BlogView> {
 
   @override
   Widget build(BuildContext context) {
-    _length = context.watch<GeneralProviderData>().forumScreenBlogDataList.length;
-    _itemList =  context.watch<GeneralProviderData>().forumScreenBlogDataList;
+    _filterList = context.watch<GeneralProviderData>().blogScreenFilter;
+    _itemList =  context.watch<GeneralProviderData>().forumScreenBlogDataList.where((item) => _filterList.contains(item.category)).toList();
+    _length = _itemList.length;
     return Column(
       children: [
         BlogCategoryBuilder(),

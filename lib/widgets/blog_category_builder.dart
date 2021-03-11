@@ -19,7 +19,9 @@ class BlogCategoryBuilder extends StatelessWidget {
               child: Row(
                 children: [
                   ...ForumCategories.values.map((category){
-                    return CategoryCard(title: kForumCategoryTitles[category], svg: kBlogPageCategoryImages[category], color: kBlogPageCategoryColors[category],);
+                    return CategoryCard(
+                      category: category,
+                    );
                   }).toList(),
                 ],
               ),

@@ -32,7 +32,7 @@ class ForumCard extends StatelessWidget {
                         width: 90,
                         height: 24,
                         alignment: Alignment.center,
-                        color: Color(0xff54ac14),
+                        color: kBlogPageCategoryColors[forumModel.category],
                         child: Text(
                           kForumCategoryTitles[forumModel.category],
                           style: TextStyle(
@@ -57,6 +57,8 @@ class ForumCard extends StatelessWidget {
                             fontSize: 24,
                             fontWeight: FontWeight.w800
                         ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(

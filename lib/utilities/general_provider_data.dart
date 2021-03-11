@@ -21,6 +21,7 @@ class GeneralProviderData with ChangeNotifier {
 
   List<ForumModel> forumScreenBlogDataList = [];
   bool isAllForumScreenBlogDataFetched = false;
+  List<ForumCategories> blogScreenFilter = ForumCategories.values.toList();
 
   Future<void> getMainScreenData() async {
     await this.getUserData();
@@ -135,6 +136,16 @@ class GeneralProviderData with ChangeNotifier {
     }
     else{
       forumScreenBlogDataList = [...forumScreenBlogDataList, ...newData];
+    }
+    notifyListeners();
+  }
+
+  void filterForumScreenBlogDataListView(ForumCategories category){
+    if(blogScreenFilter.length == 1){
+      blogScreenFilter.contains(category) ? blogScreenFilter = ForumCategories.values.toList() : blogScreenFilter = [category];
+    }
+    else {
+      blogScreenFilter = [category];
     }
     notifyListeners();
   }

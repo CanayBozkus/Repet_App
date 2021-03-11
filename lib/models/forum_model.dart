@@ -57,6 +57,7 @@ class ForumModel {
       forumInstance.ownerPhoto = data['owner_photo'];
       forumInstance.ownerName = data['owner_name'] ?? 'no name';
       forumInstance.ownerId = data['owner_id'];
+      forumInstance.id = element.id;
       forumInstanceList.add(forumInstance);
     });
     return forumInstanceList;
@@ -72,7 +73,7 @@ class ForumModel {
       this.likeCount +=1;
     }
 
-    DocumentReference newPost =  _fireStore.collection('ForumModel').doc();
+    DocumentReference newPost =  _fireStore.collection('ForumModel').doc(this.id);
     await newPost.update({
       'liked_by': this.likedBy,
       'like_count': this.likeCount,
