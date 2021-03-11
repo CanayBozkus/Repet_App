@@ -16,8 +16,11 @@ class GeneralProviderData with ChangeNotifier {
   CalendarModel calendar = CalendarModel();
   int nextNotificationId;
   
-  List<ForumModel> forumScreenDataList = [];
-  bool isAllForumDataFetched = false;
+  List<ForumModel> forumScreenForumDataList = [];
+  bool isAllForumScreenForumDataFetched = false;
+
+  List<ForumModel> forumScreenBlogDataList = [];
+  bool isAllForumScreenBlogDataFetched = false;
 
   Future<void> getMainScreenData() async {
     await this.getUserData();
@@ -109,19 +112,30 @@ class GeneralProviderData with ChangeNotifier {
     return result;
   }
 
-  Future<void> getForumScreenData(DateTime time, int limit) async {
-    List<ForumModel> newData = await ForumModel.getPostPaginatedWithDateTime(time, limit);
+  Future<void> getForumScreenForumData(DateTime time, int limit) async {
+    List<ForumModel> newData = await ForumModel.getPostPaginatedWithDateTime(time, limit, true);
     if(newData.isEmpty){
-      isAllForumDataFetched = true;
+      isAllForumScreenForumDataFetched = true;
     }
     else{
-      forumScreenDataList = [...forumScreenDataList, ...newData];
+      forumScreenForumDataList = [...forumScreenForumDataList, ...newData];
     }
     notifyListeners();
   }
 
   Future<void> likeOrDislikeForumPost(ForumModel model, String userId) async {
     await model.likeOrDislike(userId);
+    notifyListeners();
+  }
+
+  Future<void> getForumScreenBlogData(DateTime time, int limit) async {
+    List<ForumModel> newData = await ForumModel.getPostPaginatedWithDateTime(time, limit, false);
+    if(newData.isEmpty){
+      isAllForumScreenBlogDataFetched = true;
+    }
+    else{
+      forumScreenBlogDataList = [...forumScreenBlogDataList, ...newData];
+    }
     notifyListeners();
   }
 }

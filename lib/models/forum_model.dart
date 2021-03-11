@@ -16,6 +16,7 @@ class ForumModel {
   ForumCategories category = ForumCategories.food;
   String parentId;
   List likedBy = [];
+  String screen = 'forum';
   FirebaseFirestore _fireStore;
 
   Future<void> post() async {
@@ -31,11 +32,16 @@ class ForumModel {
       'category': kForumCategoryTitles[this.category],
       'liked_by': this.likedBy,
       'owner_name': this.ownerName,
+      'screen': this.screen,
     });
   }
 
-  static Future<List<ForumModel>> getPostPaginatedWithDateTime(DateTime time, int limit) async {
-    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true).where('posted_date', isLessThan: time).limit(limit).get();
+  static Future<List<ForumModel>> getPostPaginatedWithDateTime(DateTime time, int limit, bool isForum) async {
+    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true)
+        .where('screen', isEqualTo: isForum ? 'forum' : 'blog')
+        .where('posted_date', isLessThan: time)
+        .limit(limit)
+        .get();
     List<QueryDocumentSnapshot> dataList = dataListRaw.docs;
     List<ForumModel> forumInstanceList = [];
     dataList.forEach((element) {

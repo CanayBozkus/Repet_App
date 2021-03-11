@@ -13,17 +13,18 @@ class ForumView extends StatefulWidget {
 }
 
 class _ForumViewState extends State<ForumView> {
-  List<ForumModel> dataList = [];
+  List<ForumModel> _itemList = [];
+  int _length;
   ScrollController _scrollController = ScrollController();
   @override
   void initState() {
-    if(Provider.of<GeneralProviderData>(context, listen: false).forumScreenDataList.isEmpty){
+    if(Provider.of<GeneralProviderData>(context, listen: false).forumScreenForumDataList.isEmpty){
       _getMoreData(DateTime.now());
     }
 
     _scrollController.addListener(() {
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        ForumModel lastModel = context.read<GeneralProviderData>().forumScreenDataList.last;
+        ForumModel lastModel = context.read<GeneralProviderData>().forumScreenForumDataList.last;
         _getMoreData(lastModel.postedDate);
       }
     });
@@ -31,22 +32,24 @@ class _ForumViewState extends State<ForumView> {
   }
 
   void _getMoreData(DateTime time) async {
-    await Provider.of<GeneralProviderData>(context, listen: false).getForumScreenData(time, 10);
+    await Provider.of<GeneralProviderData>(context, listen: false).getForumScreenForumData(time, 10);
   }
 
   @override
   Widget build(BuildContext context) {
-    int length = context.watch<GeneralProviderData>().forumScreenDataList.length;
-    List<ForumModel> itemList =  context.watch<GeneralProviderData>().forumScreenDataList;
+    _length = context.watch<GeneralProviderData>().forumScreenForumDataList.length;
+    _itemList =  context.watch<GeneralProviderData>().forumScreenForumDataList;
     return ListView.builder(
       padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-      itemCount: length +1,
+      itemCount: _length +1,
       controller: _scrollController,
       itemBuilder: (BuildContext context, int index){
-        if(length == 0 || index == length){
-          return context.watch<GeneralProviderData>().isAllForumDataFetched ? Text('You have seen all posts') : Spinner();
+        if(_length == 0 || index == _length){
+          return context.watch<GeneralProviderData>().isAllForumScreenForumDataFetched
+              ? Text(_length == 0 ? 'There are no available post' : 'You have seen all posts')
+              : Spinner();
         }
-        ForumModel model = itemList[index];
+        ForumModel model = _itemList[index];
         return ForumCard(
           forumModel: model,
         );
