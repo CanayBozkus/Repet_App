@@ -23,6 +23,9 @@ class GeneralProviderData with ChangeNotifier {
   bool isAllForumScreenBlogDataFetched = false;
   List<ForumCategories> blogScreenFilter = ForumCategories.values.toList();
 
+  List<ForumModel> forumScreenCommentsList = [];
+  bool isAllCommentsFetched = false;
+
   Future<void> getMainScreenData() async {
     await this.getUserData();
     await this.getPets();
@@ -149,6 +152,34 @@ class GeneralProviderData with ChangeNotifier {
     else {
       blogScreenFilter = [category];
     }
+    notifyListeners();
+  }
+
+  void initializeCommentVariables(){
+    isAllCommentsFetched = false;
+    forumScreenCommentsList = [];
+  }
+
+  Future<void> getComments(ForumModel forumModel, DateTime time, int limit) async {
+    List<ForumModel> newData = await forumModel.getComments(time, limit);
+
+    if(newData.isEmpty){
+      isAllCommentsFetched = true;
+    }
+    else{
+      forumScreenCommentsList = [...forumScreenCommentsList, ...newData];
+      newData.length < limit ? isAllCommentsFetched = true : isAllCommentsFetched = false;
+    }
+    notifyListeners();
+  }
+
+  void addItemToCommentsList(ForumModel model){
+    forumScreenCommentsList.add(model);
+  }
+
+  Future<void> postComment(ForumModel comment) async {
+    await comment.post();
+    forumScreenCommentsList.insert(1, comment);
     notifyListeners();
   }
 }

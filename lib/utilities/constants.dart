@@ -204,3 +204,9 @@ const kSettingsInputLabelStyle = TextStyle(
   color: kGreyTextColor,
   fontWeight: FontWeight.w700,
 );
+
+enum ForumCardTypes {
+  detail,
+  comment,
+  summary,
+}

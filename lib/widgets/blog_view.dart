@@ -58,6 +58,7 @@ class _BlogViewState extends State<BlogView> {
               ForumModel model = _itemList[index];
               return ForumCard(
                 forumModel: model,
+                cardType: ForumCardTypes.summary,
               );
             },
           ),

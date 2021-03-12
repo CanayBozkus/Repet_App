@@ -52,6 +52,7 @@ class _ForumViewState extends State<ForumView> {
         ForumModel model = _itemList[index];
         return ForumCard(
           forumModel: model,
+          cardType: ForumCardTypes.summary,
         );
       },
     );
