@@ -137,6 +137,7 @@ class GeneralProviderData with ChangeNotifier {
     }
     else{
       forumScreenBlogDataList = [...forumScreenBlogDataList, ...newData];
+      newData.length < limit ? isAllForumScreenBlogDataFetched = true : isAllForumScreenBlogDataFetched = false;
     }
     notifyListeners();
   }
