@@ -120,6 +120,7 @@ class GeneralProviderData with ChangeNotifier {
     }
     else{
       forumScreenForumDataList = [...forumScreenForumDataList, ...newData];
+      newData.length < limit ? isAllForumScreenForumDataFetched = true : isAllForumScreenForumDataFetched = false;
     }
     notifyListeners();
   }

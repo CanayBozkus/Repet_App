@@ -149,6 +149,8 @@ const petTypeColors = {
   PetTypes.cat: Color(0xffe86868),
 };
 
+const kImageRepositoryUrl = 'https://raw.githubusercontent.com/CanayBozkus/repet_images/01e101c3a857a608b3a53c416a9877fe85447369/';
+
 const allergies = [
   'Kaşıntılı cilt',
   'Hapşırma',

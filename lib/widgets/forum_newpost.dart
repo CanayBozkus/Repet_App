@@ -55,7 +55,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                       _forumModel.postedDate = DateTime.now();
                       _forumModel.ownerId = _currentUser.id;
                       _forumModel.ownerName = _currentUser.nameSurname;
-                      _forumModel.ownerPhoto = 'profile.svg';
+                      _forumModel.ownerPhoto = 'profile_${_currentUser.gender.toLowerCase()}.svg';
                       _forumModel.parentId = null;
                       await _forumModel.post();
                       Navigator.pop(context);
