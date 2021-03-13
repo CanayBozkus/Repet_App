@@ -27,11 +27,11 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
     Provider.of<GeneralProviderData>(context, listen: false).initializeCommentVariables();
     if(Provider.of<GeneralProviderData>(context, listen: false).forumScreenCommentsList.isEmpty){
       Provider.of<GeneralProviderData>(context, listen: false).addItemToCommentsList(widget.forumModel);
-      _getMoreData(DateTime.now());
+      _getMoreData(widget.forumModel.postedDate);
     }
     _scrollController.addListener(() {
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        ForumModel lastModel = _itemList.first;
+        ForumModel lastModel = _itemList.last;
         _getMoreData(lastModel.postedDate);
       }
     });
@@ -138,7 +138,7 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
                             _comment.parentId = widget.forumModel.id;
                             await context.read<GeneralProviderData>().postComment(_comment);
                             _formKey.currentState.reset();
-                            _scrollController.jumpTo(1);
+                            _scrollController.jumpTo(_length.toDouble());
                           }
                         },
                         child: Container(
