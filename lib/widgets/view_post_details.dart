@@ -31,7 +31,7 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
     }
     _scrollController.addListener(() {
       if(_scrollController.position.pixels == _scrollController.position.maxScrollExtent){
-        ForumModel lastModel = _itemList.last;
+        ForumModel lastModel = _itemList.first;
         _getMoreData(lastModel.postedDate);
       }
     });

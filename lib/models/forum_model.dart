@@ -43,25 +43,10 @@ class ForumModel {
         .where('posted_date', isLessThan: time)
         .limit(limit)
         .get();
-    List<QueryDocumentSnapshot> dataList = dataListRaw.docs;
-    List<ForumModel> forumInstanceList = [];
-    dataList.forEach((element) {
-      ForumModel forumInstance = ForumModel();
-      Map<String, dynamic> data = element.data();
-      forumInstance.title = data['title'];
-      forumInstance.content = data['content'];
-      forumInstance.category = kForumCategoryTitlesReverse[data['category']];
-      forumInstance.postedDate = data['posted_date'].toDate();
-      forumInstance.likeCount = data['like_count'];
-      forumInstance.likedBy = data['liked_by'];
-      forumInstance.parentId = data['parent_id'];
-      forumInstance.ownerPhoto = data['owner_photo'];
-      forumInstance.ownerName = data['owner_name'] ?? 'no name';
-      forumInstance.ownerId = data['owner_id'];
-      forumInstance.id = element.id;
-      forumInstanceList.add(forumInstance);
-    });
-    return forumInstanceList;
+
+    List<ForumModel> data = ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
+
+    return data;
   }
 
   Future<void> likeOrDislike(String userId) async {
@@ -82,11 +67,27 @@ class ForumModel {
   }
 
   Future<List<ForumModel>> getComments(DateTime time, int limit) async {
-    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true)
+    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: false)
         .where('parent_id', isEqualTo: this.id)
-        .where('posted_date', isLessThan: time)
+        .where('posted_date', isGreaterThan: time)
         .limit(limit)
         .get();
+    List<ForumModel> data = ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
+
+    return data;
+  }
+
+  static Future<List<ForumModel>> refreshDataList(DateTime time, bool isForum) async {
+    QuerySnapshot dataListRaw = await FirebaseFirestore.instance.collection('ForumModel').orderBy('posted_date', descending: true)
+        .where('screen', isEqualTo: isForum ? 'forum' : 'blog')
+        .where('parent_id', isNull: true)
+        .where('posted_date', isGreaterThan: time)
+        .get();
+    List<ForumModel> data = ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
+    return data;
+  }
+
+  static List<ForumModel> createForumModelListFromQuerySnapshot(QuerySnapshot dataListRaw){
     List<QueryDocumentSnapshot> dataList = dataListRaw.docs;
     List<ForumModel> forumInstanceList = [];
     dataList.forEach((element) {

@@ -179,7 +179,21 @@ class GeneralProviderData with ChangeNotifier {
 
   Future<void> postComment(ForumModel comment) async {
     await comment.post();
-    forumScreenCommentsList.insert(1, comment);
+    forumScreenCommentsList.add(comment);
+    notifyListeners();
+  }
+
+  Future<void> refreshForumScreenForumData() async {
+    List<ForumModel> newData = await ForumModel.refreshDataList(forumScreenForumDataList.first.postedDate, true);
+    if(newData.isNotEmpty){
+      forumScreenForumDataList = [...newData, ...forumScreenForumDataList];
+    }
+    notifyListeners();
+  }
+
+  Future<void> postToForum(ForumModel model) async {
+    await model.post();
+    forumScreenForumDataList.insert(0, model);
     notifyListeners();
   }
 }

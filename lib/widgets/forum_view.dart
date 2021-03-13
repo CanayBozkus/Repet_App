@@ -39,22 +39,27 @@ class _ForumViewState extends State<ForumView> {
   Widget build(BuildContext context) {
     _length = context.watch<GeneralProviderData>().forumScreenForumDataList.length;
     _itemList =  context.watch<GeneralProviderData>().forumScreenForumDataList;
-    return ListView.builder(
-      padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
-      itemCount: _length +1,
-      controller: _scrollController,
-      itemBuilder: (BuildContext context, int index){
-        if(_length == 0 || index == _length){
-          return context.watch<GeneralProviderData>().isAllForumScreenForumDataFetched
-              ? Text(_length == 0 ? 'There are no available post' : 'You have seen all posts')
-              : Spinner();
-        }
-        ForumModel model = _itemList[index];
-        return ForumCard(
-          forumModel: model,
-          cardType: ForumCardTypes.summary,
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        context.read<GeneralProviderData>().refreshForumScreenForumData();
       },
+      child: ListView.builder(
+        padding: generalScreenPadding.add(EdgeInsets.symmetric(vertical: 5)),
+        itemCount: _length +1,
+        controller: _scrollController,
+        itemBuilder: (BuildContext context, int index){
+          if(_length == 0 || index == _length){
+            return context.watch<GeneralProviderData>().isAllForumScreenForumDataFetched
+                ? Text(_length == 0 ? 'There are no available post' : 'You have seen all posts')
+                : Spinner();
+          }
+          ForumModel model = _itemList[index];
+          return ForumCard(
+            forumModel: model,
+            cardType: ForumCardTypes.summary,
+          );
+        },
+      ),
     );
   }
 }

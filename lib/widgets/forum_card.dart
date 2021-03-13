@@ -40,14 +40,14 @@ class ForumCard extends StatelessWidget {
                           Container(
                             alignment: Alignment.topRight,
                             child: Text(
-                              '${forumModel.postedDate.hour}:${forumModel.postedDate.minute}, ${forumModel.postedDate.day}.${forumModel.postedDate.month}.${forumModel.postedDate.year}',
+                              '${forumModel.postedDate.getHourAndMinuteString()}, ${forumModel.postedDate.day}.${forumModel.postedDate.month}.${forumModel.postedDate.year}',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500
                               ),
                             ),
                           ),
-                          BaseShadow(
+                          cardType != ForumCardTypes.comment ? BaseShadow(
                             child: Container(
                               width: 90,
                               height: 24,
@@ -60,7 +60,7 @@ class ForumCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          ) : SizedBox.shrink(),
                         ],
                       ),
                       SizedBox(height: 5,),

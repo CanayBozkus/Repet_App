@@ -4,6 +4,7 @@ import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
+import 'package:repetapp/widgets/spinner.dart';
 import 'base_shadow.dart';
 
 class ForumNewPost extends StatefulWidget {
@@ -16,6 +17,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
   String _categoryHintText = 'Choose a Type';
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final ForumModel _forumModel = ForumModel();
+  bool isPosting = false;
   @override
   Widget build(BuildContext context) {
     UserModel _currentUser = context.read<GeneralProviderData>().currentUser;
@@ -48,8 +50,11 @@ class _ForumNewPostState extends State<ForumNewPost> {
               ),
               Container(
                 width: 80,
-                child: FlatButton(
+                child: isPosting ? Spinner() :  FlatButton(
                   onPressed: () async {
+                    setState(() {
+                      isPosting = true;
+                    });
                     if(_formKey.currentState.validate()){
                       _formKey.currentState.save();
                       _forumModel.postedDate = DateTime.now();
@@ -57,9 +62,12 @@ class _ForumNewPostState extends State<ForumNewPost> {
                       _forumModel.ownerName = _currentUser.nameSurname;
                       _forumModel.ownerPhoto = 'profile_${_currentUser.gender.toLowerCase()}.svg';
                       _forumModel.parentId = null;
-                      await _forumModel.post();
+                      await context.read<GeneralProviderData>().postToForum(_forumModel);
                       Navigator.pop(context);
                     }
+                    setState(() {
+                      isPosting = false;
+                    });
                   },
                   child: Text(
                     'Post',
