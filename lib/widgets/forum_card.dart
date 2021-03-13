@@ -27,111 +27,132 @@ class ForumCard extends StatelessWidget {
             splashColor: cardType == ForumCardTypes.summary ? Theme.of(context).splashColor : Colors.transparent,
             highlightColor: cardType == ForumCardTypes.summary ? Theme.of(context).highlightColor : Colors.transparent,
             child: Container(
-              height: cardType == ForumCardTypes.summary ? 150 : null,
+              height: cardType == ForumCardTypes.summary ? 210 : null,
               padding: EdgeInsets.symmetric(vertical: cardType == ForumCardTypes.summary ? 8 : 12, horizontal: 12),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 90,
-                    child: Column(
-                      mainAxisAlignment: cardType == ForumCardTypes.summary ? MainAxisAlignment.spaceAround : MainAxisAlignment.start,
-                      children: [
-                        SvgPicture.network('$kImageRepositoryUrl${forumModel.ownerPhoto}', height: 70,),
-                        SizedBox(height: 5,),
-                        Text(forumModel.ownerName,),
-                        SizedBox(height: 5,),
-                        BaseShadow(
-                          child: Container(
-                            width: 90,
-                            height: 24,
-                            alignment: Alignment.center,
-                            color: kBlogPageCategoryColors[forumModel.category],
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            alignment: Alignment.topRight,
                             child: Text(
-                              kForumCategoryTitles[forumModel.category],
+                              '${forumModel.postedDate.hour}:${forumModel.postedDate.minute}, ${forumModel.postedDate.day}.${forumModel.postedDate.month}.${forumModel.postedDate.year}',
                               style: TextStyle(
-                                  color: Colors.white
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: Container(
-                      constraints: BoxConstraints(
-                        minHeight: 124
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              cardType != ForumCardTypes.comment ? Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  forumModel.title,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w800
-                                  ),
-                                  maxLines: cardType == ForumCardTypes.summary ? 1 : null,
-                                  overflow: cardType == ForumCardTypes.summary ? TextOverflow.ellipsis : null,
+                          BaseShadow(
+                            child: Container(
+                              width: 90,
+                              height: 24,
+                              alignment: Alignment.center,
+                              color: kBlogPageCategoryColors[forumModel.category],
+                              child: Text(
+                                kForumCategoryTitles[forumModel.category],
+                                style: TextStyle(
+                                    color: Colors.white
                                 ),
-                              ) : SizedBox.shrink(),
-                              cardType != ForumCardTypes.summary ? Container(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  '${forumModel.postedDate.day}.${forumModel.postedDate.month}.${forumModel.postedDate.year}',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500
-                                  ),
-                                  maxLines: cardType == ForumCardTypes.summary ? 1 : null,
-                                  overflow: cardType == ForumCardTypes.summary ? TextOverflow.ellipsis : null,
-                                ),
-                              ) : SizedBox.shrink(),
-                            ],
-                          ),
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              forumModel.content,
-                              maxLines: cardType == ForumCardTypes.summary ? 3 : null,
-                              overflow: cardType == ForumCardTypes.summary ? TextOverflow.ellipsis : null,
-                              style: TextStyle(),
+                              ),
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ClipOval(
-                                child: Material(
-                                  shape: CircleBorder(),
-                                  color: Colors.transparent,
-                                  child: IconButton(
-                                    icon: Icon(
+                        ],
+                      ),
+                      SizedBox(height: 5,),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      cardType != ForumCardTypes.comment ? Expanded(
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            forumModel.title,
+                                            style: TextStyle(
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w800
+                                            ),
+                                            maxLines: cardType == ForumCardTypes.summary ? 2 : null,
+                                            overflow: cardType == ForumCardTypes.summary ? TextOverflow.ellipsis : null,
+                                          ),
+                                        ),
+                                      ) : SizedBox.shrink(),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      forumModel.content,
+                                      maxLines: cardType == ForumCardTypes.summary ? 3 : null,
+                                      overflow: cardType == ForumCardTypes.summary ? TextOverflow.ellipsis : null,
+                                      style: TextStyle(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SvgPicture.network('$kImageRepositoryUrl${forumModel.ownerPhoto}', height: 25,),
+                            SizedBox(width: 10,),
+                            Text(
+                              forumModel.ownerName,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ClipOval(
+                              child: Material(
+                                shape: CircleBorder(),
+                                color: Colors.transparent,
+                                child: InkWell(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Icon(
                                       forumModel.likedBy.contains(userId) ? Icons.favorite : Icons.favorite_border,
                                       color: Color(0xffff3636),
                                     ),
-                                    splashRadius: 30,
-                                    onPressed: () async {
-                                      await context.read<GeneralProviderData>().likeOrDislikeForumPost(forumModel, userId);
-                                    },
-                                    padding: EdgeInsets.zero,
                                   ),
+                                  onTap: () async {
+                                    await context.read<GeneralProviderData>().likeOrDislikeForumPost(forumModel, userId);
+                                  },
+
                                 ),
                               ),
-                              Text(forumModel.likeCount.toString()),
-                            ],
-                          )
-                        ],
+                            ),
+                            Text(forumModel.likeCount.toString()),
+                          ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
@@ -142,3 +163,30 @@ class ForumCard extends StatelessWidget {
     );
   }
 }
+
+/*
+Container(
+                        width: 90,
+                        child: Column(
+                          mainAxisAlignment: cardType == ForumCardTypes.summary ? MainAxisAlignment.spaceAround : MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.network('$kImageRepositoryUrl${forumModel.ownerPhoto}', height: 70,),
+                            SizedBox(height: 10,),
+                            BaseShadow(
+                              child: Container(
+                                width: 90,
+                                height: 24,
+                                alignment: Alignment.center,
+                                color: kBlogPageCategoryColors[forumModel.category],
+                                child: Text(
+                                  kForumCategoryTitles[forumModel.category],
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+ */
