@@ -33,11 +33,10 @@ class Database {
       _userModel.put(data.id, data);
     }
     else if(model == 'petmodel'){
-      _petModel.put(data.id, data);
+      _petModel.add(data);
     }
     else if(model == 'calendarmodel'){
       _calendarModel.add(data);
-      print('add');
     }
   }
 
