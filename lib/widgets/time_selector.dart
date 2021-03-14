@@ -12,7 +12,7 @@ class TimeSelector extends StatelessWidget {
         mainAxisAlignment: center ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
           Container(
-            width: 40,
+            width: 60,
             child: CupertinoPicker(
               itemExtent: 50,
               onSelectedItemChanged: hourOnChanged,
@@ -40,7 +40,7 @@ class TimeSelector extends StatelessWidget {
             ),
           ),
           Container(
-            width: 40,
+            width: 60,
             child: CupertinoPicker(
               itemExtent: 50,
               onSelectedItemChanged: minuteOnChanged,

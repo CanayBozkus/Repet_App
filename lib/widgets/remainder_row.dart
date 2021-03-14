@@ -107,7 +107,7 @@ class RemainderRow extends StatelessWidget {
                   child: Text(
                     '%' + (status['percentage']*100).toInt().toString(),
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 ),
