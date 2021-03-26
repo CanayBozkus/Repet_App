@@ -82,6 +82,12 @@ class GeneralProviderData with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> removeReminder(
+      PetModel pet, Remainders reminder, int reminderModelId) async {
+    // PetModel pet = this.pets[this.currentShownPetIndex]; Can be done
+    await currentUser.removeReminder(pet, reminder, reminderModelId);
+  }
+
   Future<void> updateRemainderStatus(
       PetModel pet,
       RemainderFieldModel remainderFieldModel,
