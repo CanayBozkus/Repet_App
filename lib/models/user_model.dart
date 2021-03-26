@@ -391,6 +391,14 @@ class UserModel {
         await pet.addRoutine(remainder, time, notificationId, isActive);
   }
 
+  Future<void> removeReminder(
+    PetModel pet,
+    Remainders reminder,
+    int reminderModelId,
+  ) async {
+    bool result = await pet.removeReminder(reminder, reminderModelId);
+  }
+
   Future<void> updateRemainderStatus(
       /*
       Wrapper function for updating the status an existing daily reminder
@@ -415,7 +423,7 @@ class UserModel {
   }
 
   Future<void> cancelRemainder(PetModel pet, id, routineName) async {
-    //await pet.cancelRoutine(currentNotifications[id], routineName);
+    // await pet.cancelRoutine(currentNotifications[id], routineName);
   }
 
   Future<bool> updateData(Map<String, dynamic> data) async {

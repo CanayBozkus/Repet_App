@@ -361,6 +361,24 @@ class PetModel {
     }
   }
 
+  Future<bool> removeReminder(
+      constants.Remainders reminder, int reminderModelId) async {
+    String reminderTitle = constants.remainderTitles[reminder];
+    this
+        .routines[reminderTitle.toLowerCase()]
+        .removeWhere((reminder) => reminder.id == reminderModelId);
+    try {
+      notificationPlugin.cancelNotification(id: reminderModelId);
+      await addUpdateRoutineToCloud(reminderTitle);
+      addUpdateRoutineToLocal();
+      databaseManager.removeNotification(reminderModelId);
+      return true;
+    } catch (error) {
+      print(error);
+      return false;
+    }
+  }
+
   Future<void> addUpdateRoutineToCloud(String routineName) async {
     /*
     Future<void> addUpdateRoutineToCloud(String routineName) async:
