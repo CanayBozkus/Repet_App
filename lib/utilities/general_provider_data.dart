@@ -84,8 +84,19 @@ class GeneralProviderData with ChangeNotifier {
 
   Future<void> removeReminder(
       PetModel pet, Remainders reminder, int reminderModelId) async {
-    // PetModel pet = this.pets[this.currentShownPetIndex]; Can be done
     await currentUser.removeReminder(pet, reminder, reminderModelId);
+    notifyListeners();
+  }
+
+  Future<void> updateReminder(
+    PetModel pet,
+    Remainders reminder,
+    int reminderModelId,
+    Map<String, dynamic> reminderData,
+  ) async {
+    await currentUser.updateReminder(
+        pet, reminder, reminderModelId, reminderData);
+    notifyListeners();
   }
 
   Future<void> updateRemainderStatus(
