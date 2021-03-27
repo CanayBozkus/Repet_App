@@ -362,8 +362,8 @@ class PetModel {
   }
 
   Future<bool> removeReminder(
-      constants.Remainders reminder, int reminderModelId) async {
-    String reminderTitle = constants.remainderTitles[reminder];
+      constants.Remainders reminderType, int reminderModelId) async {
+    String reminderTitle = constants.remainderTitles[reminderType];
     this
         .routines[reminderTitle.toLowerCase()]
         .removeWhere((reminder) => reminder.id == reminderModelId);
@@ -376,6 +376,55 @@ class PetModel {
     } catch (error) {
       print(error);
       return false;
+    }
+  }
+
+  Future<void> updateReminder(
+    constants.Remainders reminderType,
+    int reminderModelId,
+    Map<String, dynamic> reminderData,
+  ) async {
+    String reminderTitle = constants.remainderTitles[reminderType];
+
+    RemainderFieldModel currReminder = this
+        .routines[reminderTitle.toLowerCase()]
+        .firstWhere((reminder) => reminder.id == reminderModelId);
+
+    DateTime newTime = reminderData["newTime"];
+    bool newStatus = reminderData["isActive"];
+    if (currReminder.time == newTime && currReminder.isActive == newStatus) {
+      return;
+    }
+
+    currReminder.time = newTime;
+    currReminder.isActive = newStatus;
+
+    try {
+      // Cancel current notification
+      notificationPlugin.cancelNotification(id: reminderModelId);
+      databaseManager.removeNotification(reminderModelId);
+
+      // Add new notification
+      currReminder.isActive
+          ? notificationPlugin.showDailyAtTimeNotification(
+              id: reminderModelId,
+              title: '$reminderTitle Time',
+              body: '${this.name} needs ${reminderTitle.toLowerCase()}.',
+              payload: null,
+              time: newTime)
+          : null;
+
+      databaseManager.addNewNotification(
+        reminderTitle + this.name + id.toString(),
+        reminderModelId,
+        this.ownerId,
+      );
+
+      // Update databases
+      await addUpdateRoutineToCloud(reminderTitle);
+      addUpdateRoutineToLocal();
+    } catch (error) {
+      print(error);
     }
   }
 

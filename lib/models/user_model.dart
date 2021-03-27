@@ -399,6 +399,15 @@ class UserModel {
     bool result = await pet.removeReminder(reminder, reminderModelId);
   }
 
+  Future<void> updateReminder(
+    PetModel pet,
+    Remainders reminder,
+    int reminderModelId,
+    Map<String, dynamic> reminderData,
+  ) async {
+    await pet.updateReminder(reminder, reminderModelId, reminderData);
+  }
+
   Future<void> updateRemainderStatus(
       /*
       Wrapper function for updating the status an existing daily reminder
