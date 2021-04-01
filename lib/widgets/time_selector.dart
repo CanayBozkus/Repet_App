@@ -10,15 +10,14 @@ class TimeSelector extends StatelessWidget {
   var _minuteScrollController;
 
   TimeSelector({
-    Key key,
     this.hourOnChanged(int),
     this.minuteOnChanged(int),
     this.center = false,
     this.initialValues,
-  }) : super(key: key) {
-    // if (this.initialValues != null) {
-    //   print("${this.initialValues["hour"]} : ${this.initialValues["minute"]}");
-    // }
+  }) {
+    if (this.initialValues != null) {
+      print("${this.initialValues["hour"]} : ${this.initialValues["minute"]}");
+    }
     this._hourScrollController = FixedExtentScrollController(
       initialItem: this.initialValues == null ? 0 : this.initialValues["hour"],
     );
@@ -35,6 +34,9 @@ class TimeSelector extends StatelessWidget {
         mainAxisAlignment:
             center ? MainAxisAlignment.center : MainAxisAlignment.start,
         children: [
+          if (this.initialValues != null)
+            Text(
+                "${this.initialValues["hour"]} : ${this.initialValues["minute"]}"),
           Container(
             width: 60,
             child: CupertinoPicker(
