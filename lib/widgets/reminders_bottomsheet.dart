@@ -120,6 +120,9 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                                 width: double.maxFinite,
                                 height: 90,
                                 child: TimeSelector(
+                                  key: isEditing
+                                      ? ValueKey(currentFocusedReminder)
+                                      : null,
                                   hourOnChanged: (value) => hour = value,
                                   minuteOnChanged: (value) => min = value,
                                   center: true,
