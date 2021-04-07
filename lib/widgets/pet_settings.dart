@@ -20,9 +20,24 @@ class _PetSettingsState extends State<PetSettings> {
   bool isActive = false;
   bool isUpdating = false;
   Map<String, dynamic> updatedValues = {};
+  Map<String, List> updatedSelectionValues = {};
+  Map<String, List> originalSelectionValues = {};
+  PetModel currentPet;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
-  void activateSaveButton(bool isNotEmpty, String key, value){
+  @override
+  void initState() {
+    currentPet = context.read<GeneralProviderData>().pets[context.read<GeneralProviderData>().currentShownPetIndex];
+    updatedSelectionValues['allergies'] = [...currentPet.allergies];
+    updatedSelectionValues['disabilities'] = [...currentPet.disabilities];
+
+    originalSelectionValues['allergies'] = currentPet.allergies;
+    originalSelectionValues['disabilities'] = currentPet.disabilities;
+    print(updatedSelectionValues);
+    super.initState();
+  }
+
+  void activateSaveButtonForInputFields(bool isNotEmpty, String key, value){
     if(isNotEmpty){
       updatedValues[key] = value;
       setState(() {
@@ -37,9 +52,35 @@ class _PetSettingsState extends State<PetSettings> {
     }
   }
 
+  void activateSaveButtonForSelectionFields(String element, String key){
+    setState(() {
+      if(updatedSelectionValues[key].contains(element)){
+        updatedSelectionValues[key].remove(element);
+      }
+      else {
+        updatedSelectionValues[key].add(element);
+      }
+
+      if(updatedValues.isNotEmpty){
+        return;
+      }
+
+
+      updatedSelectionValues[key].length == originalSelectionValues[key].length ?
+      updatedSelectionValues[key].forEach((element) {
+        if(!originalSelectionValues[key].contains(element)){
+          isActive = true;
+          return;
+        }
+        else {
+          isActive = false;
+        }
+      }) : isActive = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    PetModel currentPet = context.watch<GeneralProviderData>().pets[context.watch<GeneralProviderData>().currentShownPetIndex];
     return Container(
       padding: generalScreenPadding,
       child: Column(
@@ -67,7 +108,7 @@ class _PetSettingsState extends State<PetSettings> {
                     label: currentPet.name,
                     svg: 'assets/icons/dog.svg',
                     onChanged: (value) {
-                      activateSaveButton(value.isNotEmpty, 'name', value);
+                      activateSaveButtonForInputFields(value.isNotEmpty, 'name', value);
                     },
                     validator: (value) {
                       if(value.contains(RegExp(r'[0-9]'))){
@@ -80,7 +121,7 @@ class _PetSettingsState extends State<PetSettings> {
                     label: currentPet.species,
                     svg: 'assets/icons/species.svg',
                     onChanged: (value) {
-                      activateSaveButton(value.isNotEmpty, 'species', value);
+                      activateSaveButtonForInputFields(value.isNotEmpty, 'species', value);
                     },
                     validator: (value) {
                       if(value.contains(RegExp(r'[0-9]'))){
@@ -94,7 +135,7 @@ class _PetSettingsState extends State<PetSettings> {
                     hint: currentPet.gender,
                     svg: 'assets/icons/gender.svg',
                     onChanged: (value) {
-                      activateSaveButton(value.isNotEmpty, 'gender', value);
+                      activateSaveButtonForInputFields(value.isNotEmpty, 'gender', value);
                     },
                     validator: (value) {
                       return null;
@@ -105,7 +146,7 @@ class _PetSettingsState extends State<PetSettings> {
                     svg: 'assets/icons/weight.svg',
                     keyboardType: KeyboardTypes.number,
                     onChanged: (String value) {
-                      activateSaveButton(value.isNotEmpty, 'weight', value.isNotEmpty ? double.parse(value) : 0);
+                      activateSaveButtonForInputFields(value.isNotEmpty, 'weight', value.isNotEmpty ? double.parse(value) : 0);
                     },
                     validator: (value) {
                       return null;
@@ -119,7 +160,7 @@ class _PetSettingsState extends State<PetSettings> {
                           svg: 'assets/icons/cake.svg',
                           keyboardType: KeyboardTypes.number,
                           onChanged: (value) {
-                            activateSaveButton(value.isNotEmpty, 'year', value.isNotEmpty ? int.parse(value) : 0);
+                            activateSaveButtonForInputFields(value.isNotEmpty, 'year', value.isNotEmpty ? int.parse(value) : 0);
                           },
                           validator: (value) {
                             if (value == null) {
@@ -133,7 +174,7 @@ class _PetSettingsState extends State<PetSettings> {
                           label: '${currentPet.month} month',
                           keyboardType: KeyboardTypes.number,
                           onChanged: (value) {
-                            activateSaveButton(value.isNotEmpty, 'month', value.isNotEmpty ? int.parse(value) : 0);
+                            activateSaveButtonForInputFields(value.isNotEmpty, 'month', value.isNotEmpty ? int.parse(value) : 0);
                           },
                           validator: (value) {
                             if (value == null) {
@@ -149,7 +190,7 @@ class _PetSettingsState extends State<PetSettings> {
                     keyboardType: KeyboardTypes.number,
                     svg: 'assets/icons/height.svg',
                     onChanged: (value) {
-                      activateSaveButton(value.isNotEmpty, 'height', value.isNotEmpty ? double.parse(value) : 0);
+                      activateSaveButtonForInputFields(value.isNotEmpty, 'height', value.isNotEmpty ? double.parse(value) : 0);
                     },
                     validator: (value) {
                       return null;
@@ -220,10 +261,11 @@ class _PetSettingsState extends State<PetSettings> {
                                               return FormGenerator.addCheckableListTile(
                                                 text: e,
                                                 onTap: (){
-
-                                                  //activateSaveButton(isNotEmpty, 'allergies', value);
+                                                  setState((){
+                                                    activateSaveButtonForSelectionFields(e, 'allergies');
+                                                  });
                                                 },
-                                                checked: currentPet.allergies.contains(e),
+                                                checked: updatedSelectionValues['allergies'].contains(e),
                                               );
                                             }).toList(),
                                           ],
@@ -239,10 +281,90 @@ class _PetSettingsState extends State<PetSettings> {
                       );
                     },
                   ),
-                  FormGenerator.settingsPageInput(
-                    label: 'Engel',
-                    svg: 'assets/icons/wheelchair.svg',
-                    disableKeyboard: true,
+                  GestureDetector(
+                    child: FormGenerator.settingsPageInput(
+                      label: 'Engel',
+                      svg: 'assets/icons/wheelchair.svg',
+                      disableKeyboard: true,
+                    ),
+                    onTap: (){
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        context: context,
+                        builder: (context){
+                          return GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            child: StatefulBuilder(
+                              builder: (BuildContext context, StateSetter setState){
+                                return Container(
+                                  height: 500,
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        height: 70,
+                                        child: Row(
+                                          children: [
+                                            FlatButton(
+                                              shape: CircleBorder(),
+                                              child: Container(
+                                                child: Icon(Icons.close, size: 36,),
+                                                padding: EdgeInsets.all(4),
+                                              ),
+                                              onPressed: (){
+                                                Navigator.pop(context);
+                                              },
+                                              padding: EdgeInsets.zero,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                'Disability',
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  color: kPrimaryColor,
+                                                  fontWeight: FontWeight.w800,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: 90,
+                                              padding: EdgeInsets.all(4),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: ListView(
+                                          padding: EdgeInsets.symmetric(horizontal: 12),
+                                          children: [
+                                            ...currentPet.getDisabilities().map((e){
+                                              return FormGenerator.addCheckableListTile(
+                                                text: e,
+                                                onTap: (){
+                                                  setState((){
+                                                    activateSaveButtonForSelectionFields(e, 'disabilities');
+                                                  });
+                                                },
+                                                checked: updatedSelectionValues['disabilities'].contains(e),
+                                              );
+                                            }).toList(),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                   SizedBox(height: 20,),
                   Padding(
