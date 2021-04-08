@@ -33,7 +33,6 @@ class _PetSettingsState extends State<PetSettings> {
 
     originalSelectionValues['allergies'] = currentPet.allergies;
     originalSelectionValues['disabilities'] = currentPet.disabilities;
-    print(updatedSelectionValues);
     super.initState();
   }
 
@@ -406,9 +405,10 @@ class _PetSettingsState extends State<PetSettings> {
                           });
                         }
                         else if(_formKey.currentState.validate()){
-                          bool result = await context.read<GeneralProviderData>().updatePetData(updatedValues);
+                          bool result = await context.read<GeneralProviderData>().updatePetData({...updatedValues, ...updatedSelectionValues});
                           if(result){
                             updatedValues = {};
+                            isActive = false;
                             _formKey.currentState.reset();
                           }
                           //TODO: error popupı göster, giriş sayfasındaki popupı genel hale getirerek kullan

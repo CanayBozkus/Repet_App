@@ -496,6 +496,8 @@ class PetModel {
       this.year = data['year'] ?? this.year;
       this.height = data['height'] ?? this.height;
       this.weight = data['weight'] ?? this.weight;
+      this.allergies = data['allergies'] ?? this.allergies;
+      this.disabilities = data['disabilities'] ?? this.disabilities;
       return true;
     }
     return false;

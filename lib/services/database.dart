@@ -110,6 +110,8 @@ class Database {
     model.year = data['year'] ?? model.year;
     model.height = data['height'] ?? model.height;
     model.weight = data['weight'] ?? model.weight;
+    model.disabilities = data['disabilities'] ?? model.disabilities;
+    model.allergies = data['allergies'] ?? model.allergies;
     _petModel.putAt(index, model);
   }
 
