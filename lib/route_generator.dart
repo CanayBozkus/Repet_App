@@ -29,7 +29,7 @@ class RouteGenerator {
       case RegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => RegistrationScreen());
       case LeaderBoardScreen.routeName: return MaterialPageRoute(builder: (_) => LeaderBoardScreen());
       case ProfileScreen.routeName: return MaterialPageRoute(builder: (_) => ProfileScreen());
-      case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen(newUser: args,));
+      case PetRegistrationScreen.routeName: return MaterialPageRoute(builder: (_) => PetRegistrationScreen());
       case SettingsScreen.routeName: return MaterialPageRoute(builder: (_) => SettingsScreen(settingsWidgetParams: args,));
       case ForumScreen.routeName: return MaterialPageRoute(builder: (_) => ForumScreen());
       case ForumSubScreen.routeName: return MaterialPageRoute(builder: (_) => ForumSubScreen(screen: args,));

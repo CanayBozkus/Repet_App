@@ -6,6 +6,8 @@ import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
+import 'package:repetapp/utilities/general_provider_data.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
@@ -212,9 +214,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-                          Navigator.pushNamed(
-                              context, PetRegistrationScreen.routeName,
-                              arguments: _newUser);
+                          context.read<GeneralProviderData>().newUser = _newUser;
+                          Navigator.pushNamed(context, PetRegistrationScreen.routeName,);
                         }
                       },
                       width: 120,
