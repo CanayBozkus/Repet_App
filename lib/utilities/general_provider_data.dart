@@ -26,6 +26,8 @@ class GeneralProviderData with ChangeNotifier {
   List<ForumModel> forumScreenCommentsList = [];
   bool isAllCommentsFetched = false;
 
+  UserModel newUser;
+
   // Wrapper function for getting all the necessary data for the main screen.
   Future<void> getMainScreenData() async {
     await this
