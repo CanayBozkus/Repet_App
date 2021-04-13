@@ -28,7 +28,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final pet = context
-        .read<GeneralProviderData>()
+        .watch<GeneralProviderData>()
         .pets[context.read<GeneralProviderData>().currentShownPetIndex];
     final List routine =
         pet.routines[remainderTitles[widget.reminder].toLowerCase()];

@@ -368,11 +368,11 @@ class PetModel {
     try {
       notificationPlugin.cancelNotification(id: reminderModelId);
       await addUpdateRoutineToCloud(reminderTitle);
-      addUpdateRoutineToLocal();
       //databaseManager.removeNotification(reminderModelId);
       this
           .routines[reminderTitle.toLowerCase()]
           .removeWhere((reminder) => reminder.id == reminderModelId);
+      addUpdateRoutineToLocal();
       return true;
     } catch (error) {
       print(error);
