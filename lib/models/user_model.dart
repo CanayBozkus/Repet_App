@@ -391,20 +391,11 @@ class UserModel {
         await pet.addRoutine(remainder, time, notificationId, isActive);
   }
 
-  Future<void> removeReminder(
-    PetModel pet,
-    Remainders reminder,
-    int reminderModelId,
-  ) async {
+  Future<void> removeReminder(PetModel pet, Remainders reminder, int reminderModelId,) async {
     bool result = await pet.removeReminder(reminder, reminderModelId);
   }
 
-  Future<void> updateReminder(
-    PetModel pet,
-    Remainders reminder,
-    int reminderModelId,
-    Map<String, dynamic> reminderData,
-  ) async {
+  Future<void> updateReminder(PetModel pet, Remainders reminder, int reminderModelId, Map<String, dynamic> reminderData,) async {
     await pet.updateReminder(reminder, reminderModelId, reminderData);
   }
 

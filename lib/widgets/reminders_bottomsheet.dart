@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:repetapp/screens/error_screen.dart';
-import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/widgets/base_app_bar.dart';
-import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/widgets/base_button.dart';
-import 'package:repetapp/widgets/pet_navigator.dart';
-import 'package:repetapp/widgets/remainder_row.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:repetapp/widgets/time_selector.dart';
 import 'package:repetapp/utilities/extensions.dart';
 
@@ -128,18 +121,8 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                                   center: true,
                                   initialValues: isEditing
                                       ? {
-                                          "hour": routine
-                                              .firstWhere((element) =>
-                                                  element.id ==
-                                                  currentFocusedReminder)
-                                              .time
-                                              .hour,
-                                          "minute": routine
-                                              .firstWhere((element) =>
-                                                  element.id ==
-                                                  currentFocusedReminder)
-                                              .time
-                                              .minute,
+                                          "hour": hour,
+                                          "minute": min,
                                         }
                                       : null,
                                 ),
@@ -244,6 +227,9 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                   : SizedBox.shrink(),
               ...routine.map((element) {
                 DateTime elementTime = element.time;
+                if(currentFocusedReminder == element.id){
+                  return SizedBox.shrink();
+                }
                 return InkWell(
                   onLongPress: () {
                     if (!addNew) {

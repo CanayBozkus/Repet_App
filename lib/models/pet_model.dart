@@ -364,14 +364,15 @@ class PetModel {
   Future<bool> removeReminder(
       constants.Remainders reminderType, int reminderModelId) async {
     String reminderTitle = constants.remainderTitles[reminderType];
-    this
-        .routines[reminderTitle.toLowerCase()]
-        .removeWhere((reminder) => reminder.id == reminderModelId);
+
     try {
       notificationPlugin.cancelNotification(id: reminderModelId);
       await addUpdateRoutineToCloud(reminderTitle);
       addUpdateRoutineToLocal();
-      databaseManager.removeNotification(reminderModelId);
+      //databaseManager.removeNotification(reminderModelId);
+      this
+          .routines[reminderTitle.toLowerCase()]
+          .removeWhere((reminder) => reminder.id == reminderModelId);
       return true;
     } catch (error) {
       print(error);
@@ -402,7 +403,7 @@ class PetModel {
     try {
       // Cancel current notification
       notificationPlugin.cancelNotification(id: reminderModelId);
-      databaseManager.removeNotification(reminderModelId);
+      //databaseManager.removeNotification(reminderModelId);
 
       // Add new notification
       currReminder.isActive
@@ -414,11 +415,7 @@ class PetModel {
               time: newTime)
           : null;
 
-      databaseManager.addNewNotification(
-        reminderTitle + this.name + id.toString(),
-        reminderModelId,
-        this.ownerId,
-      );
+      //databaseManager.addNewNotification(reminderTitle + this.name + id.toString(), reminderModelId, this.ownerId,);
 
       // Update databases
       await addUpdateRoutineToCloud(reminderTitle);
