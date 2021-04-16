@@ -364,16 +364,27 @@ class PetModel {
   Future<bool> removeReminder(
       constants.Remainders reminderType, int reminderModelId) async {
     String reminderTitle = constants.remainderTitles[reminderType];
-    this
+    // Get the element and its index that corresponds to reminderModelId
+    int removedElementIndex = this
         .routines[reminderTitle.toLowerCase()]
-        .removeWhere((reminder) => reminder.id == reminderModelId);
+        .indexWhere((reminder) => reminder.id == reminderModelId);
+    RemainderFieldModel removedElement =
+        this.routines[reminderTitle.toLowerCase()][removedElementIndex];
     try {
-      notificationPlugin.cancelNotification(id: reminderModelId);
+      // Remove the element
+      this.routines[reminderTitle.toLowerCase()].removeAt(removedElementIndex);
+      // Try updating the databases.
       await addUpdateRoutineToCloud(reminderTitle);
       addUpdateRoutineToLocal();
+      // Cancel notifications if refresh was successful.
+      notificationPlugin.cancelNotification(id: reminderModelId);
       databaseManager.removeNotification(reminderModelId);
       return true;
     } catch (error) {
+      // If error occured, add back the removed element at its own index.
+      this
+          .routines[reminderTitle.toLowerCase()]
+          .insert(removedElementIndex, removedElement);
       print(error);
       return false;
     }
@@ -390,8 +401,12 @@ class PetModel {
         .routines[reminderTitle.toLowerCase()]
         .firstWhere((reminder) => reminder.id == reminderModelId);
 
+    DateTime prevTime = currReminder.time;
     DateTime newTime = reminderData["newTime"];
+
+    bool prevStatus = currReminder.isActive;
     bool newStatus = reminderData["isActive"];
+
     if (currReminder.time == newTime && currReminder.isActive == newStatus) {
       return;
     }
@@ -400,6 +415,10 @@ class PetModel {
     currReminder.isActive = newStatus;
 
     try {
+      // Update databases
+      await addUpdateRoutineToCloud(reminderTitle);
+      addUpdateRoutineToLocal();
+
       // Cancel current notification
       notificationPlugin.cancelNotification(id: reminderModelId);
       databaseManager.removeNotification(reminderModelId);
@@ -419,11 +438,9 @@ class PetModel {
         reminderModelId,
         this.ownerId,
       );
-
-      // Update databases
-      await addUpdateRoutineToCloud(reminderTitle);
-      addUpdateRoutineToLocal();
     } catch (error) {
+      currReminder.time = prevTime;
+      currReminder.isActive = prevStatus;
       print(error);
     }
   }
