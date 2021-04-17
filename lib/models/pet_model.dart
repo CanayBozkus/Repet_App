@@ -361,6 +361,90 @@ class PetModel {
     }
   }
 
+  Future<bool> removeReminder(
+      constants.Remainders reminderType, int reminderModelId) async {
+    String reminderTitle = constants.remainderTitles[reminderType];
+    // Get the element and its index that corresponds to reminderModelId
+    int removedElementIndex = this
+        .routines[reminderTitle.toLowerCase()]
+        .indexWhere((reminder) => reminder.id == reminderModelId);
+    RemainderFieldModel removedElement =
+        this.routines[reminderTitle.toLowerCase()][removedElementIndex];
+    try {
+      // Remove the element
+      this.routines[reminderTitle.toLowerCase()].removeAt(removedElementIndex);
+      // Try updating the databases.
+      await addUpdateRoutineToCloud(reminderTitle);
+      addUpdateRoutineToLocal();
+      // Cancel notifications if refresh was successful.
+      notificationPlugin.cancelNotification(id: reminderModelId);
+      databaseManager.removeNotification(reminderModelId);
+      return true;
+    } catch (error) {
+      // If error occured, add back the removed element at its own index.
+      this
+          .routines[reminderTitle.toLowerCase()]
+          .insert(removedElementIndex, removedElement);
+      print(error);
+      return false;
+    }
+  }
+
+  Future<void> updateReminder(
+    constants.Remainders reminderType,
+    int reminderModelId,
+    Map<String, dynamic> reminderData,
+  ) async {
+    String reminderTitle = constants.remainderTitles[reminderType];
+
+    RemainderFieldModel currReminder = this
+        .routines[reminderTitle.toLowerCase()]
+        .firstWhere((reminder) => reminder.id == reminderModelId);
+
+    DateTime prevTime = currReminder.time;
+    DateTime newTime = reminderData["newTime"];
+
+    bool prevStatus = currReminder.isActive;
+    bool newStatus = reminderData["isActive"];
+
+    if (currReminder.time == newTime && currReminder.isActive == newStatus) {
+      return;
+    }
+
+    currReminder.time = newTime;
+    currReminder.isActive = newStatus;
+
+    try {
+      // Update databases
+      await addUpdateRoutineToCloud(reminderTitle);
+      addUpdateRoutineToLocal();
+
+      // Cancel current notification
+      notificationPlugin.cancelNotification(id: reminderModelId);
+      databaseManager.removeNotification(reminderModelId);
+
+      // Add new notification
+      currReminder.isActive
+          ? notificationPlugin.showDailyAtTimeNotification(
+              id: reminderModelId,
+              title: '$reminderTitle Time',
+              body: '${this.name} needs ${reminderTitle.toLowerCase()}.',
+              payload: null,
+              time: newTime)
+          : null;
+
+      databaseManager.addNewNotification(
+        reminderTitle + this.name + id.toString(),
+        reminderModelId,
+        this.ownerId,
+      );
+    } catch (error) {
+      currReminder.time = prevTime;
+      currReminder.isActive = prevStatus;
+      print(error);
+    }
+  }
+
   Future<void> addUpdateRoutineToCloud(String routineName) async {
     /*
     Future<void> addUpdateRoutineToCloud(String routineName) async:
