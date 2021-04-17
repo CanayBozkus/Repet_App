@@ -78,6 +78,44 @@ class CalendarModel {
     }
   }
 
+  void updateEvent({String prevEvent, String newEvent, DateTime newDate}) {
+    DateTime key = DateTime(
+      newDate.year,
+      newDate.month,
+      newDate.day,
+      0,
+      0,
+      0,
+    );
+    if (eventCollections.keys.contains(key)) {
+      int index = eventCollections[key]
+          .indexWhere((element) => element["event"] == prevEvent);
+
+      if (eventCollections[key][index] ==
+          {
+            "date": newDate,
+            "event": newEvent,
+            "isDone": eventCollections[key][index]["isDone"]
+          }) {
+        return;
+      }
+
+      // Update the data in database
+      databaseManager.updateEvent(
+        uid: this.userId,
+        prevEvent: prevEvent,
+        newEvent: newEvent,
+        newDate: newDate,
+      );
+      // Upaate the data in RAM
+      eventCollections[key][index] = {
+        "date": newDate,
+        "event": newEvent,
+        "isDone": eventCollections[key][index]["isDone"],
+      };
+    }
+  }
+
   @deprecated
   Future<bool> getCalendarData(documentId) async {
     //DO NOT use this function

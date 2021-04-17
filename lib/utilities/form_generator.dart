@@ -53,6 +53,9 @@ class FormGenerator {
       child: BaseShadow(
         borderRadius: BorderRadius.circular(10.0),
         child: TextFormField(
+          key: ValueKey(
+            initialValue,
+          ), // In order to re-render the input field in case of initialValue change.
           initialValue: initialValue,
           decoration: InputDecoration(
             labelText: label,

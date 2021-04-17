@@ -119,6 +119,8 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                           _addNew = true;
                           _edit = false;
                           _currentlyEditedEvent = null;
+                          hour = 0;
+                          min = 0;
                         });
                       }
                     },
@@ -134,6 +136,9 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                 children: [
                   _addNew || _edit
                       ? Padding(
+                          key: _edit
+                              ? ValueKey(this._currentlyEditedEvent)
+                              : null,
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: BaseShadow(
                             child: Container(
@@ -168,26 +173,8 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                       center: true,
                                       initialValues: _edit
                                           ? {
-                                              "hour": context
-                                                  .read<GeneralProviderData>()
-                                                  .calendar
-                                                  .eventCollections[this._key]
-                                                  .firstWhere(
-                                                      (element) =>
-                                                          element["event"] ==
-                                                          _currentlyEditedEvent)[
-                                                      "date"]
-                                                  .hour,
-                                              "minute": context
-                                                  .read<GeneralProviderData>()
-                                                  .calendar
-                                                  .eventCollections[this._key]
-                                                  .firstWhere(
-                                                      (element) =>
-                                                          element["event"] ==
-                                                          _currentlyEditedEvent)[
-                                                      "date"]
-                                                  .minute,
+                                              "hour": this.hour,
+                                              "minute": this.min,
                                             }
                                           : null,
                                     ),
@@ -257,9 +244,15 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                                               event, eventDate);
                                                     } else if (!this._addNew &&
                                                         this._isEditing) {
-                                                      // context
-                                                      //     .read<
-                                                      //         GeneralProviderData>().updateEvent()
+                                                      context
+                                                          .read<
+                                                              GeneralProviderData>()
+                                                          .updateEvent(
+                                                            newDate: eventDate,
+                                                            newEvent: event,
+                                                            prevEvent: this
+                                                                ._currentlyEditedEvent,
+                                                          );
                                                     }
 
                                                     //TODO: ekleme kısmı
@@ -271,6 +264,8 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                                     _isEditing = false;
                                                     _currentlyEditedEvent =
                                                         null;
+                                                    this.hour = 0;
+                                                    this.min = 0;
                                                   }
                                                 });
                                               },
@@ -299,6 +294,8 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                   _addNew = false;
                                   this._currentlyEditedEvent =
                                       eventData["event"];
+                                  this.hour = eventData["date"].hour;
+                                  this.min = eventData["date"].minute;
                                 });
                               }
                             },

@@ -43,6 +43,22 @@ class Database {
     _calendarModel.deleteAt(index);
   }
 
+  void updateEvent({
+    @required String uid,
+    @required String prevEvent,
+    @required String newEvent,
+    @required DateTime newDate,
+  }) {
+    int index = _calendarModel.values.toList().indexWhere(
+        (element) => (element.userId == uid && element.event == prevEvent));
+    HiveCalendarModel newModel = HiveCalendarModel(
+        dateTime: newDate,
+        event: newEvent,
+        userId: uid,
+        isDone: _calendarModel.values.toList()[index].isDone);
+    _calendarModel.putAt(index, newModel);
+  }
+
   List getAllCalendarEvents(String userId) {
     return _calendarModel.values.where((e) => e.userId == userId).toList();
   }
