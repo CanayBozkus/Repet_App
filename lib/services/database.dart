@@ -8,7 +8,6 @@ import 'package:repetapp/models/hive_models/hive_pet_model.dart';
 import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 
-
 class Database {
   Box _userModel;
   Box _petModel;
@@ -27,81 +26,93 @@ class Database {
     _notificationModel = await Hive.openBox('NotificationModel');
   }
 
-  void addData({@required String model, @required data}){
+  void addData({@required String model, @required data}) {
     model = model.toLowerCase();
-    if(model == 'usermodel'){
+    if (model == 'usermodel') {
       _userModel.put(data.id, data);
-    }
-    else if(model == 'petmodel'){
+    } else if (model == 'petmodel') {
       _petModel.add(data);
-    }
-    else if(model == 'calendarmodel'){
+    } else if (model == 'calendarmodel') {
       _calendarModel.add(data);
     }
   }
 
-  List getAllCalendarEvents(String userId){
+  List getAllCalendarEvents(String userId) {
     return _calendarModel.values.where((e) => e.userId == userId).toList();
   }
-  
-  void updateEventStatus(DateTime date, bool status){
-    HiveCalendarModel model = _calendarModel.values.where((element) => element.dateTime == date).first;
+
+  void updateEventStatus(DateTime date, bool status) {
+    HiveCalendarModel model = _calendarModel.values
+        .where((element) => element.dateTime == date)
+        .first;
     int index = _calendarModel.values.toList().indexOf(model);
     model.isDone = status;
     _calendarModel.putAt(index, model);
   }
-  
+
   void deleteAllCalendar() async {
     await Hive.box('CalendarModel').clear();
   }
 
-  HiveUserModel getLocalUserData(String id){
+  HiveUserModel getLocalUserData(String id) {
     List data = _userModel.values.where((element) => element.id == id).toList();
-    if(data.isEmpty){
+    if (data.isEmpty) {
       return null;
     }
     return _userModel.values.where((element) => element.id == id).first;
   }
 
-  HivePetModel getLocalPet(String id){
+  HivePetModel getLocalPet(String id) {
     List data = _petModel.values.where((element) => element.id == id).toList();
-    if(data.isEmpty){
+    if (data.isEmpty) {
       return null;
     }
     return _petModel.values.where((element) => element.id == id).first;
   }
 
-  bool updatePetList(String id, List pets){
-    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
+  bool updatePetList(String id, List pets) {
+    HiveUserModel model =
+        _userModel.values.where((element) => element.id == id).first;
     int index = _userModel.values.toList().indexOf(model);
     model.pets = pets;
     _userModel.putAt(index, model);
     return true;
   }
 
-  void updatePetRoutine(String id, Map routines){
-    HivePetModel model = _petModel.values.where((element) => element.id == id).first;
+  void updatePetRoutine(String id, Map routines) {
+    HivePetModel model =
+        _petModel.values.where((element) => element.id == id).first;
     int index = _petModel.values.toList().indexOf(model);
     model.routines = routines;
     print(model.routines);
     _petModel.putAt(index, model);
   }
 
-  int getNextNotificationId(){
+  int getNextNotificationId() {
     return _notificationModel.values.length;
   }
 
-  void addNewNotification(String name, int id, String userId){
-    HiveNotificationModel newNotf = HiveNotificationModel(id: id, name: name, userId: userId);
+  void addNewNotification(String name, int id, String userId) {
+    HiveNotificationModel newNotf =
+        HiveNotificationModel(id: id, name: name, userId: userId);
     _notificationModel.add(newNotf);
   }
 
-  void deletePets(){
+  // Dont know if this will work ... DO NOT TRY AT HOME
+  void removeNotification(int id) {
+    int index = _notificationModel.values
+        .toList()
+        .indexWhere((value) => value.id == id);
+    this._notificationModel.deleteAt(index);
+  }
+
+  void deletePets() {
     Hive.box('PetModel').clear();
   }
 
-  void updatePetData(String id, Map data){
-    HivePetModel model = _petModel.values.where((element) => element.id == id).first;
+  void updatePetData(String id, Map data) {
+    HivePetModel model =
+        _petModel.values.where((element) => element.id == id).first;
     int index = _petModel.values.toList().indexOf(model);
     model.name = data['name'] ?? model.name;
     model.species = data['species'] ?? model.species;
@@ -115,8 +126,9 @@ class Database {
     _petModel.putAt(index, model);
   }
 
-  void updatePersonalData(String id, Map data){
-    HiveUserModel model = _userModel.values.where((element) => element.id == id).first;
+  void updatePersonalData(String id, Map data) {
+    HiveUserModel model =
+        _userModel.values.where((element) => element.id == id).first;
     int index = _userModel.values.toList().indexOf(model);
     model.email = data['email'] ?? model.email;
     model.gender = data['gender'] ?? model.gender;
