@@ -159,6 +159,11 @@ class GeneralProviderData with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeEvent(String event, DateTime key) {
+    calendar.removeEvent(event, key);
+    notifyListeners();
+  }
+
   // Wrapper function for updating an event in this.calendar
   void updateEventStatus(DateTime date, bool status) {
     calendar.updateStatus(date, status);

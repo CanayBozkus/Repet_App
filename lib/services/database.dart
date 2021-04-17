@@ -37,6 +37,12 @@ class Database {
     }
   }
 
+  void removeEvent({@required String uid, @required String event}) {
+    int index = _calendarModel.values.toList().indexWhere(
+        (element) => (element.userId == uid && element.event == event));
+    _calendarModel.deleteAt(index);
+  }
+
   List getAllCalendarEvents(String userId) {
     return _calendarModel.values.where((e) => e.userId == userId).toList();
   }

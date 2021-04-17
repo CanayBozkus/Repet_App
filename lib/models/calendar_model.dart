@@ -65,6 +65,19 @@ class CalendarModel {
     }
   }
 
+  void removeEvent(String event, DateTime key) {
+    // Remove from local database
+    databaseManager.removeEvent(
+      uid: this.userId,
+      event: event,
+    );
+    // Remove from RAM
+    if (eventCollections.keys.contains(key)) {
+      eventCollections[key]
+          .removeWhere((element) => (element["event"] == event));
+    }
+  }
+
   @deprecated
   Future<bool> getCalendarData(documentId) async {
     //DO NOT use this function

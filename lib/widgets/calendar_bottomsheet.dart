@@ -38,23 +38,33 @@ class CalendarBottomSheet extends StatefulWidget {
 
 class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
   bool _addNew = false;
+  bool _edit = false;
   ScrollController controller = ScrollController();
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool _isAdding = false;
+  bool _isEditing = false;
   int hour = 0;
   int min = 0;
   String event;
+  String _currentlyEditedEvent;
+  DateTime _key;
+
+  @override
+  void initState() {
+    super.initState();
+    this._key =
+        DateTime(widget.date.year, widget.date.month, widget.date.day, 0, 0, 0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    DateTime key =
-        DateTime(widget.date.year, widget.date.month, widget.date.day, 0, 0, 0);
+    // print(_currentlyEditedEvent);
     bool isExist = context
         .read<GeneralProviderData>()
         .calendar
         .eventCollections
         .keys
-        .contains(key);
+        .contains(this._key);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -104,9 +114,13 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                     ),
                     onPressed: () {
                       controller.jumpTo(0);
-                      setState(() {
-                        _addNew = true;
-                      });
+                      if (!this._edit) {
+                        setState(() {
+                          _addNew = true;
+                          _edit = false;
+                          _currentlyEditedEvent = null;
+                        });
+                      }
                     },
                     padding: EdgeInsets.zero,
                   ),
@@ -118,7 +132,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                 controller: controller,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 children: [
-                  _addNew
+                  _addNew || _edit
                       ? Padding(
                           padding: EdgeInsets.symmetric(vertical: 4),
                           child: BaseShadow(
@@ -131,6 +145,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                   Form(
                                     key: _formKey,
                                     child: FormGenerator.addInput(
+                                      initialValue: _currentlyEditedEvent,
                                       label: 'Task',
                                       onsaved: (value) {
                                         event = value;
@@ -151,12 +166,36 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                       hourOnChanged: (value) => hour = value,
                                       minuteOnChanged: (value) => min = value,
                                       center: true,
+                                      initialValues: _edit
+                                          ? {
+                                              "hour": context
+                                                  .read<GeneralProviderData>()
+                                                  .calendar
+                                                  .eventCollections[this._key]
+                                                  .firstWhere(
+                                                      (element) =>
+                                                          element["event"] ==
+                                                          _currentlyEditedEvent)[
+                                                      "date"]
+                                                  .hour,
+                                              "minute": context
+                                                  .read<GeneralProviderData>()
+                                                  .calendar
+                                                  .eventCollections[this._key]
+                                                  .firstWhere(
+                                                      (element) =>
+                                                          element["event"] ==
+                                                          _currentlyEditedEvent)[
+                                                      "date"]
+                                                  .minute,
+                                            }
+                                          : null,
                                     ),
                                   ),
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  _isAdding
+                                  _isAdding || _isEditing
                                       ? Spinner()
                                       : Row(
                                           mainAxisAlignment:
@@ -167,8 +206,20 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                               fontSize: 13,
                                               text: 'Delete',
                                               onPressed: () {
-                                                databaseManager
-                                                    .deleteAllCalendar();
+                                                if (this._edit) {
+                                                  context
+                                                      .read<
+                                                          GeneralProviderData>()
+                                                      .removeEvent(
+                                                          _currentlyEditedEvent,
+                                                          this._key);
+                                                  setState(() {
+                                                    _edit = false;
+                                                    _addNew = false;
+                                                    _currentlyEditedEvent =
+                                                        null;
+                                                  });
+                                                }
                                               },
                                               backgroundColor: kColorRed,
                                             ),
@@ -183,8 +234,10 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                                 setState(() {
                                                   if (_formKey.currentState
                                                       .validate()) {
-                                                    _isAdding = true;
-                                                    _addNew = false;
+                                                    _isAdding =
+                                                        _addNew ? true : false;
+                                                    _isEditing =
+                                                        _edit ? true : false;
                                                     _formKey.currentState
                                                         .save();
                                                     DateTime eventDate =
@@ -195,13 +248,29 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                                             hour,
                                                             min,
                                                             0);
-                                                    context
-                                                        .read<
-                                                            GeneralProviderData>()
-                                                        .addEvent(
-                                                            event, eventDate);
+                                                    if (this._addNew &&
+                                                        !this._isEditing) {
+                                                      context
+                                                          .read<
+                                                              GeneralProviderData>()
+                                                          .addEvent(
+                                                              event, eventDate);
+                                                    } else if (!this._addNew &&
+                                                        this._isEditing) {
+                                                      // context
+                                                      //     .read<
+                                                      //         GeneralProviderData>().updateEvent()
+                                                    }
+
                                                     //TODO: ekleme kısmı
+
+                                                    // Go back to initial state.
+                                                    _addNew = false;
+                                                    _edit = false;
                                                     _isAdding = false;
+                                                    _isEditing = false;
+                                                    _currentlyEditedEvent =
+                                                        null;
                                                   }
                                                 });
                                               },
@@ -219,36 +288,49 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                       ? context
                           .watch<GeneralProviderData>()
                           .calendar
-                          .eventCollections[key]
+                          .eventCollections[this._key]
                           .map((eventData) {
                           DateTime date = eventData['date'];
-                          return Padding(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            child: BaseShadow(
-                                child: ListTile(
-                              title: Text(
-                                eventData['event'],
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w400),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                date.getHourAndMinuteString(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w400,
+                          return InkWell(
+                            onLongPress: () {
+                              if (!(_isAdding || _isEditing) && !(_addNew)) {
+                                setState(() {
+                                  _edit = true;
+                                  _addNew = false;
+                                  this._currentlyEditedEvent =
+                                      eventData["event"];
+                                });
+                              }
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              child: BaseShadow(
+                                  child: ListTile(
+                                title: Text(
+                                  eventData['event'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w400),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                              trailing: BaseCheckBox(
-                                value: eventData['isDone'] ?? false,
-                                color: Color(0xff79c624),
-                                onChanged: (value) {
-                                  context
-                                      .read<GeneralProviderData>()
-                                      .updateEventStatus(date, value);
-                                },
-                              ),
-                            )),
+                                subtitle: Text(
+                                  date.getHourAndMinuteString(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                trailing: BaseCheckBox(
+                                  value: eventData['isDone'] ?? false,
+                                  color: Color(0xff79c624),
+                                  onChanged: (value) {
+                                    context
+                                        .read<GeneralProviderData>()
+                                        .updateEventStatus(date, value);
+                                  },
+                                ),
+                              )),
+                            ),
                           );
                         }).toList()
                       : [SizedBox.shrink()],
