@@ -156,7 +156,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                                     onPressed: () async {
                                       if (isEditing) {
                                         // TODO: Add logic for removing a reminder.
-                                        Provider.of<GeneralProviderData>(
+                                        await Provider.of<GeneralProviderData>(
                                                 context,
                                                 listen: false)
                                             .removeReminder(
