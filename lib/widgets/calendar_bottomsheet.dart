@@ -286,38 +286,38 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                           .eventCollections[this._key]
                           .map((eventData) {
                           DateTime date = eventData['date'];
-                          return InkWell(
-                            onLongPress: () {
-                              if (!(_isAdding || _isEditing) && !(_addNew)) {
-                                setState(() {
-                                  _edit = true;
-                                  _addNew = false;
-                                  this._currentlyEditedEvent =
-                                      eventData["event"];
-                                  this.hour = eventData["date"].hour;
-                                  this.min = eventData["date"].minute;
-                                });
-                              }
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 5),
-                              child: BaseShadow(
-                                  child: ListTile(
-                                title: Text(
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child: BaseShadow(
+                              child: Material(
+                                child: ListTile(
+                                    onLongPress: () {
+                                      if (!(_isAdding || _isEditing) && !(_addNew)) {
+                                        setState(() {
+                                          _edit = true;
+                                          _addNew = false;
+                                          this._currentlyEditedEvent =
+                                          eventData["event"];
+                                          this.hour = eventData["date"].hour;
+                                          this.min = eventData["date"].minute;
+                                        });
+                                      }
+                                    },
+                                    title: Text(
                                   eventData['event'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w400),
                                   overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
+                              ),
+                                    subtitle: Text(
                                   date.getHourAndMinuteString(),
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                ),
-                                trailing: BaseCheckBox(
+                              ),
+                                    trailing: BaseCheckBox(
                                   value: eventData['isDone'] ?? false,
                                   color: Color(0xff79c624),
                                   onChanged: (value) {
@@ -325,8 +325,9 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                         .read<GeneralProviderData>()
                                         .updateEventStatus(date, value);
                                   },
-                                ),
-                              )),
+                              ),
+                                  ),
+                              ),
                             ),
                           );
                         }).toList()
