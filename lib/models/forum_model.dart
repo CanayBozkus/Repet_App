@@ -242,7 +242,7 @@ class ForumModel {
           .doc(model.ownerId)
           .get();
       Map userData = userDataRaw.data();
-      model.ownerName = userData['name_surname'];
+      model.ownerName = userData['nameSurname'];
     }
     return data;
   }
