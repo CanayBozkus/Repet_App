@@ -135,6 +135,7 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
                             _comment.category = widget.forumModel.category;
                             _comment.ownerPhoto = 'profile_${_currentUser.gender.toLowerCase()}.svg';
                             _comment.parentId = widget.forumModel.id;
+                            _comment.ownerName = _currentUser.nameSurname;
                             await context.read<GeneralProviderData>().postComment(_comment);
                             _formKey.currentState.reset();
                             _scrollController.jumpTo(_length.toDouble());
