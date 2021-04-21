@@ -61,7 +61,6 @@ class ForumModel {
       'parent_id': this.parentId,
       'category': kForumCategoryTitles[this.category],
       'liked_by': this.likedBy,
-      'owner_name': this.ownerName,
       'screen': this.screen,
     });
   }
@@ -97,6 +96,8 @@ class ForumModel {
 
     List<ForumModel> data =
         ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
+
+    data = await ForumModel.getOwnerData(data);
 
     return data;
   }
@@ -160,6 +161,8 @@ class ForumModel {
         .get();
     List<ForumModel> data =
         ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
+
+    data = await ForumModel.getOwnerData(data);
 
     return data;
   }
@@ -225,11 +228,22 @@ class ForumModel {
       forumInstance.likedBy = data['liked_by'];
       forumInstance.parentId = data['parent_id'];
       forumInstance.ownerPhoto = data['owner_photo'];
-      forumInstance.ownerName = data['owner_name'] ?? 'no name';
       forumInstance.ownerId = data['owner_id'];
       forumInstance.id = element.id;
       forumInstanceList.add(forumInstance);
     });
     return forumInstanceList;
+  }
+
+  static Future<List<ForumModel>> getOwnerData(List<ForumModel> data) async {
+    for(ForumModel model in data){
+      DocumentSnapshot userDataRaw = await FirebaseFirestore.instance
+          .collection('UserModel')
+          .doc(model.ownerId)
+          .get();
+      Map userData = userDataRaw.data();
+      model.ownerName = userData['name_surname'];
+    }
+    return data;
   }
 }
