@@ -130,7 +130,6 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
                           _formKey.currentState.save();
                           if(_comment.content.isNotEmpty){
                             _comment.ownerId = _currentUser.id;
-                            _comment.ownerName = _currentUser.nameSurname;
                             _comment.postedDate = DateTime.now();
                             _comment.title = '';
                             _comment.category = widget.forumModel.category;
