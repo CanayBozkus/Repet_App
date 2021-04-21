@@ -31,8 +31,8 @@ class CalendarModel {
         await _fireStore.collection('CalendarModel').doc(id);
     await newDocument.set({
       'id': id,
-      'user_id': id,
-      'event_collections': [],
+      'userId': id,
+      'eventCollections': [],
     });
     return id;
   }

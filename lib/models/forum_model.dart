@@ -54,14 +54,14 @@ class ForumModel {
     await newPost.set({
       'title': this.title,
       'content': this.content,
-      'posted_date': this.postedDate,
-      'owner_id': this.ownerId,
-      'owner_photo': this.ownerPhoto,
-      'like_count': this.likeCount,
-      'parent_id': this.parentId,
+      'postedDate': this.postedDate,
+      'ownerId': this.ownerId,
+      'ownerPhoto': this.ownerPhoto,
+      'likeCount': this.likeCount,
+      'parentId': this.parentId,
       'category': kForumCategoryTitles[this.category],
-      'liked_by': this.likedBy,
-      'owner_name': this.ownerName,
+      'likedBy': this.likedBy,
+      'ownerName': this.ownerName,
       'screen': this.screen,
     });
   }
@@ -88,10 +88,10 @@ class ForumModel {
 
     QuerySnapshot dataListRaw = await FirebaseFirestore.instance
         .collection('ForumModel')
-        .orderBy('posted_date', descending: true)
+        .orderBy('postedDate', descending: true)
         .where('screen', isEqualTo: isForum ? 'forum' : 'blog')
-        .where('parent_id', isNull: true)
-        .where('posted_date', isLessThan: time)
+        .where('parentId', isNull: true)
+        .where('postedDate', isLessThan: time)
         .limit(limit)
         .get();
 
@@ -127,8 +127,8 @@ class ForumModel {
     DocumentReference newPost =
         _fireStore.collection('ForumModel').doc(this.id);
     await newPost.update({
-      'liked_by': this.likedBy,
-      'like_count': this.likeCount,
+      'likedBy': this.likedBy,
+      'likeCount': this.likeCount,
     });
   }
 
@@ -153,9 +153,9 @@ class ForumModel {
 
     QuerySnapshot dataListRaw = await FirebaseFirestore.instance
         .collection('ForumModel')
-        .orderBy('posted_date', descending: false)
-        .where('parent_id', isEqualTo: this.id)
-        .where('posted_date', isGreaterThan: time)
+        .orderBy('postedDate', descending: false)
+        .where('parentId', isEqualTo: this.id)
+        .where('postedDate', isGreaterThan: time)
         .limit(limit)
         .get();
     List<ForumModel> data =
@@ -184,10 +184,10 @@ class ForumModel {
     */
     QuerySnapshot dataListRaw = await FirebaseFirestore.instance
         .collection('ForumModel')
-        .orderBy('posted_date', descending: true)
+        .orderBy('postedDate', descending: true)
         .where('screen', isEqualTo: isForum ? 'forum' : 'blog')
-        .where('parent_id', isNull: true)
-        .where('posted_date', isGreaterThan: time)
+        .where('parentId', isNull: true)
+        .where('postedDate', isGreaterThan: time)
         .get();
     List<ForumModel> data =
         ForumModel.createForumModelListFromQuerySnapshot(dataListRaw);
@@ -220,13 +220,13 @@ class ForumModel {
       forumInstance.title = data['title'];
       forumInstance.content = data['content'];
       forumInstance.category = kForumCategoryTitlesReverse[data['category']];
-      forumInstance.postedDate = data['posted_date'].toDate();
-      forumInstance.likeCount = data['like_count'];
-      forumInstance.likedBy = data['liked_by'];
-      forumInstance.parentId = data['parent_id'];
-      forumInstance.ownerPhoto = data['owner_photo'];
-      forumInstance.ownerName = data['owner_name'] ?? 'no name';
-      forumInstance.ownerId = data['owner_id'];
+      forumInstance.postedDate = data['postedDate'].toDate();
+      forumInstance.likeCount = data['likeCount'];
+      forumInstance.likedBy = data['likedBy'];
+      forumInstance.parentId = data['parentId'];
+      forumInstance.ownerPhoto = data['ownerPhoto'];
+      forumInstance.ownerName = data['ownerName'] ?? 'no name';
+      forumInstance.ownerId = data['ownerId'];
       forumInstance.id = element.id;
       forumInstanceList.add(forumInstance);
     });

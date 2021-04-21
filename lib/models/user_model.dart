@@ -86,15 +86,15 @@ class UserModel {
         DocumentReference newDocument =
             await _fireStore.collection('UserModel').doc(newUser.user.uid);
         await newDocument.set({
-          'name_surname': nameSurname,
+          'nameSurname': nameSurname,
           'age': age,
-          'phone_number': phoneNumber,
+          'phoneNumber': phoneNumber,
           'gender': gender,
           'id': newUser.user.uid,
           'addresses': [],
           'pets': pets,
           'newsSetterConfirmation': newsSetterConfirmation,
-          'calendar_id': await CalendarModel.createCalendar(newUser.user.uid),
+          'calendarId': await CalendarModel.createCalendar(newUser.user.uid),
         });
         this.id = newUser.user.uid;
         return true; // indicates that process executed successfully
@@ -222,13 +222,13 @@ class UserModel {
       Map userData = user.data();
 
       // Write the data into UserModel.
-      nameSurname = userData['name_surname'];
+      nameSurname = userData['nameSurname'];
       gender = userData['gender'];
-      phoneNumber = userData['phone_number'];
+      phoneNumber = userData['phoneNumber'];
       age = userData['age'];
       pets = userData['pets'];
       addresses = userData['addresses'];
-      calendarId = userData['calendar_id'];
+      calendarId = userData['calendarId'];
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
 

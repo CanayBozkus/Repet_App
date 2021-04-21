@@ -96,7 +96,7 @@ class PetModel {
     DocumentReference newPet = _fireStore.collection('PetModel').doc(id);
     await newPet.set({
       'id': id,
-      'owner_id': ownerId,
+      'ownerId': ownerId,
       'name': name,
       'gender': gender,
       'type': constants.petTypeNames[type],
@@ -244,7 +244,7 @@ class PetModel {
     Map petData = pet.data();
     this.id = id;
     name = petData['name'];
-    ownerId = petData['owner_id'];
+    ownerId = petData['ownerId'];
     gender = petData['gender'];
     type = constants.petTypeNamesReverse[petData['type']];
     species = petData['species'];
