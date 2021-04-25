@@ -6,6 +6,7 @@ import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/models/user_model.dart';
 import 'package:repetapp/services/database.dart';
 
+import '../services/database.dart';
 import 'constants.dart';
 
 class GeneralProviderData with ChangeNotifier {
@@ -57,7 +58,8 @@ class GeneralProviderData with ChangeNotifier {
   }
 
   void _getNextNotificationId() {
-    this.nextNotificationId = databaseManager.getNextNotificationId();
+    this.nextNotificationId =
+        databaseManager.getNextNotificationId(currentUser.id);
   }
 
   Future<void> addNewRemainder(

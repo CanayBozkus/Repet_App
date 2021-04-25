@@ -6,6 +6,7 @@ import 'package:repetapp/models/hive_models/hive_notification_model.dart';
 import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/hive_models/hive_pet_model.dart';
 import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
+import 'package:repetapp/models/hive_models/hive_device_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 
 class Database {
@@ -13,6 +14,7 @@ class Database {
   Box _petModel;
   Box _calendarModel;
   Box _notificationModel;
+  Box _deviceModel;
   initializeDatabase() async {
     Directory document = await getApplicationDocumentsDirectory();
     Hive.init(document.path);
@@ -20,10 +22,12 @@ class Database {
     Hive.registerAdapter(HivePetModelAdapter());
     Hive.registerAdapter(HiveCalendarModelAdapter());
     Hive.registerAdapter(HiveNotificationModelAdapter());
+    Hive.registerAdapter(HiveDeviceModelAdapter());
     _userModel = await Hive.openBox('UserModel');
     _petModel = await Hive.openBox('PetModel');
     _calendarModel = await Hive.openBox('CalendarModel');
     _notificationModel = await Hive.openBox('NotificationModel');
+    _deviceModel = await Hive.openBox('DeviceModel');
   }
 
   void addData({@required String model, @required data}) {
@@ -34,6 +38,8 @@ class Database {
       _petModel.add(data);
     } else if (model == 'calendarmodel') {
       _calendarModel.add(data);
+    } else if (model == 'devicemodel') {
+      _deviceModel.add(data);
     }
   }
 
@@ -110,22 +116,42 @@ class Database {
     _petModel.putAt(index, model);
   }
 
-  int getNextNotificationId() {
-    return _notificationModel.values.length;
+  int getNextNotificationId(String userId) {
+    HiveDeviceModel deviceData = _deviceModel.values
+        .toList()
+        .firstWhere((element) => element.userId == userId);
+    return deviceData.availableNotificationId;
+    // return _notificationModel.values.length;
   }
 
   void addNewNotification(String name, int id, String userId) {
     HiveNotificationModel newNotf =
         HiveNotificationModel(id: id, name: name, userId: userId);
     _notificationModel.add(newNotf);
+
+    int deviceIndex = _deviceModel.values
+        .toList()
+        .indexWhere((element) => element.userId == userId);
+    HiveDeviceModel device = _deviceModel.getAt(deviceIndex);
+    device.availableNotificationId += 1;
+    _deviceModel.putAt(deviceIndex, device);
+    print(device.availableNotificationId);
   }
 
   // Dont know if this will work ... DO NOT TRY AT HOME
-  void removeNotification(int id) {
+  void removeNotification(String userId, int id) {
     int index = _notificationModel.values
         .toList()
         .indexWhere((value) => value.id == id);
     this._notificationModel.deleteAt(index);
+
+    int deviceIndex = _deviceModel.values
+        .toList()
+        .indexWhere((element) => element.userId == userId);
+    HiveDeviceModel device = _deviceModel.getAt(deviceIndex);
+    device.availableNotificationId -= 1;
+    _deviceModel.putAt(deviceIndex, device);
+    print(device.availableNotificationId);
   }
 
   void deletePets() {

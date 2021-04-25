@@ -16,14 +16,19 @@ class HiveDeviceModelAdapter extends TypeAdapter<HiveDeviceModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return HiveDeviceModel()..availableNotificationId = fields[0] as int;
+    return HiveDeviceModel(
+      availableNotificationId: fields[1] as int,
+      userId: fields[0] as String,
+    );
   }
 
   @override
   void write(BinaryWriter writer, HiveDeviceModel obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(2)
       ..writeByte(0)
+      ..write(obj.userId)
+      ..writeByte(1)
       ..write(obj.availableNotificationId);
   }
 
