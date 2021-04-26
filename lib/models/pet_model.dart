@@ -260,6 +260,7 @@ class PetModel {
         routines[key].add(RemainderFieldModel.fromMap(data: e, isLocal: false));
       });
     });
+
     HivePetModel localPetData = HivePetModel(
       id: this.id,
       name: this.name,
@@ -274,9 +275,10 @@ class PetModel {
       allergies: this.allergies,
       disabilities: this.disabilities,
       sicknesses: this.sicknesses,
-      routines: petData['routines'],
+      routines: {},
     );
     databaseManager.addData(model: 'petModel', data: localPetData);
+    this.addUpdateRoutineToLocal();
     return true;
   }
 
@@ -314,8 +316,7 @@ class PetModel {
     return constants.disabilities;
   }
 
-  Future<bool> addRoutine(constants.Remainders remainder, DateTime time, int id,
-      bool isActive) async {
+  Future<bool> addRoutine(constants.Remainders remainder, DateTime time, int id, bool isActive) async {
     /*
      Future<bool> addRoutine
       (constants.Remainders remainder, DateTime time, int id,bool isActive) async:
