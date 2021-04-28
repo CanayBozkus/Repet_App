@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:repetapp/l10n/l10n.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/forum_model.dart';
 import 'package:repetapp/models/pet_model.dart';
@@ -27,6 +29,22 @@ class GeneralProviderData with ChangeNotifier {
   bool isAllCommentsFetched = false;
 
   UserModel newUser;
+
+  Locale _locale;
+
+  Locale get locale => _locale;
+
+  void setLocale(Locale locale){
+    if(!L10n.all.contains(locale)) return;
+
+    _locale = locale;
+    notifyListeners();
+  }
+
+  void clearLocale() {
+    _locale = null;
+    notifyListeners();
+  }
 
   // Wrapper function for getting all the necessary data for the main screen.
   Future<void> getMainScreenData() async {

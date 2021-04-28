@@ -7,6 +7,7 @@ import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/help.dart';
+import 'package:repetapp/widgets/language_settings.dart';
 import 'package:repetapp/widgets/personal_settings.dart';
 
 class GeneralSettings extends StatelessWidget {
@@ -90,7 +91,12 @@ class GeneralSettings extends StatelessWidget {
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
-                    onTap: (){},
+                    onTap: (){
+                      Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
+                        'title': 'Language',
+                        'widget': LanguageSettings(),
+                      });
+                    },
                   ),
                 ),
                 BaseShadow(

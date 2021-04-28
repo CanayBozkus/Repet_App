@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:repetapp/widgets/time_selector.dart';
 import 'package:repetapp/utilities/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class MainScreen extends StatefulWidget {
   static const routeName = 'MainScreen';
@@ -58,9 +60,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(context.read<GeneralProviderData>().locale);
     return Scaffold(
       appBar: BaseAppBar(
-        title: 'Hatırlatıcı',
+        title: AppLocalizations.of(context).language,
         context: context,
       ),
       body: FutureBuilder(

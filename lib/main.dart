@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:repetapp/l10n/l10n.dart';
 import 'package:repetapp/route_generator.dart';
 import 'package:repetapp/services/database.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
@@ -6,6 +8,8 @@ import 'utilities/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -52,6 +56,14 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: isLoggedIn() ? 'MainScreen' : 'LoginScreen',
         onGenerateRoute: RouteGenerator.generateRoute,
+        supportedLocales: L10n.all,
+        locale: providedData.locale,
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
       ),
     );
   }
