@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:repetapp/models/hive_models/hive_vaccine_model.dart';
 import 'package:repetapp/services/database.dart';
 import 'package:repetapp/models/vaccine_model.dart';
 
@@ -12,32 +13,51 @@ class VaccinesCollectionModel {
   bool _isDataFetched = false;
   List<VaccineModel> _vaccines;
 
-  Future<bool> _fetchFromCloud() async {
+  List<VaccineModel> get vaccines {
+    return [..._vaccines];
+  }
+
+  Future<bool> createVaccinesCollection() async {
     try {
-      final vaccines = await _fireStore.collection("VaccineModel").get();
-      final vaccinesData = vaccines.docs;
+      if (this._isDataFetched) {
+        List<VaccineModel> newVaccines = [];
+        final vaccines = await _fireStore.collection("VaccineModel").get();
+        final vaccinesData = vaccines.docs;
 
-      vaccinesData.forEach((vaccine) {
-        final data = vaccine.data();
+        vaccinesData.forEach((vaccine) {
+          final data = vaccine.data();
 
-        VaccineModel newModel = VaccineModel();
-        bool isFetchSuccessfull = newModel.fetchData(data);
+          VaccineModel newModel = VaccineModel();
+          bool isFetchSuccessfull = newModel.fetchData(data);
 
-        if (isFetchSuccessfull) {
-          // Store it in RAM.
-          this._vaccines.add(newModel);
+          if (isFetchSuccessfull) {
+            // Store it in local database.
+            final databaseModel = HiveVaccineModel(
+              id: vaccine.id,
+              name: newModel.name,
+              firstShots: newModel.firstShot,
+              periods: newModel.period,
+            );
+            databaseManager.addData(model: "vaccinemodel", data: databaseModel);
 
-          // Store it in local database.
-        } else {
-          return false;
-        }
-      });
-
-      this._isDataFetched = true;
+            // Store it in RAM.
+            newVaccines.add(newModel);
+          } else {
+            return false;
+          }
+        });
+        this._vaccines = newVaccines;
+        this._isDataFetched = true;
+      }
       return true;
     } catch (error) {
       print(error);
       return false;
     }
+  }
+
+  Future<bool> updateVaccinesCollection() async {
+    this._isDataFetched = false;
+    return this.createVaccinesCollection();
   }
 }

@@ -30,15 +30,15 @@ class VaccineModel {
     return _id;
   }
 
-  String get vaccineName {
+  String get name {
     return _name;
   }
 
-  Map<String, DateTime> get firstShotDate {
+  Map<String, DateTime> get firstShot {
     return {..._firstShotsFetched};
   }
 
-  Map<String, DateTime> get vaccinePeriod {
+  Map<String, DateTime> get period {
     return {..._periodsFetched};
   }
 
