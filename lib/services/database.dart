@@ -7,6 +7,7 @@ import 'package:repetapp/models/hive_models/hive_user_model.dart';
 import 'package:repetapp/models/hive_models/hive_pet_model.dart';
 import 'package:repetapp/models/hive_models/hive_calendar_model.dart';
 import 'package:repetapp/models/hive_models/hive_device_model.dart';
+import 'package:repetapp/models/hive_models/hive_vaccine_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 
 class Database {
@@ -15,6 +16,7 @@ class Database {
   Box _calendarModel;
   Box _notificationModel;
   Box _deviceModel;
+  Box _vaccineModel;
   initializeDatabase() async {
     Directory document = await getApplicationDocumentsDirectory();
     Hive.init(document.path);
@@ -23,11 +25,13 @@ class Database {
     Hive.registerAdapter(HiveCalendarModelAdapter());
     Hive.registerAdapter(HiveNotificationModelAdapter());
     Hive.registerAdapter(HiveDeviceModelAdapter());
+    Hive.registerAdapter(HiveVaccineModelAdapter());
     _userModel = await Hive.openBox('UserModel');
     _petModel = await Hive.openBox('PetModel');
     _calendarModel = await Hive.openBox('CalendarModel');
     _notificationModel = await Hive.openBox('NotificationModel');
     _deviceModel = await Hive.openBox('DeviceModel');
+    _vaccineModel = await Hive.openBox('VaccineModel');
   }
 
   void addData({@required String model, @required data}) {
@@ -40,6 +44,8 @@ class Database {
       _calendarModel.add(data);
     } else if (model == 'devicemodel') {
       _deviceModel.add(data);
+    } else if (model == 'vaccinemodel') {
+      _vaccineModel.put(data.id, data);
     }
   }
 
@@ -185,6 +191,10 @@ class Database {
     model.phoneNumber = data['phoneNumber'] ?? model.phoneNumber;
     model.nameSurname = data['nameSurname'] ?? model.nameSurname;
     _userModel.putAt(index, model);
+  }
+
+  List getVaccinesData() {
+    return _vaccineModel.values.toList();
   }
 }
 
