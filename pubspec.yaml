@@ -30,14 +30,15 @@ dependencies:
   cloud_firestore: ^0.16.0
   provider: ^4.3.3
   rxdart: ^0.24.1
-  path_provider: ^1.6.11
+  path_provider: ^2.0.0
   http: ^0.12.1
   flutter_local_notifications: ^4.0.0
   timezone: ^0.6.1
   firebase_crashlytics: ^0.4.0+1
   flutter_native_timezone: ^1.0.4
-  hive: ^1.4.4+1
-  hive_flutter: ^0.3.0+2
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
+  flutter_svg: ^0.22.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -47,8 +48,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_svg: ^0.19.1
-  hive_generator: 0.7.2
+  hive_generator: 1.1.0
   build_runner:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

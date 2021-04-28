@@ -378,7 +378,7 @@ class PetModel {
       addUpdateRoutineToLocal();
       // Cancel notifications if refresh was successful.
       notificationPlugin.cancelNotification(id: reminderModelId);
-      databaseManager.removeNotification(reminderModelId);
+      databaseManager.removeNotification(this.ownerId, reminderModelId);
       return true;
     } catch (error) {
       // If error occured, add back the removed element at its own index.
@@ -421,7 +421,7 @@ class PetModel {
 
       // Cancel current notification
       notificationPlugin.cancelNotification(id: reminderModelId);
-      databaseManager.removeNotification(reminderModelId);
+      databaseManager.removeNotification(this.ownerId, reminderModelId);
 
       // Add new notification
       currReminder.isActive

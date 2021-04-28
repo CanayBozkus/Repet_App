@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:repetapp/models/calendar_model.dart';
 import 'package:repetapp/models/hive_models/hive_user_model.dart';
+import 'package:repetapp/models/hive_models/hive_device_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/services/notification_plugin.dart';
@@ -134,7 +135,14 @@ class UserModel {
       calendarId: this.calendarId,
       email: this.email,
     );
+
+    HiveDeviceModel device = HiveDeviceModel(
+      availableNotificationId: 0,
+      userId: this.id,
+    );
+
     databaseManager.addData(model: 'userModel', data: localUser);
+    databaseManager.addData(model: 'deviceModel', data: device);
     return true;
   }
 
