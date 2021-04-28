@@ -4,6 +4,7 @@ import 'package:repetapp/models/forum_model.dart';
 import 'package:repetapp/models/pet_model.dart';
 import 'package:repetapp/models/remainder_field_model.dart';
 import 'package:repetapp/models/user_model.dart';
+import 'package:repetapp/models/vaccines_collection_model.dart';
 import 'package:repetapp/services/database.dart';
 
 import '../services/database.dart';
@@ -11,6 +12,7 @@ import 'constants.dart';
 
 class GeneralProviderData with ChangeNotifier {
   UserModel currentUser = UserModel();
+  VaccinesCollectionModel vaccinesModel = VaccinesCollectionModel();
   Map<String, PetModel> pets;
   String currentShownPetIndex;
   bool isMainScreenDataFetched = false;
@@ -55,6 +57,10 @@ class GeneralProviderData with ChangeNotifier {
   // Wrapper function for getting the calendar data of currently authenticated client.
   Future<void> getCalendarData() async {
     calendar.getLocalCalendarData();
+  }
+
+  Future<void> getVaccinesData() async {
+    return vaccinesModel.createVaccinesCollection();
   }
 
   void _getNextNotificationId() {
