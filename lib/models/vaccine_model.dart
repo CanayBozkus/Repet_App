@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 // import 'package:repetapp/services/database.dart';
 
 enum VaccineDataSegment {
@@ -18,8 +20,8 @@ class VaccineModel {
   String _name;
   Map<String, dynamic> _firstShot;
   Map<String, dynamic> _period;
-  Map<String, DateTime> _periodsFetched;
-  Map<String, DateTime> _firstShotsFetched;
+  Map<String, DateTime> _periodsFetched = {};
+  Map<String, DateTime> _firstShotsFetched = {};
 
   // In future, we might need to check the validness of the form of the data.
   // So, writing getters and setters for this purpose is a good idea.
@@ -62,14 +64,15 @@ class VaccineModel {
       bool fetch1 = this._formatData(VaccineDataSegment.period);
       bool fetch2 = this._formatData(VaccineDataSegment.first_shot);
 
-      return (true && fetch1 && fetch2);
+      return (fetch1 && fetch2);
     } catch (error) {
+      print(error);
       return false;
     }
   }
 
   bool _formatData(VaccineDataSegment mode) {
-    Map<String, String> dataMap;
+    Map<String, dynamic> dataMap;
     Map<String, DateTime> outMap;
     if (mode == VaccineDataSegment.period) {
       dataMap = this._period;
@@ -145,7 +148,7 @@ class VaccineModel {
               }
           }
         }
-        outMap[petType] = date;
+        outMap.putIfAbsent(petType, () => date);
       });
       return true;
     } else {

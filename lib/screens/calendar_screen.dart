@@ -20,34 +20,44 @@ class CalendarScreen extends StatefulWidget {
 
 class _CalendarScreenState extends State<CalendarScreen> {
   bool checkBoxValue = true;
-  Future<bool> _isLoading;
+  Future<bool> _isCalendarLoading;
+  Future<bool> _isVaccinesLoading;
   bool _isCalendar = true;
+
   Future<bool> getCalendarData() async {
-    if(!context.read<GeneralProviderData>().calendar.isDataFetch){
+    if (!context.read<GeneralProviderData>().calendar.isDataFetch) {
       await context.read<GeneralProviderData>().getCalendarData();
     }
     return true;
   }
 
+  Future<bool> getVaccinesData() async {
+    return context.read<GeneralProviderData>().getVaccinesData();
+  }
+
   @override
   void initState() {
-    _isLoading = getCalendarData();
+    _isCalendarLoading = getCalendarData();
+    _isVaccinesLoading = getVaccinesData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: BaseAppBar(title: 'Takvim', context: context,),
+      appBar: BaseAppBar(
+        title: 'Takvim',
+        context: context,
+      ),
       body: FutureBuilder(
-        builder: (context, snapshots){
+        builder: (context, snapshots) {
           if (snapshots.connectionState == ConnectionState.none &&
               snapshots.hasData == null) {
             //print('project snapshot data is: ${projectSnap.data}');
             return ErrorScreen();
-          }
-          else if(snapshots.connectionState == ConnectionState.waiting){
+          } else if (snapshots.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(),
             );
@@ -72,19 +82,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     minWidth: 60,
                     height: 30,
                     padding: EdgeInsets.zero,
-                    onPressed: (){
+                    onPressed: () {
                       setState(() {
                         _isCalendar = !_isCalendar;
                       });
                     },
-                    child: Icon(Icons.calendar_today, color: kPrimaryColor, size: 26,),
+                    child: Icon(
+                      Icons.calendar_today,
+                      color: kPrimaryColor,
+                      size: 26,
+                    ),
                   ),
                 ),
               ),
             ],
           );
         },
-        future: _isLoading,
+        future: _isCalendar ? _isCalendarLoading : _isVaccinesLoading,
       ),
       bottomNavigationBar: BaseBottomBar(
         pageNumber: 2,

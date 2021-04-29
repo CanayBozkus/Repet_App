@@ -19,17 +19,16 @@ class VaccinesCollectionModel {
 
   Future<bool> createVaccinesCollection() async {
     try {
-      if (this._isDataFetched) {
+      if (!this._isDataFetched) {
         List<VaccineModel> newVaccines = [];
         final vaccines = await _fireStore.collection("VaccineModel").get();
         final vaccinesData = vaccines.docs;
-
         vaccinesData.forEach((vaccine) {
-          final data = vaccine.data();
+          Map<String, dynamic> data = vaccine.data();
 
           VaccineModel newModel = VaccineModel();
           bool isFetchSuccessfull = newModel.fetchData(data);
-
+          // print(isFetchSuccessfull);
           if (isFetchSuccessfull) {
             // Store it in local database.
             final databaseModel = HiveVaccineModel(
@@ -51,7 +50,7 @@ class VaccinesCollectionModel {
       }
       return true;
     } catch (error) {
-      print(error);
+      // print(error);
       return false;
     }
   }

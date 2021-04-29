@@ -59,7 +59,7 @@ class GeneralProviderData with ChangeNotifier {
     calendar.getLocalCalendarData();
   }
 
-  Future<void> getVaccinesData() async {
+  Future<bool> getVaccinesData() async {
     return vaccinesModel.createVaccinesCollection();
   }
 
