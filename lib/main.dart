@@ -14,7 +14,20 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await databaseManager.initializeDatabase();
-  runApp(MyApp());
+  runApp(ProviderWrappedMyApp());
+}
+
+class ProviderWrappedMyApp extends StatelessWidget {
+  final GeneralProviderData providedData = GeneralProviderData();
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => providedData,),
+      ],
+      child: MyApp(),
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -24,47 +37,41 @@ class MyApp extends StatelessWidget {
     }
     return false;
   }
-  final GeneralProviderData providedData = GeneralProviderData();
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => providedData,),
-      ],
-      child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: kPrimaryColor,
-          textTheme: TextTheme(
-            bodyText2: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.w600,
-            ),
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        textTheme: TextTheme(
+          bodyText2: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
           ),
-          scaffoldBackgroundColor: Colors.white,
-          appBarTheme: AppBarTheme(
-            color: Colors.white,
-            elevation: 0,
-            centerTitle: true,
-            textTheme: TextTheme(
-              headline6: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 20.0,
-                fontWeight: FontWeight.w500,
-              ),
+        ),
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: AppBarTheme(
+          color: Colors.white,
+          elevation: 0,
+          centerTitle: true,
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              color: kPrimaryColor,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
-        initialRoute: isLoggedIn() ? 'MainScreen' : 'LoginScreen',
-        onGenerateRoute: RouteGenerator.generateRoute,
-        supportedLocales: L10n.all,
-        locale: providedData.locale,
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
       ),
+      initialRoute: isLoggedIn() ? 'MainScreen' : 'LoginScreen',
+      onGenerateRoute: RouteGenerator.generateRoute,
+      supportedLocales: L10n.all,
+      locale: context.watch<GeneralProviderData>().locale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }
