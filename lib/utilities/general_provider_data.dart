@@ -38,7 +38,18 @@ class GeneralProviderData with ChangeNotifier {
     if(!L10n.all.contains(locale)) return;
 
     _locale = locale;
+    this.currentUser.languagePreferenceCode = _locale.toLanguageTag();
+    this.currentUser.setLanguagePreference(_locale.toLanguageTag());
+
     notifyListeners();
+  }
+
+  void setUserPreferredLanguage(){
+    String languageCode = this.currentUser.languagePreferenceCode;
+    if(languageCode == null) return;
+
+    Locale locale = L10n.all.firstWhere((Locale l) => l.languageCode == languageCode);
+    _locale = locale;
   }
 
   void clearLocale() {

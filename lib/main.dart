@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+    context.read<GeneralProviderData>().setUserPreferredLanguage();
     return MaterialApp(
       theme: ThemeData(
         primaryColor: kPrimaryColor,

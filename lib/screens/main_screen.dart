@@ -60,7 +60,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<GeneralProviderData>().locale);
     return Scaffold(
       appBar: BaseAppBar(
         title: AppLocalizations.of(context).language,

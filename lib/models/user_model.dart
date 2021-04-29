@@ -34,6 +34,7 @@ class UserModel {
   FirebaseAuth _auth;
   FirebaseFirestore _fireStore;
   bool newsSetterConfirmation = true;
+  String languagePreferenceCode;
 
   Future<bool> createUser() async {
     /*
@@ -190,6 +191,7 @@ class UserModel {
       calendarId = localUser.calendarId;
       id = _auth.currentUser.uid;
       email = _auth.currentUser.email;
+      languagePreferenceCode = localUser.languagePreferenceCode;
       return true;
     }
     return false;
@@ -508,5 +510,9 @@ class UserModel {
       }
       return null;
     }
+  }
+
+  void setLanguagePreference(String languageCode){
+    databaseManager.setUserLanguage(languageCode, id);
   }
 }

@@ -160,6 +160,14 @@ class Database {
     model.nameSurname = data['nameSurname'] ?? model.nameSurname;
     _userModel.putAt(index, model);
   }
+
+  void setUserLanguage(String languageCode, String id){
+    HiveUserModel model =
+        _userModel.values.where((element) => element.id == id).first;
+    int index = _userModel.values.toList().indexOf(model);
+    model.languagePreferenceCode = languageCode;
+    _userModel.putAt(index, model);
+  }
 }
 
 Database databaseManager = Database();

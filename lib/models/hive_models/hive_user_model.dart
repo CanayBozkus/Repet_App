@@ -22,6 +22,8 @@ class HiveUserModel {
   List pets;
   @HiveField(8)
   String calendarId;
+  @HiveField(9)
+  String languagePreferenceCode;
 
   HiveUserModel({
     this.id,
@@ -32,6 +34,7 @@ class HiveUserModel {
     this.age,
     this.addresses,
     this.phoneNumber,
-    this.calendarId
+    this.calendarId,
+    this.languagePreferenceCode
   });
 }

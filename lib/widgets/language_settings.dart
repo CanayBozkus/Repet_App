@@ -17,7 +17,6 @@ class LanguageSettings extends StatelessWidget {
               L10n.languages[L10n.all[index].toLanguageTag()],
             ),
             onTap: (){
-              print(L10n.all[index].toLanguageTag());
               context.read<GeneralProviderData>().setLocale(L10n.all[index]);
             },
           );
