@@ -1,30 +1,33 @@
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 extension DateExtensions on DateTime{
-  String getMonthName() {
+  String getMonthName(AppLocalizations localized) {
     switch (this.month) {
       case 1:
-        return 'Ocak';
+        return localized.january;
       case 2:
-        return 'Şubat';
+        return localized.february;
       case 3:
-        return 'Mart';
+        return localized.march;
       case 4:
-        return 'Nisan';
+        return localized.april;
       case 5:
-        return 'Mayıs';
+        return localized.may;
       case 6:
-        return 'Haziran';
+        return localized.june;
       case 7:
-        return 'Temmuz';
+        return localized.july;
       case 8:
-        return 'Ağustos';
+        return localized.august;
       case 9:
-        return 'Eylül';
+        return localized.september;
       case 10:
-        return 'Ekim';
+        return localized.october;
       case 11:
-        return 'Kasım';
+        return localized.november;
       case 12:
-        return 'Aralık';
+        return localized.december;
       default:
         return 'Invalid';
     }

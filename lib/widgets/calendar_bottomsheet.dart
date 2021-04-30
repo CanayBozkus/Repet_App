@@ -13,6 +13,7 @@ import 'package:repetapp/utilities/extensions.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CalendarBottomSheet extends StatefulWidget {
   DateTime date;
@@ -65,6 +66,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
         .eventCollections
         .keys
         .contains(this._key);
+    AppLocalizations localized = AppLocalizations.of(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -93,7 +95,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                   ),
                   Expanded(
                     child: Text(
-                      '${widget.date.day} ${widget.date.getMonthName()} ${widget.date.year}',
+                      '${widget.date.day} ${widget.date.getMonthName(localized)} ${widget.date.year}',
                       style: TextStyle(
                         fontSize: 24,
                         color: kPrimaryColor,
@@ -151,7 +153,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                     key: _formKey,
                                     child: FormGenerator.addInput(
                                       initialValue: _currentlyEditedEvent,
-                                      label: 'Task',
+                                      label: localized.task,
                                       onsaved: (value) {
                                         event = value;
                                       },
@@ -191,7 +193,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                             BaseButton(
                                               width: 80,
                                               fontSize: 13,
-                                              text: 'Delete',
+                                              text: localized.delete,
                                               onPressed: () {
                                                 if (this._edit) {
                                                   context
@@ -216,7 +218,7 @@ class _CalendarBottomSheetState extends State<CalendarBottomSheet> {
                                             BaseButton(
                                               width: 80,
                                               fontSize: 13,
-                                              text: 'Done',
+                                              text: localized.done,
                                               onPressed: () {
                                                 setState(() {
                                                   if (_formKey.currentState

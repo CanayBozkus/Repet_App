@@ -8,6 +8,7 @@ import 'package:repetapp/widgets/base_bottom_bar.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/vaccines_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'error_screen.dart';
 
@@ -36,10 +37,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
+    AppLocalizations localized = AppLocalizations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: BaseAppBar(title: 'Takvim', context: context,),
+      appBar: BaseAppBar(title: localized.calendar, context: context,),
       body: FutureBuilder(
         builder: (context, snapshots){
           if (snapshots.connectionState == ConnectionState.none &&

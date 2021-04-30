@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:repetapp/models/calendar_model.dart';
-import 'package:repetapp/services/database.dart';
-import 'package:repetapp/utilities/constants.dart';
-import 'package:repetapp/utilities/form_generator.dart';
-import 'package:repetapp/widgets/base_button.dart';
-import 'package:repetapp/widgets/base_checkbox.dart';
-import 'package:repetapp/widgets/base_shadow.dart';
-import 'package:repetapp/widgets/spinner.dart';
-import 'package:repetapp/widgets/time_selector.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:repetapp/utilities/extensions.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
-import 'package:repetapp/utilities/extensions.dart';
 import 'package:repetapp/widgets/calendar_bottomsheet.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Calendar extends StatefulWidget {
   final Function onDaySelected;
@@ -36,6 +27,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return TableCalendar(
       onDaySelected:
           (DateTime date, List<dynamic> events, List<dynamic> holidays) {
@@ -68,6 +60,37 @@ class _CalendarState extends State<Calendar> {
         rightChevronVisible: false,
         centerHeaderTitle: true,
         formatButtonVisible: false,
+        titleTextBuilder: (DateTime date, value){
+          switch(date.month){
+            case 1: return '${localized.january} ${date.year}';
+            case 2: return '${localized.february} ${date.year}';
+            case 3: return '${localized.march} ${date.year}';
+            case 4: return '${localized.april} ${date.year}';
+            case 5: return '${localized.may} ${date.year}';
+            case 6: return '${localized.june} ${date.year}';
+            case 7: return '${localized.july} ${date.year}';
+            case 8: return '${localized.august} ${date.year}';
+            case 9: return '${localized.september} ${date.year}';
+            case 10: return '${localized.october} ${date.year}';
+            case 11: return '${localized.november} ${date.year}';
+            case 12: return '${localized.december} ${date.year}';
+            default: return "";
+          }
+        }
+      ),
+      daysOfWeekStyle: DaysOfWeekStyle(
+        dowTextBuilder: (DateTime date, value){
+          switch(date.weekday){
+            case 1: return localized.mon;
+            case 2: return localized.tue;
+            case 3: return localized.wed;
+            case 4: return localized.thu;
+            case 5: return localized.fri;
+            case 6: return localized.sat;
+            case 7: return localized.sun;
+          }
+          return "";
+        }
       ),
       builders: CalendarBuilders(
         todayDayBuilder: (context, date, events) => Container(

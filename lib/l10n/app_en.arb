@@ -65,5 +65,117 @@
     "done": "Done",
     "@done": {
         "description": ""
+    },
+    "calendar": "Calendar",
+    "@calendar": {
+        "description": ""
+    },
+    "january": "January",
+    "@january": {
+        "description": ""
+    },
+    "february": "February",
+    "@february": {
+        "description": ""
+    },
+    "march": "March",
+    "@march": {
+        "description": ""
+    },
+    "april": "April",
+    "@april": {
+        "description": ""
+    },
+    "may": "May",
+    "@may": {
+        "description": ""
+    },
+    "june": "June",
+    "@june": {
+        "description": ""
+    },
+    "july": "July",
+    "@july": {
+        "description": ""
+    },
+    "august": "August",
+    "@august": {
+        "description": ""
+    },
+    "september": "September",
+    "@september": {
+        "description": ""
+    },
+    "october": "October",
+    "@october": {
+        "description": ""
+    },
+    "november": "November",
+    "@november": {
+        "description": ""
+    },
+    "december": "December",
+    "@december": {
+        "description": ""
+    },
+    "sunday": "Sunday",
+    "@sunday": {
+        "description": ""
+    },
+    "monday": "Monday",
+    "@monday": {
+        "description": ""
+    },
+    "tuesday": "Tuesday",
+    "@tuesday": {
+        "description": ""
+    },
+    "wednesday": "Wednesday",
+    "@december": {
+        "description": ""
+    },
+    "thursday": "Thursday",
+    "@thursday": {
+        "description": ""
+    },
+    "friday": "Friday",
+    "@friday": {
+        "description": ""
+    },
+    "saturday": "Saturday",
+    "@saturday": {
+        "description": ""
+    },
+    "sun": "Sun",
+    "@sun": {
+        "description": ""
+    },
+    "mon": "Mon",
+    "@mon": {
+        "description": ""
+    },
+    "tue": "Tue",
+    "@tue": {
+        "description": ""
+    },
+    "wed": "Wed",
+    "@wed": {
+        "description": ""
+    },
+    "thu": "Thu",
+    "@thu": {
+        "description": ""
+    },
+    "fri": "Fri",
+    "@fri": {
+        "description": ""
+    },
+    "sat": "Sat",
+    "@sat": {
+        "description": ""
+    },
+    "task": "Task",
+    "@task": {
+        "description": ""
     }
 }
