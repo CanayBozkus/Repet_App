@@ -60,9 +60,10 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Scaffold(
       appBar: BaseAppBar(
-        title: AppLocalizations.of(context).language,
+        title: localized.remainder,
         context: context,
       ),
       body: FutureBuilder(

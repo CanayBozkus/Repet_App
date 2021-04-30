@@ -5,6 +5,8 @@ import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class PetNavigator extends StatefulWidget {
   PetNavigator({
@@ -48,6 +50,7 @@ class _PetNavigatorState extends State<PetNavigator> {
   @override
   Widget build(BuildContext context) {
     shownPets = getNavigationPets(context);
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       height: widget.showDetail ? 220 : 130,
       width: double.maxFinite,
@@ -122,7 +125,7 @@ class _PetNavigatorState extends State<PetNavigator> {
                         Expanded(
                           flex: 3,
                           child: Text(
-                            shownPets['middle'].year > 0 ? '${shownPets['middle'].year} years' : '${shownPets['middle'].month} months',
+                            shownPets['middle'].year > 0 ? '${shownPets['middle'].year} ${localized.year(shownPets['middle'].year)}' : '${shownPets['middle'].month}${localized.month(shownPets['middle'].month)}',
                             style: TextStyle(
                               fontSize: 15,
                             ),

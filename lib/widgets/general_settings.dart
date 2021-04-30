@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:repetapp/l10n/l10n.dart';
 import 'package:repetapp/screens/login_screen.dart';
 import 'package:repetapp/screens/settings_screen.dart';
 import 'package:repetapp/utilities/constants.dart';
@@ -87,7 +88,7 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Dil - Türkçe',
+                      'Dil - ${L10n.languages[context.watch<GeneralProviderData>().locale.toLanguageTag()]}',
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),

@@ -1,3 +1,15 @@
 {
-    "language": "Türkçe"
+    "language": "Türkçe",
+    "remainder": "Hatırlatıcı",
+    "year": "{count,plural, =0{yıl} =1{yıl} other{yıl}}",
+    "month": "{count,plural, =0{ay} =1{ay} other{ay}}",
+    "feeding": "Besleme",
+    "water": "Su",
+    "playing": "Oynama",
+    "grooming": "Tarama",
+    "walking": "Yürüme",
+    "daily": "Günlük",
+    "time": "{count,plural, =0{defa} =1{defa} other{defa}}",
+    "delete": "Sil",
+    "done": "Bitti"
 }

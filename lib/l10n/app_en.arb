@@ -2,5 +2,68 @@
     "language": "English",
     "@language": {
         "description": "The current language"
+    },
+    "remainder": "Remainder",
+    "@remainder": {
+        "description": ""
+    },
+    "year": "{count,plural, =0{year} =1{year} other{years}}",
+    "@year": {
+        "description": "",
+        "placeholders": {
+            "count": {
+
+            }
+        }
+    },
+    "month": "{count,plural, =0{month} =1{month} other{month}}",
+    "@month": {
+        "description": "",
+        "placeholders": {
+            "count": {
+
+            }
+        }
+    },
+    "feeding": "Feeding",
+    "@feeding": {
+        "destiption": ""
+    },
+    "water": "Water",
+    "@water": {
+        "description": ""
+    },
+    "playing": "Playing",
+    "@playing": {
+        "description": ""
+    },
+    "grooming": "Grooming",
+    "@grooming": {
+        "description": ""
+    },
+    "walking": "Walking",
+    "@walking": {
+        "description": ""
+    },
+    "daily": "Daily",
+    "@daily": {
+        "description": ""
+    },
+    "time": "{count,plural, =0{time} =1{time} other{times}}",
+    "@time": {
+        "description": "for 'how much'",
+        "placeholders": {
+            "count": {
+
+            }
+        }
+    },
+    "delete": "Delete",
+    "@delete": {
+        "description": ""
+    },
+    "done": "Done",
+    "@done": {
+        "description": ""
     }
 }

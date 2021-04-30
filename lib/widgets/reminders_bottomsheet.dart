@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:repetapp/widgets/time_selector.dart';
 import 'package:repetapp/utilities/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RemindersBottomSheet extends StatefulWidget {
   final Remainders reminder;
@@ -32,6 +33,17 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
   bool isActive = true;
   ScrollController controller = ScrollController();
 
+  String getTitle(AppLocalizations localized){
+    switch(this.widget.reminder){
+      case Remainders.feeding: return localized.feeding;
+      case Remainders.grooming: return localized.grooming;
+      case Remainders.playing: return localized.playing;
+      case Remainders.walking: return localized.walking;
+      case Remainders.water: return localized.water;
+      default: return 'Error';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final pet = context
@@ -39,6 +51,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
         .pets[context.read<GeneralProviderData>().currentShownPetIndex];
     final List routine =
         pet.routines[remainderTitles[widget.reminder].toLowerCase()];
+    AppLocalizations localized = AppLocalizations.of(context);
     return Column(
       children: [
         Container(
@@ -69,7 +82,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
               ),
               Expanded(
                 child: Text(
-                  remainderTitles[widget.reminder],
+                  getTitle(localized),
                   style: TextStyle(
                     fontSize: 20,
                     color: kPrimaryColor,
@@ -152,7 +165,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                                   BaseButton(
                                     width: 80,
                                     fontSize: 13,
-                                    text: 'Delete',
+                                    text: localized.delete,
                                     onPressed: () async {
                                       if (isEditing) {
                                         // TODO: Add logic for removing a reminder.
@@ -182,7 +195,7 @@ class _RemindersBottomSheetState extends State<RemindersBottomSheet> {
                                   BaseButton(
                                     width: 80,
                                     fontSize: 13,
-                                    text: 'Done',
+                                    text: localized.done,
                                     onPressed: () async {
                                       DateTime now = DateTime.now();
                                       DateTime time = DateTime(now.year,

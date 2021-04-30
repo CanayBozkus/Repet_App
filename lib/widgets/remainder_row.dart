@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RemainderRow extends StatelessWidget {
   RemainderRow({this.onTap, this.remainder});
@@ -34,11 +36,23 @@ class RemainderRow extends StatelessWidget {
     }
     return false;
   }
+  
+  String getTitle(AppLocalizations localized){
+    switch(this.remainder){
+      case Remainders.feeding: return localized.feeding;
+      case Remainders.grooming: return localized.grooming;
+      case Remainders.playing: return localized.playing;
+      case Remainders.walking: return localized.walking;
+      case Remainders.water: return localized.water;
+      default: return 'Error';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final List routine = context.watch<GeneralProviderData>().pets[context.read<GeneralProviderData>().currentShownPetIndex].routines[remainderTitles[remainder].toLowerCase()];
     Map status = calculateDailyStatus(routine);
+    AppLocalizations localized = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: BaseShadow(
@@ -50,14 +64,14 @@ class RemainderRow extends StatelessWidget {
             color: remainderSvgColors[remainder],
           ),
           title: Text(
-            remainderTitles[remainder],
+            getTitle(localized),
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w800,
             ),
           ),
           subtitle: Text(
-            'Günde ' + status['opens'].toString() + ' defa',
+            '${localized.daily} ${status['opens'].toString()} ${localized.time(status['opens'])}',
             style: TextStyle(
               fontSize: 14,
             ),
