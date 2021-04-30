@@ -26,7 +26,7 @@ class VaccinesCollectionModel {
         vaccinesData.forEach((vaccine) {
           Map<String, dynamic> data = vaccine.data();
 
-          VaccineModel newModel = VaccineModel();
+          VaccineModel newModel = VaccineModel(vaccine.id);
           bool isFetchSuccessfull = newModel.fetchData(data);
           // print(isFetchSuccessfull);
           if (isFetchSuccessfull) {

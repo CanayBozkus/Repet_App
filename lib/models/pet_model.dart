@@ -5,6 +5,7 @@ import 'package:repetapp/services/database.dart';
 import 'package:repetapp/services/notification_plugin.dart';
 import 'package:repetapp/utilities/constants.dart' as constants;
 import 'package:repetapp/utilities/extensions.dart';
+import 'package:repetapp/models/vaccine_model.dart';
 
 class PetModel {
   PetModel() {
@@ -52,6 +53,11 @@ class PetModel {
     'grooming': [],
     'playing': [],
   };
+  Map<String, DateTime> _trackedVaccines = {};
+
+  Map<String, DateTime> get trackedVaccines {
+    return {...this._trackedVaccines};
+  }
 
   int petTrainingModelId;
   FirebaseFirestore _fireStore;
@@ -599,6 +605,43 @@ class PetModel {
       return true;
     } catch (e) {
       print(e);
+      return false;
+    }
+  }
+
+  void addVaccine(VaccineModel vaccine) {
+    // TODO : Ask user about when was the last time that this vaccine applied.
+
+    try {
+      DateTime today = DateTime.now();
+      DateTime period =
+          vaccine.period[constants.petTypeNames[this.type].toLowerCase()];
+      DateTime nextDeadline = DateTime(
+        today.year + period.year,
+        today.month + period.month,
+        today.day + period.day,
+        today.hour + period.hour,
+        today.minute + period.minute,
+        today.second + period.second,
+      );
+
+      this._trackedVaccines.putIfAbsent(vaccine.docId, () => nextDeadline);
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  bool removeVaccine(VaccineModel vaccine) {
+    try {
+      final res = this._trackedVaccines.remove(vaccine.docId);
+
+      if (res == null) {
+        return false;
+      }
+
+      return true;
+    } catch (err) {
+      print(err);
       return false;
     }
   }

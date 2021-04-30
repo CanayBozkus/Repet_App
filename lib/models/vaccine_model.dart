@@ -11,7 +11,7 @@ enum VaccineDataSegment {
 class VaccineModel {
   FirebaseFirestore _fireStore;
 
-  VaccineModel() {
+  VaccineModel(this._id) {
     _fireStore = FirebaseFirestore.instance;
   }
 

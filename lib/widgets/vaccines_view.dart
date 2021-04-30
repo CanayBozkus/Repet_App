@@ -3,6 +3,7 @@ import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:provider/provider.dart';
+import 'package:repetapp/widgets/vaccine_list_item.dart';
 
 import 'base_checkbox.dart';
 
@@ -20,30 +21,7 @@ class _VaccinesViewState extends State<VaccinesView> {
       padding: EdgeInsets.symmetric(vertical: 20),
       children: [
         ...vaccines.map((e) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: BaseShadow(
-              child: ListTile(
-                title: Text(
-                  e.name,
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                subtitle: Text(
-                  '22.10.2020',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: BaseCheckBox(
-                  color: kColorGreen,
-                  value: true,
-                  onChanged: () {},
-                ),
-              ),
-            ),
-          );
+          return VaccineListItem(e);
         }).toList(),
       ],
     );
