@@ -6,6 +6,7 @@ import 'package:repetapp/widgets/forum_card.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/widgets/spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForumView extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _ForumViewState extends State<ForumView> {
   Widget build(BuildContext context) {
     _length = context.watch<GeneralProviderData>().forumScreenForumDataList.length;
     _itemList =  context.watch<GeneralProviderData>().forumScreenForumDataList;
+    AppLocalizations localized = AppLocalizations.of(context);
     return RefreshIndicator(
       onRefresh: () async {
         context.read<GeneralProviderData>().refreshForumScreenForumData();
@@ -50,7 +52,7 @@ class _ForumViewState extends State<ForumView> {
         itemBuilder: (BuildContext context, int index){
           if(_length == 0 || index == _length){
             return context.watch<GeneralProviderData>().isAllForumScreenForumDataFetched
-                ? Text(_length == 0 ? 'There are no available post' : 'You have seen all posts')
+                ? Text(_length == 0 ? localized.thereAreNoAvailablePost : localized.youHaveSeenAllPosts)
                 : Spinner();
           }
           ForumModel model = _itemList[index];

@@ -16,7 +16,7 @@
             }
         }
     },
-    "month": "{count,plural, =0{month} =1{month} other{month}}",
+    "month": "{count,plural, =0{month} =1{month} other{months}}",
     "@month": {
         "description": "",
         "placeholders": {
@@ -131,7 +131,7 @@
         "description": ""
     },
     "wednesday": "Wednesday",
-    "@december": {
+    "@wednesday": {
         "description": ""
     },
     "thursday": "Thursday",
@@ -176,6 +176,62 @@
     },
     "task": "Task",
     "@task": {
+        "description": ""
+    },
+    "thereAreNoAvailablePost": "There are no available post",
+    "@thereAreNoAvailablePost": {
+        "description": ""
+    },
+    "youHaveSeenAllPosts": "You have seen all posts",
+    "@youHaveSeenAllPosts": {
+        "description": ""
+    },
+    "care": "Care",
+    "@care": {
+        "description": ""
+    },
+    "food": "Food",
+    "@food": {
+        "description": ""
+    },
+    "training": "Training",
+    "@training": {
+        "description": ""
+    },
+    "social": "Social",
+    "@social": {
+        "description": ""
+    },
+    "comment": "Comment",
+    "@comment": {
+        "description": ""
+    },
+    "post": "Post",
+    "@post": {
+        "description": ""
+    },
+    "textPost": "Text Post",
+    "@textPost": {
+        "description": ""
+    },
+    "chooseAType": "Choose a type",
+    "@chooseAType": {
+        "description": ""
+    },
+    "title": "Title",
+    "@title": {
+        "description": ""
+    },
+    "postTextHere": "Post text here.",
+    "@postTextHere": {
+        "description": ""
+    },
+    "pleaseEnterATitle": "Please enter a title",
+    "@pleaseEnterATitle": {
+        "description": ""
+    },
+    "pleaseEnterAText": "Please enter a text",
+    "@pleaseEnterAText": {
         "description": ""
     }
 }

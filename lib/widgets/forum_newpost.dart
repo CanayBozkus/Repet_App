@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/widgets/spinner.dart';
 import 'base_shadow.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForumNewPost extends StatefulWidget {
   @override
@@ -14,13 +15,28 @@ class ForumNewPost extends StatefulWidget {
 
 class _ForumNewPostState extends State<ForumNewPost> {
   bool _isExpansionExpanded = false;
-  String _categoryHintText = 'Choose a Type';
+  String _categoryHintText;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final ForumModel _forumModel = ForumModel();
   bool isPosting = false;
+
+  String getCategoryTitle(AppLocalizations localized, ForumCategories category){
+    switch(category){
+      case ForumCategories.care: return localized.care;
+      case ForumCategories.food: return localized.food;
+      case ForumCategories.social: return localized.social;
+      case ForumCategories.training: return localized.training;
+      default: return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     UserModel _currentUser = context.read<GeneralProviderData>().currentUser;
+    AppLocalizations localized = AppLocalizations.of(context);
+    if(_categoryHintText == null){
+      _categoryHintText = localized.chooseAType;
+    }
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -32,7 +48,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                width: 80,
+                width: 90,
                 child: IconButton(
                   icon: Icon(Icons.clear, size: 32,),
                   onPressed: (){
@@ -41,7 +57,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                 ),
               ),
               Text(
-                'Text Post',
+                localized.textPost,
                 style: TextStyle(
                   color: kPrimaryColor,
                   fontSize: 24,
@@ -49,7 +65,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                 ),
               ),
               Container(
-                width: 80,
+                width: 90,
                 child: isPosting ? Spinner() :  FlatButton(
                   onPressed: () async {
                     setState(() {
@@ -70,7 +86,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                     });
                   },
                   child: Text(
-                    'Post',
+                    localized.post,
                     style: TextStyle(
                       color: kColorBlue,
                       fontSize: 18,
@@ -133,13 +149,13 @@ class _ForumNewPostState extends State<ForumNewPost> {
                             children: [
                               ...ForumCategories.values.map((category){
                                 return  RadioListTile<ForumCategories>(
-                                  title: Text(kForumCategoryTitles[category]),
+                                  title: Text(getCategoryTitle(localized, category)),
                                   value: category,
                                   groupValue: _forumModel.category,
                                   onChanged: (ForumCategories value) {
                                     setState(() {
                                       _forumModel.category = category;
-                                      _categoryHintText = kForumCategoryTitles[category];
+                                      _categoryHintText = getCategoryTitle(localized, category);
                                     });
                                   },
                                 );
@@ -154,7 +170,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                 BaseShadow(
                   child: TextFormField(
                     decoration: InputDecoration(
-                      hintText: 'Title',
+                      hintText: localized.title,
                       hintStyle: TextStyle(
                         fontWeight: FontWeight.w700,
                       ),
@@ -177,7 +193,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                     ),
                     validator: (String value){
                       if(value.isEmpty){
-                        return 'Please enter a title';
+                        return localized.pleaseEnterATitle;
                       }
                       return null;
                     },
@@ -190,7 +206,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                   child: TextFormField(
                     maxLines: 10,
                     decoration: InputDecoration(
-                      hintText: 'Post text here.',
+                      hintText: localized.postTextHere,
                       hintStyle: TextStyle(
                         fontWeight: FontWeight.w700,
                       ),
@@ -213,7 +229,7 @@ class _ForumNewPostState extends State<ForumNewPost> {
                     ),
                     validator: (String value){
                       if(value.isEmpty){
-                        return 'Please enter a text';
+                        return localized.pleaseEnterAText;
                       }
                       return null;
                     },

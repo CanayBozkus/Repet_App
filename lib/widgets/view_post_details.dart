@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/widgets/forum_card.dart';
 import 'package:repetapp/widgets/spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ViewPostDetails extends StatefulWidget {
   ViewPostDetails({this.forumModel});
@@ -47,6 +48,7 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
     _length = context.watch<GeneralProviderData>().forumScreenCommentsList.length;
     _itemList =  context.watch<GeneralProviderData>().forumScreenCommentsList;
     UserModel _currentUser = context.read<GeneralProviderData>().currentUser;
+    AppLocalizations localized = AppLocalizations.of(context);
     return Column(
       children: [
         Expanded(
@@ -88,7 +90,7 @@ class _ViewPostDetailsState extends State<ViewPostDetails> {
                         maxLines: 3,
                         minLines: 1,
                         decoration: InputDecoration(
-                          hintText: 'Comment',
+                          hintText: localized.comment,
                           hintStyle: TextStyle(
                             fontWeight: FontWeight.w700,
                           ),

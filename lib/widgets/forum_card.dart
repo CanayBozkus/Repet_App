@@ -8,14 +8,27 @@ import 'package:provider/provider.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:repetapp/widgets/view_post_details.dart';
 import 'package:repetapp/utilities/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ForumCard extends StatelessWidget {
   ForumCard({@required this.forumModel, @required this.cardType});
   final ForumModel forumModel;
   final ForumCardTypes cardType;
+
+  String getTitle(AppLocalizations localized){
+    switch(forumModel.category){
+      case ForumCategories.care: return localized.care;
+      case ForumCategories.food: return localized.food;
+      case ForumCategories.social: return localized.social;
+      case ForumCategories.training: return localized.training;
+      default: return "";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String userId = context.read<GeneralProviderData>().currentUser.id;
+    AppLocalizations localized = AppLocalizations.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: cardType == ForumCardTypes.summary ? 8 : 0),
       child: BaseShadow(
@@ -54,7 +67,7 @@ class ForumCard extends StatelessWidget {
                               alignment: Alignment.center,
                               color: kBlogPageCategoryColors[forumModel.category],
                               child: Text(
-                                kForumCategoryTitles[forumModel.category],
+                                getTitle(localized),
                                 style: TextStyle(
                                     color: Colors.white
                                 ),

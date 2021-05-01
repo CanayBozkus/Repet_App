@@ -39,5 +39,19 @@
     "thu": "Prş",
     "fri": "Cum",
     "sat": "Cmt",
-    "task": "Görev"
+    "task": "Görev",
+    "thereAreNoAvailablePost": "Mevcut başka gönderi yok",
+    "youHaveSeenAllPosts": "Tüm gönderileri gördünüz",
+    "care": "Bakım",
+    "food": "Yemek",
+    "training": "Eğitim",
+    "social": "Sosyal",
+    "comment": "Yorum",
+    "post": "Paylaş",
+    "textPost": "Yeni Gönderi",
+    "chooseAType": "Kategory Seçiniz",
+    "title": "Başlık",
+    "postTextHere": "Gönderiyi buraya yazınız.",
+    "pleaseEnterATitle": "Lütfen bir başlık yazınız",
+    "pleaseEnterAText": "Lütfen bir yazı yazınız"
 }
