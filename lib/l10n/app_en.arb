@@ -1,8 +1,4 @@
 {
-    "language": "English",
-    "@language": {
-        "description": "The current language"
-    },
     "remainder": "Remainder",
     "@remainder": {
         "description": ""
@@ -233,5 +229,129 @@
     "pleaseEnterAText": "Please enter a text",
     "@pleaseEnterAText": {
         "description": ""
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": ""
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": ""
+    },
+    "general": "General",
+    "@general": {
+        "description": ""
+    },
+    "allergy": "Allergy",
+    "@allergy": {
+        "description": ""
+    },
+    "disability": "Disability",
+    "@disability": {
+        "description": ""
+    },
+    "diseases": "Diseases",
+    "@diseases": {
+        "description": ""
+    },
+    "personalInfo": "Personal Info",
+    "@personalInfo": {
+        "description": ""
+    },
+    "addresses": "Addresses",
+    "@addresses": {
+        "description": ""
+    },
+    "paymentChoice": "Payment Choice",
+    "@paymentChoice": {
+        "description": ""
+    },
+    "help": "Help",
+    "@help": {
+        "description": ""
+    },
+    "language": "Language",
+    "@language": {
+        "description": ""
+    },
+    "logout": "Logout",
+    "@logout": {
+        "description": ""
+    },
+    "nameCannotContainNumber": "Name cannot contain number.",
+    "@nameCannotContainNumber": {
+        "description": ""
+    },
+    "invalidEmail": "Invalid email.",
+    "@invalidEmail": {
+        "description": ""
+    },
+    "phoneNumber": "Phone Number",
+    "@phoneNumber": {
+        "description": ""
+    },
+    "male": "Male",
+    "@male": {
+        "description": ""
+    },
+    "female": "Female",
+    "@female": {
+        "description": ""
+    },
+    "save": "Save",
+    "@save": {
+        "description": ""
+    },
+    "error": "Error",
+    "@error": {
+        "description": ""
+    },
+    "noInternetConnection": "No Internet Connection",
+    "@noInternetConnection": {
+        "description": ""
+    },
+    "pleaseEnterYourPassword": "Please enter your password",
+    "@pleaseEnterYourPassword": {
+        "description": ""
+    },
+    "continue_": "Continue",
+    "@continue_": {
+        "description": ""
+    },
+    "failed": "Failed",
+    "@failed": {
+        "description": ""
+    },
+    "password": "Password",
+    "@password": {
+        "description": "Password"
+    },
+    "address": "Address",
+    "@address": {
+        "description": "Password"
+    },
+    "buildingNumber": "Building Number",
+    "@buildingNumber": {
+        "description": "Password"
+    },
+    "apartmentNumber": "Apartment Number",
+    "@apartmentNumber": {
+        "description": "Password"
+    },
+    "streetName": "Street Name",
+    "@streetName": {
+        "description": "Password"
+    },
+    "city": "City",
+    "@city": {
+        "description": "Password"
+    },
+    "zipCode": "Zip Code",
+    "@zipCode": {
+        "description": "Password"
+    },
+    "country": "Country",
+    "@country": {
+        "description": "Password"
     }
 }

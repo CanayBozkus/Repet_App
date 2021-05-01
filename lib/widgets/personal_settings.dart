@@ -10,6 +10,7 @@ import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalSettings extends StatefulWidget {
   @override
@@ -39,6 +40,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
   @override
   Widget build(BuildContext context) {
     UserModel user = context.watch<GeneralProviderData>().currentUser;
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       child: Column(
         children: [
@@ -80,7 +82,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                     },
                     validator: (value) {
                       if(value.contains(RegExp(r'[0-9]'))){
-                        return 'Name cannot contain number.';
+                        return localized.nameCannotContainNumber;
                       }
                       return null;
                     },
@@ -96,13 +98,13 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                         return null;
                       }
                       if(!value.contains('@')){
-                        return 'Invalid email.';
+                        return localized.invalidEmail;
                       }
                       return null;
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: user.phoneNumber == null ? 'Phone Number' : user.phoneNumber.toString(),
+                    label: user.phoneNumber == null ? localized.phoneNumber : user.phoneNumber.toString(),
                     keyboardType: KeyboardTypes.number,
                     svg: 'assets/icons/cellphone.svg',
                     onChanged: (String value){
@@ -124,7 +126,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                     },
                   ),
                   FormGenerator.settingsPageDropdown(
-                    categories: ['Male', 'Female'],
+                    categories: [localized.male, localized.female],
                     hint: user.gender,
                     svg: 'assets/icons/gender.svg',
                     onChanged: (value) {
@@ -138,7 +140,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: isUpdating ? Spinner() : BaseButton(
-                      text: 'Save',
+                      text: localized.save,
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
@@ -153,7 +155,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                             builder: (context) {
                               return AlertDialog(
                                 title: Text(
-                                  'Error',
+                                  localized.error,
                                   textAlign: TextAlign.center,
                                 ),
                                 titleTextStyle: TextStyle(
@@ -164,7 +166,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                 content: Container(
                                   height: 100,
                                   child: Center(
-                                    child: Text('No Internet Connection'),
+                                    child: Text(localized.noInternetConnection),
                                   ),
                                 ),
                               );
@@ -182,7 +184,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                 final GlobalKey<FormState> _formPasswordKey = new GlobalKey<FormState>();
                                 return AlertDialog(
                                   title: Text(
-                                    'Please enter your password',
+                                    localized.pleaseEnterYourPassword,
                                     textAlign: TextAlign.center,
                                   ),
                                   titleTextStyle: TextStyle(
@@ -198,11 +200,11 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
                                           FormGenerator.addInput(
-                                            label: 'Password',
+                                            label: localized.password,
                                             obsecure: true,
                                             validator: (value){
                                               if(value.isEmpty){
-                                                return 'Please enter your password!';
+                                                return localized.pleaseEnterYourPassword;
                                               }
                                               return null;
                                             },
@@ -211,7 +213,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                             }
                                           ),
                                           BaseButton(
-                                            text: 'Continue',
+                                            text: localized.continue_,
                                             onPressed: (){
                                               if(_formPasswordKey.currentState.validate()){
                                                 _formPasswordKey.currentState.save();
@@ -234,7 +236,7 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      'Failed',
+                                      localized.failed,
                                       textAlign: TextAlign.center,
                                     ),
                                     titleTextStyle: TextStyle(
@@ -274,6 +276,9 @@ class _PersonalSettingsState extends State<PersonalSettings> {
                             });
                           });
                         }
+                        setState(() {
+                          isUpdating = false;
+                        });
                       } : null,
                     ),
                   ),

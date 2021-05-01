@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/help.dart';
 import 'package:repetapp/widgets/language_settings.dart';
 import 'package:repetapp/widgets/personal_settings.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GeneralSettings extends StatelessWidget {
   const GeneralSettings({
@@ -18,6 +19,7 @@ class GeneralSettings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 30),
       child: ListView(
@@ -29,13 +31,13 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Kişisel Bilgiler',
+                      localized.personalInfo,
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
                       Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
-                        'title': 'Personal Info',
+                        'title': localized.personalInfo,
                         'widget': PersonalSettings(),
                       });
                     },
@@ -45,13 +47,13 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Adreslerim',
+                      localized.addresses,
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
                       Navigator.pushNamed(context, SettingsScreen.routeName, arguments: {
-                        'title': 'Addresses',
+                        'title': localized.addresses,
                         'widget': AddressSettings(),
                       });
                     },
@@ -61,7 +63,7 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Ödeme Yöntemi',
+                      localized.paymentChoice,
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
@@ -72,13 +74,13 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Yardım',
+                      localized.help,
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
                       Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
-                        'title': 'Help',
+                        'title': localized.help,
                         'widget': Help(),
                       });
                     },
@@ -88,13 +90,13 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Dil - ${L10n.languages[context.watch<GeneralProviderData>().locale.toLanguageTag()]}',
+                      '${localized.language} - ${L10n.languages[context.watch<GeneralProviderData>().locale.toLanguageTag()]}',
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),
                     onTap: (){
                       Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
-                        'title': 'Language',
+                        'title': localized.language,
                         'widget': LanguageSettings(),
                       });
                     },
@@ -104,7 +106,7 @@ class GeneralSettings extends StatelessWidget {
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 40, right: 10),
                     title: Text(
-                      'Çıkış',
+                      localized.logout,
                       style: kProfileBuilderTextStyle,
                     ),
                     trailing: Icon(Icons.arrow_forward_ios, color: kPrimaryColor,),

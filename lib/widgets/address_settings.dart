@@ -10,6 +10,7 @@ import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:repetapp/widgets/spinner.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddressSettings extends StatefulWidget {
   @override
@@ -40,6 +41,7 @@ class _AddressSettingsState extends State<AddressSettings> {
   Widget build(BuildContext context) {
     List addresses = context.watch<GeneralProviderData>().currentUser.addresses;
     Map address = addresses != null ? addresses[0] : {};
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.only(top: 20),
       child: Column(
@@ -50,7 +52,7 @@ class _AddressSettingsState extends State<AddressSettings> {
               padding: EdgeInsets.only(left: 45),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Address',
+                localized.address,
                 style: TextStyle(
                   fontSize: 30,
                   color: Color(0xff636363),
@@ -64,37 +66,37 @@ class _AddressSettingsState extends State<AddressSettings> {
               child: ListView(
                 children: [
                   FormGenerator.settingsPageInput(
-                    label: address['buildingNumber'] ?? 'Building Number',
+                    label: address['buildingNumber'] ?? localized.buildingNumber,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'buildingNumber', value);
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: address['apartmentNumber'] ?? 'Apartment Number',
+                    label: address['apartmentNumber'] ?? localized.apartmentNumber,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'apartmentNumber', value);
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: address['streetName'] ?? 'Street',
+                    label: address['streetName'] ?? localized.streetName,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'streetName', value);
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: address['city'] ?? 'City',
+                    label: address['city'] ?? localized.city,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'city', value);
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: address['zipCode'] ?? 'Zip Code',
+                    label: address['zipCode'] ?? localized.zipCode,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'zipCode', value);
                     },
                   ),
                   FormGenerator.settingsPageInput(
-                    label: address['country'] ?? 'Country',
+                    label: address['country'] ?? localized.country,
                     onChanged: (value) {
                       activateSaveButton(value.isNotEmpty, 'country', value);
                     },
@@ -103,7 +105,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: isUpdating ? Spinner() : BaseButton(
-                      text: 'Save',
+                      text: localized.save,
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
@@ -117,7 +119,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                               builder: (context) {
                                 return AlertDialog(
                                   title: Text(
-                                    'Error',
+                                    localized.error,
                                     textAlign: TextAlign.center,
                                   ),
                                   titleTextStyle: TextStyle(
@@ -128,7 +130,7 @@ class _AddressSettingsState extends State<AddressSettings> {
                                   content: Container(
                                     height: 100,
                                     child: Center(
-                                      child: Text('No Internet Connection'),
+                                      child: Text(localized.noInternetConnection),
                                     ),
                                   ),
                                 );

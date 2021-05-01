@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:repetapp/utilities/constants.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Help extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       padding: EdgeInsets.only(top: 20),
       child: Column(
@@ -15,7 +17,7 @@ class Help extends StatelessWidget {
               padding: EdgeInsets.only(left: 45),
               alignment: Alignment.centerLeft,
               child: Text(
-                'Yardım',
+                localized.help,
                 style: TextStyle(
                   fontSize: 30,
                   color: Color(0xff636363),

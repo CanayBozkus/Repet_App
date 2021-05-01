@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:repetapp/widgets/pet_settings.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = 'ProfileScreen';
@@ -31,9 +32,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     PetModel currentPet = context.watch<GeneralProviderData>().pets[context.watch<GeneralProviderData>().currentShownPetIndex];
+    AppLocalizations localized = AppLocalizations.of(context);
     return Scaffold(
       appBar: BaseAppBar(
-        title: 'Profile',
+        title: localized.profile,
         context: context,
         reverseColor: true,
         actions: [
@@ -41,7 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             icon: Icon(Icons.settings),
             onPressed: (){
               Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
-                'title': 'Settings',
+                'title': localized.settings,
                 'widget': GeneralSettings(),
               });
             },
@@ -99,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         padding: EdgeInsets.symmetric(vertical: 8),
                                         alignment: Alignment.center,
                                         child: Text(
-                                          'General',
+                                          localized.general,
                                           style: TextStyle(
                                             fontSize: 32,
                                             fontWeight: FontWeight.w800
@@ -118,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                           onPressed: (){
                                             Navigator.pushNamed(context, SettingsScreen.routeName, arguments:  {
-                                              'title': 'Profile',
+                                              'title': localized.profile,
                                               'widget': PetSettings(),
                                             });
                                           },
@@ -139,7 +141,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   FormGenerator.settingsPageInput(label: currentPet.species, svg: 'assets/icons/species.svg', isEnabled: false),
                                   FormGenerator.settingsPageInput(label: currentPet.gender, svg: 'assets/icons/gender.svg', isEnabled: false),
                                   FormGenerator.settingsPageInput(label: '${currentPet.weight} kg', svg: 'assets/icons/weight.svg', isEnabled: false),
-                                  FormGenerator.settingsPageInput(label: '${currentPet.year} year ${currentPet.month} month', svg: 'assets/icons/cake.svg', isEnabled: false),
+                                  FormGenerator.settingsPageInput(label: '${currentPet.year} ${localized.year(currentPet.year)} ${currentPet.month} ${localized.month(currentPet.month)}', svg: 'assets/icons/cake.svg', isEnabled: false),
                                   FormGenerator.settingsPageInput(label: '${currentPet.height} m', svg: 'assets/icons/height.svg', isEnabled: false),
                                   BaseShadow(
                                     child: ExpansionPanelList(
@@ -166,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Allergy',
+                                                  localized.allergy,
                                                   style: kSettingsInputLabelStyle,
                                                 )
                                               ],
@@ -206,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Disability',
+                                                  localized.disability,
                                                   style: kSettingsInputLabelStyle,
                                                 )
                                               ],
@@ -245,7 +247,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       BaseShadow(
                         child: ListTile(
                           title: Text(
-                            'Training',
+                            localized.training,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500
                             ),
@@ -260,7 +262,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       BaseShadow(
                         child: ListTile(
                           title: Text(
-                            'Diseases',
+                            localized.diseases,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500
                             ),
