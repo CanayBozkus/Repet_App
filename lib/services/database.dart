@@ -177,6 +177,7 @@ class Database {
     model.weight = data['weight'] ?? model.weight;
     model.disabilities = data['disabilities'] ?? model.disabilities;
     model.allergies = data['allergies'] ?? model.allergies;
+    model.trackedVaccines = data['trackedVaccines'] ?? model.trackedVaccines;
     _petModel.putAt(index, model);
   }
 

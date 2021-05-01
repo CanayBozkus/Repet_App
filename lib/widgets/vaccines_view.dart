@@ -15,13 +15,15 @@ class VaccinesView extends StatefulWidget {
 class _VaccinesViewState extends State<VaccinesView> {
   @override
   Widget build(BuildContext context) {
-    final vaccines =
-        context.watch<GeneralProviderData>().vaccinesModel.vaccines;
+    final vaccines = context.read<GeneralProviderData>().vaccinesModel.vaccines;
     return ListView(
       padding: EdgeInsets.symmetric(vertical: 20),
       children: [
         ...vaccines.map((e) {
-          return VaccineListItem(e);
+          return VaccineListItem(
+            key: ValueKey(e.docId),
+            vaccine: e,
+          );
         }).toList(),
       ],
     );

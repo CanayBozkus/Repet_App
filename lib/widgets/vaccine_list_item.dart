@@ -12,7 +12,7 @@ import 'base_checkbox.dart';
 class VaccineListItem extends StatefulWidget {
   final VaccineModel vaccine;
 
-  VaccineListItem(this.vaccine);
+  VaccineListItem({Key key, this.vaccine}) : super(key: key);
 
   @override
   _VaccineListItemState createState() => _VaccineListItemState();
@@ -20,11 +20,12 @@ class VaccineListItem extends StatefulWidget {
 
 class _VaccineListItemState extends State<VaccineListItem> {
   bool _state = false;
+  bool _isDeadlineLoading = false;
 
   String getNextDate(PetModel pet) {
     DateTime deadline = pet.trackedVaccines[widget.vaccine.docId];
     if (deadline != null) {
-      return DateFormat("hh:mm dd/MM/yyyy").format(deadline);
+      return DateFormat("HH:mm dd/MM/yyyy").format(deadline);
     } else {
       return null;
     }
@@ -48,47 +49,66 @@ class _VaccineListItemState extends State<VaccineListItem> {
   }
 
   @override
+  void initState() {
+    final pet = context
+        .read<GeneralProviderData>()
+        .pets[context.read<GeneralProviderData>().currentShownPetIndex];
+    if (pet.trackedVaccines.containsKey(widget.vaccine.docId)) {
+      this._state = true;
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final generalData = context.read<GeneralProviderData>();
     final pet = generalData.pets[generalData.currentShownPetIndex];
     String dateString = getNextDate(pet);
 
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      child: BaseShadow(
-        child: ListTile(
-          tileColor: getStatusColor(pet),
-          title: Text(
-            widget.vaccine.name,
-            style: TextStyle(
-              fontSize: 20,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: dateString == null
-              ? null
-              : Text(
-                  dateString,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    return this._isDeadlineLoading
+        ? Center(
+            child: CircularProgressIndicator(),
+          )
+        : Container(
+            padding: const EdgeInsets.all(8.0),
+            child: BaseShadow(
+              child: ListTile(
+                tileColor: getStatusColor(pet),
+                title: Text(
+                  widget.vaccine.name,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                   overflow: TextOverflow.ellipsis,
                 ),
-          trailing: BaseCheckBox(
-            color: kColorGreen,
-            value: this._state,
-            onChanged: (newVal) {
-              if (newVal) {
-                pet.addVaccine(widget.vaccine);
-              } else {
-                pet.removeVaccine(widget.vaccine);
-              }
-
-              setState(() {
-                this._state = newVal;
-              });
-            },
-          ),
-        ),
-      ),
-    );
+                subtitle: dateString == null
+                    ? null
+                    : Text(
+                        dateString,
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                trailing: BaseCheckBox(
+                  color: kColorGreen,
+                  value: this._state,
+                  onChanged: (newVal) async {
+                    setState(() {
+                      this._isDeadlineLoading = true;
+                    });
+                    if (newVal) {
+                      await pet.addVaccine(widget.vaccine);
+                    } else {
+                      await pet.removeVaccine(widget.vaccine);
+                    }
+                    setState(() {
+                      this._isDeadlineLoading = false;
+                      this._state = newVal;
+                    });
+                  },
+                ),
+              ),
+            ),
+          );
   }
 }

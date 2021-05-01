@@ -32,13 +32,14 @@ class HivePetModelAdapter extends TypeAdapter<HivePetModel> {
       disabilities: (fields[11] as List)?.cast<dynamic>(),
       ownerId: fields[1] as String,
       petTrainingModelId: fields[14] as int,
+      trackedVaccines: (fields[15] as Map)?.cast<String, DateTime>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, HivePetModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -68,7 +69,9 @@ class HivePetModelAdapter extends TypeAdapter<HivePetModel> {
       ..writeByte(13)
       ..write(obj.routines)
       ..writeByte(14)
-      ..write(obj.petTrainingModelId);
+      ..write(obj.petTrainingModelId)
+      ..writeByte(15)
+      ..write(obj.trackedVaccines);
   }
 
   @override

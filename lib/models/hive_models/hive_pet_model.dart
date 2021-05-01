@@ -34,6 +34,8 @@ class HivePetModel {
   Map routines;
   @HiveField(14)
   int petTrainingModelId;
+  @HiveField(15)
+  Map<String, DateTime> trackedVaccines;
 
   HivePetModel({
     this.id,
@@ -51,5 +53,6 @@ class HivePetModel {
     this.disabilities,
     this.ownerId,
     this.petTrainingModelId,
+    this.trackedVaccines,
   });
 }

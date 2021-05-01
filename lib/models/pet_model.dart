@@ -116,6 +116,7 @@ class PetModel {
       'sicknesses': sicknesses,
       'routines': routines,
       'petTrainingModelId': -1,
+      'trackedVaccines': this._trackedVaccines,
     });
   }
 
@@ -147,6 +148,7 @@ class PetModel {
       sicknesses: this.sicknesses,
       routines: this.routines,
       petTrainingModelId: -1,
+      trackedVaccines: this._trackedVaccines,
     );
     databaseManager.addData(model: 'petModel', data: localPetData);
   }
@@ -221,6 +223,7 @@ class PetModel {
               .add(RemainderFieldModel.fromMap(data: e, isLocal: true));
         });
       });
+      this._trackedVaccines = localPetData.trackedVaccines;
       return true;
     }
     return false;
@@ -266,6 +269,7 @@ class PetModel {
         routines[key].add(RemainderFieldModel.fromMap(data: e, isLocal: false));
       });
     });
+    this._trackedVaccines = petData["trackedVaccines"];
     HivePetModel localPetData = HivePetModel(
       id: this.id,
       name: this.name,
@@ -281,6 +285,7 @@ class PetModel {
       disabilities: this.disabilities,
       sicknesses: this.sicknesses,
       routines: petData['routines'],
+      trackedVaccines: this._trackedVaccines,
     );
     databaseManager.addData(model: 'petModel', data: localPetData);
     return true;
@@ -588,6 +593,7 @@ class PetModel {
       this.weight = data['weight'] ?? this.weight;
       this.allergies = data['allergies'] ?? this.allergies;
       this.disabilities = data['disabilities'] ?? this.disabilities;
+      this._trackedVaccines = data['trackedVaccines'] ?? this._trackedVaccines;
       return true;
     }
     return false;
@@ -609,7 +615,7 @@ class PetModel {
     }
   }
 
-  void addVaccine(VaccineModel vaccine) {
+  Future<void> addVaccine(VaccineModel vaccine) async {
     // TODO : Ask user about when was the last time that this vaccine applied.
 
     try {
@@ -625,20 +631,25 @@ class PetModel {
         today.second + period.second,
       );
 
-      this._trackedVaccines.putIfAbsent(vaccine.docId, () => nextDeadline);
+      // Add it to cloud, local and RAM
+      Map<String, DateTime> newVaccs = this.trackedVaccines;
+      newVaccs.putIfAbsent(vaccine.docId, () => nextDeadline);
+      await this.updateData({"trackedVaccines": newVaccs});
     } catch (error) {
       print(error);
     }
   }
 
-  bool removeVaccine(VaccineModel vaccine) {
+  Future<bool> removeVaccine(VaccineModel vaccine) async {
     try {
-      final res = this._trackedVaccines.remove(vaccine.docId);
+      Map<String, DateTime> newVaccs = this.trackedVaccines;
+      final res = newVaccs.remove(vaccine.docId);
 
       if (res == null) {
         return false;
       }
 
+      await this.updateData({"trackedVaccines": newVaccs});
       return true;
     } catch (err) {
       print(err);
