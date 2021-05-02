@@ -11,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = 'LoginScreen';
@@ -28,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -70,11 +72,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       FormGenerator.addInput(
-                          label: 'Email',
+                          label: localized.email,
                           keyboard: KeyboardTypes.emailAddress,
                           validator: (String value){
                             if(value.isEmpty){
-                              return 'Please enter your email!';
+                              return localized.pleaseEnterYourEmail;
                             }
                             return null;
                           },
@@ -83,11 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                       ),
                       FormGenerator.addInput(
-                        label: 'Password',
+                        label: localized.password,
                         obsecure: true,
                         validator: (value){
                           if(value.isEmpty){
-                            return 'Please enter your password!';
+                            return localized.pleaseEnterYourPassword;
                           }
                           return null;
                         },
@@ -102,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 10,
                 ),
                 _isLogging ? Spinner() : BaseButton(
-                  text: 'Login',
+                  text: localized.login,
                   onPressed: () async {
                     //TODO: login kısmını UserModel üzerinden gerçekleştir (?) ve provider üzerinde currenUser olarak assign et
                     //TODO: spinner ekle
@@ -126,24 +128,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       catch(e){
                         String error= e.toString();
                         String errorMsg;
-                        if(error.contains('invalid-email')){
-                          errorMsg = 'Invalid email. Please enter a valid email.';
+                        print(e);
+                        if(error.contains('invalid-email') || error.contains('ınvalıd-emaıl')){
+                          errorMsg = localized.invalidEmailPleaseEnterAValidEmail;
                         }
                         else if(error.contains('user-not-found')){
-                          errorMsg = 'No account found. Please register or try with another account.';
+                          errorMsg = localized.noAccountFoundPleaseRegisterOrTryWithAnotherAccount;
                         }
                         else if(error.contains('wrong-password')){
-                          errorMsg = 'Wrong password. Please try again.';
+                          errorMsg = localized.wrongPasswordPleaseTryAgain;
                         }
                         else {
-                          errorMsg = 'Cannot login right now. Please try again later.';
+                          errorMsg = localized.cannotLoginRightNowPleaseTryAgainLater;
                         }
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text(
-                                'Login Failed',
+                                localized.loginFailed,
                                 textAlign: TextAlign.center,
                               ),
                               titleTextStyle: TextStyle(
@@ -175,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 15,
                 ),
                 Text(
-                  'Forgot password ?',
+                  localized.forgotPassword,
                   style: TextStyle(
                     color: kPrimaryColor,
                     fontWeight: FontWeight.w700,
@@ -187,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ButtonLeadingSvg(
                   svg: 'assets/icons/iconmonstr-facebook-1.svg',
-                  label: 'Login with Facebook',
+                  label: localized.loginWithFacebook,
                   color: Color(0xff345ea1),
                   onPressed: () {},
                 ),
@@ -196,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 ButtonLeadingSvg(
                   svg: 'assets/icons/google.svg',
-                  label: 'Login with Google',
+                  label: localized.loginWithGoogle,
                   onPressed: () {},
                   color: Color(0xffdb3522),
                 ),
@@ -204,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 15,
                 ),
                 BaseButton(
-                  text: 'Register',
+                  text: localized.register,
                   onPressed: () {
                     Navigator.pushNamed(context, RegistrationScreen.routeName);
                   },

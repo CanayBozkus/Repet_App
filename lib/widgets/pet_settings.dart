@@ -10,6 +10,7 @@ import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
 import 'dart:async';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetSettings extends StatefulWidget {
   @override
@@ -80,6 +81,7 @@ class _PetSettingsState extends State<PetSettings> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Container(
       padding: generalScreenPadding,
       child: Column(
@@ -95,7 +97,7 @@ class _PetSettingsState extends State<PetSettings> {
                       padding: EdgeInsets.symmetric(vertical: 8),
                       alignment: Alignment.center,
                       child: Text(
-                        'General',
+                        localized.general,
                         style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.w800
@@ -111,7 +113,7 @@ class _PetSettingsState extends State<PetSettings> {
                     },
                     validator: (value) {
                       if(value.contains(RegExp(r'[0-9]'))){
-                        return 'Name cannot contain number.';
+                        return localized.nameCannotContainNumber;
                       }
                       return null;
                     },
@@ -124,13 +126,13 @@ class _PetSettingsState extends State<PetSettings> {
                     },
                     validator: (value) {
                       if(value.contains(RegExp(r'[0-9]'))){
-                        return 'Species cannot contain number.';
+                        return localized.speciesCannotContainNumber;
                       }
                       return null;
                     },
                   ),
                   FormGenerator.settingsPageDropdown(
-                    categories: ['Male', 'Female'],
+                    categories: [localized.male, localized.female],
                     hint: currentPet.gender,
                     svg: 'assets/icons/gender.svg',
                     onChanged: (value) {
@@ -155,30 +157,26 @@ class _PetSettingsState extends State<PetSettings> {
                     children: [
                       Expanded( 
                         child: FormGenerator.settingsPageInput(
-                          label: '${currentPet.year} year',
+                          label: '${currentPet.year} ${localized.year(currentPet.year)}',
                           svg: 'assets/icons/cake.svg',
                           keyboardType: KeyboardTypes.number,
                           onChanged: (value) {
                             activateSaveButtonForInputFields(value.isNotEmpty, 'year', value.isNotEmpty ? int.parse(value) : 0);
                           },
                           validator: (value) {
-                            if (value == null) {
-                              return 'Please select a gender!';
-                            }
+                            return null;
                           },
                         ),
                       ),
                       Expanded(
                         child: FormGenerator.settingsPageInput(
-                          label: '${currentPet.month} month',
+                          label: '${currentPet.month} ${localized.month(currentPet.month)}',
                           keyboardType: KeyboardTypes.number,
                           onChanged: (value) {
                             activateSaveButtonForInputFields(value.isNotEmpty, 'month', value.isNotEmpty ? int.parse(value) : 0);
                           },
                           validator: (value) {
-                            if (value == null) {
-                              return 'Please select a gender!';
-                            }
+                            return null;
                           },
                         ),
                       ),
@@ -197,7 +195,7 @@ class _PetSettingsState extends State<PetSettings> {
                   ),
                   GestureDetector(
                     child: FormGenerator.settingsPageInput(
-                      label: 'Alerji',
+                      label: localized.allergy,
                       svg: 'assets/icons/peanut.svg',
                       disableKeyboard: true,
                     ),
@@ -236,7 +234,7 @@ class _PetSettingsState extends State<PetSettings> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                'Alerji',
+                                                localized.allergy,
                                                 style: TextStyle(
                                                   fontSize: 24,
                                                   color: kPrimaryColor,
@@ -282,7 +280,7 @@ class _PetSettingsState extends State<PetSettings> {
                   ),
                   GestureDetector(
                     child: FormGenerator.settingsPageInput(
-                      label: 'Engel',
+                      label: localized.disability,
                       svg: 'assets/icons/wheelchair.svg',
                       disableKeyboard: true,
                     ),
@@ -321,7 +319,7 @@ class _PetSettingsState extends State<PetSettings> {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                'Disability',
+                                                localized.disability,
                                                 style: TextStyle(
                                                   fontSize: 24,
                                                   color: kPrimaryColor,
@@ -369,7 +367,7 @@ class _PetSettingsState extends State<PetSettings> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 50),
                     child: isUpdating ? Spinner() : BaseButton(
-                      text: 'Save',
+                      text: localized.save,
                       width: 100,
                       onPressed: isActive ? () async {
                         FocusScope.of(context).unfocus();
@@ -383,7 +381,7 @@ class _PetSettingsState extends State<PetSettings> {
                             builder: (context) {
                               return AlertDialog(
                                 title: Text(
-                                  'Error',
+                                  localized.error,
                                   textAlign: TextAlign.center,
                                 ),
                                 titleTextStyle: TextStyle(
@@ -394,7 +392,7 @@ class _PetSettingsState extends State<PetSettings> {
                                 content: Container(
                                   height: 100,
                                   child: Center(
-                                    child: Text('No Internet Connection'),
+                                    child: Text(localized.noInternetConnection),
                                   ),
                                 ),
                               );

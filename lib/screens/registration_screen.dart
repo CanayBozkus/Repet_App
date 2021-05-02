@@ -8,6 +8,7 @@ import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_checkbox.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static const routeName = 'RegistrationScreen';
@@ -23,11 +24,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+    AppLocalizations localized = AppLocalizations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(
-          'Register',
+          localized.register,
           style: Theme.of(context)
               .appBarTheme
               .textTheme
@@ -59,7 +61,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 2),
                       children: [
                         FormGenerator.addInput(
-                          label: 'Mail',
+                          label: localized.email,
                           keyboard: KeyboardTypes.emailAddress,
                           onsaved: (String value) {
                             _newUser.email = value;
@@ -67,7 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           validator: FormGenerator.mailValidator,
                         ),
                         FormGenerator.addInput(
-                          label: 'Password',
+                          label: localized.password,
                           keyboard: KeyboardTypes.text,
                           obsecure: true,
                           onsaved: (String value) {
@@ -77,18 +79,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           onchanged: (value) => _newUser.password = value,
                         ),
                         FormGenerator.addInput(
-                          label: 'Password',
+                          label: localized.password,
                           keyboard: KeyboardTypes.text,
                           obsecure: true,
                           validator: (String value) {
                             if (value != _newUser.password) {
-                              return "Passwords does not match!";
+                              return localized.passwordsDoesNotMatch;
                             }
                             return null;
                           },
                         ),
                         FormGenerator.addInput(
-                          label: 'Name',
+                          label: localized.name,
                           keyboard: KeyboardTypes.text,
                           onsaved: (String value) {
                             _newUser.nameSurname = value;
@@ -96,26 +98,26 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           validator: FormGenerator.nameValidatorGenerator('your'),
                         ),
                         FormGenerator.addInput(
-                          label: 'Age',
+                          label: localized.age,
                           keyboard: KeyboardTypes.number,
                           onsaved: (String value) {
                             _newUser.age = int.parse(value);
                           },
                           validator: (String value) {
                             if (value.isEmpty) {
-                              return 'Please enter your age! Exp: 21';
+                              return localized.pleaseEnterYourAge;
                             }
                           },
                         ),
                         FormGenerator.addDropdown(
-                            categories: ['Male', 'Female'],
-                            hint: 'Cinsiyet',
+                            categories: [localized.male, localized.female],
+                            hint: localized.gender,
                             onChanged: (value) {
                               _newUser.gender = value;
                             },
                             validator: (value) {
                               if (value == null) {
-                                return 'Please select a gender!';
+                                return localized.pleaseSelectAGender;
                               }
                             }),
                         SizedBox(
@@ -136,7 +138,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                "Repet\’in bana özel kampanya, tanıtım ve fırsatlarından haberdar olmak istiyorum",
+                                localized.iWantToBeInformedAboutRepetsSpecialCampaignsPromotionsAndOpportunities,
                                 overflow: TextOverflow.clip,
                               ),
                             )
@@ -147,7 +149,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: "Üye olmakla ",
+                            text: localized.byBecomingAMemberYouApproveTheTermsOfUse
+                                .substring(0, localized.byBecomingAMemberYouApproveTheTermsOfUse.indexOf(localized.theTermsOfUse)),
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Color(0xFF6f6f6f),
@@ -155,12 +158,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             children: [
                               TextSpan(
-                                text: "Kullanım koşullarını ",
+                                text: localized.theTermsOfUse,
                                 style: TextStyle(
                                   color: kPrimaryColor,
                                 ),
                               ),
-                              TextSpan(text: "onaylamış olursunuz.")
+                              TextSpan(text: localized.byBecomingAMemberYouApproveTheTermsOfUse
+                                  .substring(localized.byBecomingAMemberYouApproveTheTermsOfUse.indexOf(localized.theTermsOfUse)+localized.theTermsOfUse.toString().length))
                             ],
                           ),
                         ),
@@ -170,7 +174,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         RichText(
                           text: TextSpan(
                             text:
-                            "Kişisel verilerinize dair Aydınlatma Metni için  ",
+                            localized.forTheClarificationTextOnYourPersonalData,
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Color(0xFF6f6f6f),
@@ -178,7 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             ),
                             children: [
                               TextSpan(
-                                text: "tıklayınız.",
+                                text: localized.click.toLowerCase(),
                                 style: TextStyle(
                                   color: kPrimaryColor,
                                 ),
@@ -198,7 +202,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: [
                     GestureDetector(
                       child: Text(
-                        'Have you already an account?',
+                        localized.haveYouAlreadyAnAccount,
                         style: Theme.of(context)
                             .textTheme
                             .bodyText2
@@ -210,7 +214,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                     ),
                     BaseButton(
-                      text: 'Ileri',
+                      text: localized.next,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();

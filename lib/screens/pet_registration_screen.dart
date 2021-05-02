@@ -5,6 +5,7 @@ import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/pet_health_form.dart';
 import 'package:repetapp/widgets/pet_register_form.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetRegistrationScreen extends StatefulWidget {
   static const routeName = 'PetRegistrationScreen';
@@ -33,9 +34,10 @@ class _PetRegistrationScreenState extends State<PetRegistrationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return  Scaffold(
       appBar: BaseAppBar(
-        title: 'Evcil Hayvan',
+        title: localized.pet,
         context: context,
         reverseColor: true,
         activeBackButton: true,

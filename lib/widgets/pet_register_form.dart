@@ -5,6 +5,7 @@ import 'package:repetapp/utilities/form_generator.dart';
 import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/widgets/base_shadow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetRegisterForm extends StatefulWidget {
   PetRegisterForm({this.petModel, this.controller});
@@ -18,6 +19,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Padding(
       padding: generalScreenPadding,
       child: Column(
@@ -81,29 +83,36 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     height: 12,
                   ),
                   FormGenerator.addInput(
-                    label: 'Name',
+                    label: localized.name,
                     keyboard: KeyboardTypes.text,
                     initialValue: widget.petModel.name,
                     onsaved: (String value) {
                       widget.petModel.name = value;
                     },
-                    validator:
-                        FormGenerator.nameValidatorGenerator('your pet\'s'),
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return localized.pleaseEnterYourPetsName;
+                      }
+                      if (value.contains(RegExp(r'[0-9]'))) {
+                        return localized.nameCannotContainNumber;
+                      }
+                      return null;
+                    }
                   ),
                   FormGenerator.addDropdown(
-                      categories: ['Erkek', 'Dişi'],
-                      hint: 'Cinsiyet',
+                      categories: [localized.male, localized.female],
+                      hint: localized.gender,
                       value: widget.petModel.gender,
                       onChanged: (value) {
                         widget.petModel.gender = value;
                       },
                       validator: (value) {
                         if (value == null) {
-                          return 'Please select a gender!';
+                          return localized.pleaseSelectAGender;
                         }
                       }),
                   FormGenerator.addInput(
-                    label: 'Species',
+                    label: localized.species,
                     keyboard: KeyboardTypes.text,
                     initialValue: widget.petModel.name,
                     onsaved: (String value) {
@@ -111,12 +120,12 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     },
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter your pet\'s species! Example: Buldog.';
+                        return localized.pleaseEnterYourPetsSpecies;
                       }
                     },
                   ),
                   FormGenerator.addInput(
-                    label: 'Ağırlık / kg',
+                    label: '${localized.weight} / ${localized.kg}',
                     keyboard: KeyboardTypes.number,
                     initialValue: widget.petModel.weight != null
                         ? widget.petModel.weight.toString()
@@ -126,16 +135,16 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     },
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter a weight!';
+                        return localized.pleaseEnterAWeight;
                       }
                       if (double.parse(value) < 1) {
-                        return 'Invalid weight';
+                        return localized.invalidWeight;
                       }
                       return null;
                     },
                   ),
                   FormGenerator.addInput(
-                    label: 'Boy / metre',
+                    label: '${localized.height} / ${localized.meter}',
                     keyboard: KeyboardTypes.number,
                     initialValue: widget.petModel.height != null
                         ? widget.petModel.height.toString()
@@ -145,10 +154,10 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     },
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return 'Please enter a height!';
+                        return localized.pleaseEnterAHeight;
                       }
                       if (double.parse(value) < 0.3) {
-                        return 'Invalid height';
+                        return localized.invalidHeight;
                       }
                       return null;
                     },
@@ -157,7 +166,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     children: [
                       Expanded(
                         child: FormGenerator.addInput(
-                          label: 'Yıl (*)',
+                          label: localized.year(0) + ' (*)',
                           keyboard: KeyboardTypes.number,
                           initialValue: widget.petModel.year != null
                               ? widget.petModel.year.toString()
@@ -167,10 +176,10 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                           },
                           validator: (String value) {
                             if (value.isEmpty) {
-                              return 'Please enter a year! Example: 7';
+                              return localized.pleaseEnterAYear;
                             }
                             if (double.parse(value) > 40) {
-                              return 'Invalid year. Example: 7';
+                              return localized.invalidYear;
                             }
                             return null;
                           },
@@ -181,7 +190,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                       ),
                       Expanded(
                         child: FormGenerator.addInput(
-                          label: 'Ay (optional)',
+                          label: localized.monthOptional,
                           keyboard: KeyboardTypes.number,
                           initialValue: widget.petModel.month != null
                               ? widget.petModel.month.toString()
@@ -193,7 +202,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                             if (value.isNotEmpty &&
                                 (double.parse(value) > 12 ||
                                     double.parse(value) < 0)) {
-                              return 'Invalid month';
+                              return localized.invalidMonth;
                             }
                             return null;
                           },
@@ -205,7 +214,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                     height: 6,
                   ),
                   Text(
-                    'Evcil Hayvanınızın yaşı',
+                    localized.yourPetsAge,
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -218,7 +227,7 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BaseButton(
-                text: 'Ileri',
+                text: localized.next,
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   setState(() {

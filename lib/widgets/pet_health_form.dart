@@ -9,6 +9,7 @@ import 'package:repetapp/widgets/base_button.dart';
 import 'package:repetapp/utilities/general_provider_data.dart';
 import 'package:provider/provider.dart';
 import 'package:repetapp/widgets/spinner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PetHealthForm extends StatefulWidget {
   PetHealthForm({this.petModel, this.parentController});
@@ -37,6 +38,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
   }
   @override
   Widget build(BuildContext context) {
+    AppLocalizations localized = AppLocalizations.of(context);
     return Column(
       children: [
         Padding(
@@ -45,7 +47,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
             children: [
               Expanded(
                 child: BaseButton(
-                  text: 'Alerji',
+                  text: localized.allergy,
                   onPressed: () {
                     setState(() {
                       _subPageIndex = 0;
@@ -57,7 +59,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
               ),
               Expanded(
                 child: BaseButton(
-                  text: 'Engel',
+                  text: localized.disability,
                   onPressed: () {
                     setState(() {
                       _subPageIndex = 1;
@@ -74,7 +76,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
           height: 20,
         ),
         Text(
-          'Seçin',
+          localized.choose,
           style: TextStyle(
             color: kPrimaryColor,
             fontSize: 20,
@@ -145,7 +147,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BaseButton(
-                text: 'Geri',
+                text: localized.back,
                 onPressed: () {
                   if(_subPageIndex == 0){
                     widget.parentController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
@@ -159,7 +161,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
                 width: 120,
               ),
               _isCreating ? Spinner() : BaseButton(
-                text: _subPageIndex == 0 ? 'İleri' : 'Bitir',
+                text: _subPageIndex == 0 ? localized.next : localized.finish,
                 onPressed: () async {
 
                   if(_subPageIndex == 0){
@@ -176,7 +178,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
                         builder: (context) {
                           return AlertDialog(
                             title: Text(
-                              'Error',
+                              localized.error,
                               textAlign: TextAlign.center,
                             ),
                             titleTextStyle: TextStyle(
@@ -187,7 +189,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
                             content: Container(
                               height: 100,
                               child: Center(
-                                child: Text('No Internet Connection'),
+                                child: Text(localized.noInternetConnection),
                               ),
                             ),
                           );

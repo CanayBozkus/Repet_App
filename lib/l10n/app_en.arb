@@ -3,7 +3,7 @@
     "@remainder": {
         "description": ""
     },
-    "year": "{count,plural, =0{year} =1{year} other{years}}",
+    "year": "{count,plural, =0{Year} =1{Year} other{Years}}",
     "@year": {
         "description": "",
         "placeholders": {
@@ -353,5 +353,189 @@
     "country": "Country",
     "@country": {
         "description": "Password"
+    },
+    "speciesCannotContainNumber": "Species cannot contain number.",
+    "@speciesCannotContainNumber": {
+        "description": ""
+    },
+    "email": "Email",
+    "@email": {
+        "description": ""
+    },
+    "pleaseEnterYourEmail": "Please enter your email!",
+    "@pleaseEnterYourEmail": {
+        "description": ""
+    },
+    "login": "Login",
+    "@login": {
+        "description": ""
+    },
+    "invalidEmailPleaseEnterAValidEmail": "Invalid email. Please enter a valid email.",
+    "@invalidEmailPleaseEnterAValidEmail": {
+        "description": ""
+    },
+    "noAccountFoundPleaseRegisterOrTryWithAnotherAccount": "No account found. Please register or try with another account.",
+    "@noAccountFoundPleaseRegisterOrTryWithAnotherAccount": {
+        "description": ""
+    },
+    "wrongPasswordPleaseTryAgain": "Wrong password. Please try again.",
+    "@wrongPasswordPleaseTryAgain": {
+        "description": ""
+    },
+    "cannotLoginRightNowPleaseTryAgainLater": "Cannot login right now. Please try again later.",
+    "@cannotLoginRightNowPleaseTryAgainLater": {
+        "description": ""
+    },
+    "loginFailed": "Login Failed",
+    "@loginFailed": {
+        "description": ""
+    },
+    "forgotPassword": "Forgot Password?",
+    "@forgotPassword": {
+        "description": ""
+    },
+    "loginWithFacebook": "Login with Facebook",
+    "@loginWithFacebook": {
+        "description": ""
+    },
+    "loginWithGoogle": "Login with Google",
+    "@loginWithGoogle": {
+        "description": ""
+    },
+    "register": "Register",
+    "@register": {
+        "description": ""
+    },
+    "passwordsDoesNotMatch": "Passwords does not match!",
+    "@passwordsDoesNotMatch": {
+        "description": ""
+    },
+    "name": "Name",
+    "@name": {
+        "description": ""
+    },
+    "age": "Age",
+    "@age": {
+        "description": ""
+    },
+    "pleaseEnterYourAge": "Please enter your age! Exp: 21",
+    "@pleaseEnterYourAge": {
+        "description": ""
+    },
+    "gender": "Gender",
+    "@gender": {
+        "description": ""
+    },
+    "pleaseSelectAGender": "Please select a gender!",
+    "@pleaseSelectAGender": {
+        "description": ""
+    },
+    "iWantToBeInformedAboutRepetsSpecialCampaignsPromotionsAndOpportunities": "I want to be informed about Repet's special campaigns, promotions and opportunities.",
+    "@iWantToBeInformedAboutRepetsSpecialCampaignsPromotionsAndOpportunities": {
+        "description": ""
+    },
+    "byBecomingAMemberYouApproveTheTermsOfUse": "By becoming a member, you approve the terms of use.",
+    "@byBecomingAMemberYouApproveTheTermsOfUse": {
+        "description": ""
+    },
+    "haveYouAlreadyAnAccount": "Have you already an account?",
+    "@haveYouAlreadyAnAccount": {
+        "description": ""
+    },
+    "next": "Next",
+    "@next": {
+        "description": ""
+    },
+    "forTheClarificationTextOnYourPersonalData": "For the Clarification Text on your personal data ",
+    "@forTheClarificationTextOnYourPersonalData": {
+        "description": ""
+    },
+    "click": "Click",
+    "@click": {
+        "description": ""
+    },
+    "theTermsOfUse": "the terms of use",
+    "@theTermsOfUse": {
+        "description": ""
+    },
+    "pet": "Pet",
+    "@pet": {
+        "description": ""
+    },
+    "species": "Species",
+    "@species": {
+        "description": ""
+    },
+    "pleaseEnterYourPetsName": "Please enter your pet's name!",
+    "@pleaseEnterYourPetsName": {
+        "description": ""
+    },
+    "pleaseEnterYourPetsSpecies": "Please enter your pet's species! Example: Buldog.",
+    "@pleaseEnterYourPetsSpecies": {
+        "description": ""
+    },
+    "yourPetsAge": "Evcil Hayvanınızın yaşı",
+    "@yourPetsAge": {
+        "description": ""
+    },
+    "invalidMonth": "Invalid month",
+    "@invalidMonth": {
+        "description": ""
+    },
+    "monthOptional": "Month (optional)",
+    "@monthOptional": {
+        "description": ""
+    },
+    "pleaseEnterAYear": "Please enter a year! Example: 7",
+    "@pleaseEnterAYear": {
+        "description": ""
+    },
+    "invalidYear": "Invalid year",
+    "@invalidYear": {
+        "description": ""
+    },
+    "pleaseEnterAHeight": "Please enter a height!",
+    "@pleaseEnterAHeight": {
+        "description": ""
+    },
+    "invalidHeight": "Invalid height",
+    "@invalidHeight": {
+        "description": ""
+    },
+    "height": "Height",
+    "@height": {
+        "description": ""
+    },
+    "meter": "Meter",
+    "@meter": {
+        "description": ""
+    },
+    "invalidWeight": "Invalid weight",
+    "@invalidWeight": {
+        "description": ""
+    },
+    "pleaseEnterAWeight": "Please enter a weight!",
+    "@pleaseEnterAWeight": {
+        "description": ""
+    },
+    "weight": "Weight",
+    "@weight": {
+        "description": ""
+    },
+    "kg": "kg",
+    "@kg": {
+        "description": ""
+    },
+    "choose": "Choose",
+    "@choose": {
+        "description": ""
+    },
+    "back": "Back",
+    "@back": {
+        "description": ""
+    },
+    "finish": "Finish",
+    "@finish": {
+        "description": ""
     }
 }
