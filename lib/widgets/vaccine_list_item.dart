@@ -22,7 +22,22 @@ class _VaccineListItemState extends State<VaccineListItem> {
   bool _state = false;
   bool _isDeadlineLoading = false;
 
-  String getNextDate(PetModel pet) {
+  bool _getCheckBoxStatus(PetModel pet) {
+    DateTime deadline = pet.trackedVaccines[widget.vaccine.docId];
+    DateTime today = DateTime.now();
+
+    if (deadline == null) return false;
+
+    int diff = deadline.difference(today).inDays;
+
+    if (diff >= 14) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  String _getNextDate(PetModel pet) {
     DateTime deadline = pet.trackedVaccines[widget.vaccine.docId];
     if (deadline != null) {
       return DateFormat("HH:mm dd/MM/yyyy").format(deadline);
@@ -31,7 +46,7 @@ class _VaccineListItemState extends State<VaccineListItem> {
     }
   }
 
-  Color getStatusColor(PetModel pet) {
+  Color _getStatusColor(PetModel pet) {
     DateTime deadline = pet.trackedVaccines[widget.vaccine.docId];
     DateTime today = DateTime.now();
 
@@ -53,9 +68,7 @@ class _VaccineListItemState extends State<VaccineListItem> {
     final pet = context
         .read<GeneralProviderData>()
         .pets[context.read<GeneralProviderData>().currentShownPetIndex];
-    if (pet.trackedVaccines.containsKey(widget.vaccine.docId)) {
-      this._state = true;
-    }
+    this._state = this._getCheckBoxStatus(pet);
     super.initState();
   }
 
@@ -63,7 +76,7 @@ class _VaccineListItemState extends State<VaccineListItem> {
   Widget build(BuildContext context) {
     final generalData = context.read<GeneralProviderData>();
     final pet = generalData.pets[generalData.currentShownPetIndex];
-    String dateString = getNextDate(pet);
+    String dateString = _getNextDate(pet);
 
     return this._isDeadlineLoading
         ? Center(
@@ -73,7 +86,7 @@ class _VaccineListItemState extends State<VaccineListItem> {
             padding: const EdgeInsets.all(8.0),
             child: BaseShadow(
               child: ListTile(
-                tileColor: getStatusColor(pet),
+                tileColor: _getStatusColor(pet),
                 title: Text(
                   widget.vaccine.name,
                   style: TextStyle(

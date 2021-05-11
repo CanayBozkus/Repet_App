@@ -633,7 +633,11 @@ class PetModel {
 
       // Add it to cloud, local and RAM
       Map<String, DateTime> newVaccs = this.trackedVaccines;
-      newVaccs.putIfAbsent(vaccine.docId, () => nextDeadline);
+      newVaccs.update(
+        vaccine.docId,
+        (value) => nextDeadline,
+        ifAbsent: () => nextDeadline,
+      );
       await this.updateData({"trackedVaccines": newVaccs});
     } catch (error) {
       print(error);
