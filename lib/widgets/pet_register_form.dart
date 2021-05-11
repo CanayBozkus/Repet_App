@@ -187,7 +187,12 @@ class _PetRegisterFormState extends State<PetRegisterForm> {
                               ? widget.petModel.month.toString()
                               : null,
                           onsaved: (String value) {
-                            widget.petModel.month = int.parse(value);
+                            int val = int.tryParse(value);
+                            if (val == null) {
+                              widget.petModel.month = 0;
+                            } else {
+                              widget.petModel.month = val;
+                            }
                           },
                           validator: (String value) {
                             if (value.isNotEmpty &&
