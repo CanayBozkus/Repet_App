@@ -240,6 +240,8 @@ class _PetHealthFormState extends State<PetHealthForm> {
                                 await newUser.addPet(widget.petModel, true);
                             if (petResult) {
                               await newUser.signOut();
+                              context.read<GeneralProviderData>().newUser =
+                                  null;
                               Navigator.pushReplacementNamed(
                                 context,
                                 LoginScreen.routeName,
