@@ -93,7 +93,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           onsaved: (String value) {
                             _newUser.nameSurname = value;
                           },
-                          validator: FormGenerator.nameValidatorGenerator('your'),
+                          validator:
+                              FormGenerator.nameValidatorGenerator('your'),
                         ),
                         FormGenerator.addInput(
                           label: 'Age',
@@ -170,7 +171,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         RichText(
                           text: TextSpan(
                             text:
-                            "Kişisel verilerinize dair Aydınlatma Metni için  ",
+                                "Kişisel verilerinize dair Aydınlatma Metni için  ",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Color(0xFF6f6f6f),
@@ -214,8 +215,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
                           _formKey.currentState.save();
-                          context.read<GeneralProviderData>().newUser = _newUser;
-                          Navigator.pushNamed(context, PetRegistrationScreen.routeName,);
+                          context.read<GeneralProviderData>().newUser =
+                              _newUser;
+                          Navigator.pushNamed(
+                            context,
+                            PetRegistrationScreen.routeName,
+                          );
                         }
                       },
                       width: 120,

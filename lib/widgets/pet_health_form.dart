@@ -35,6 +35,7 @@ class _PetHealthFormState extends State<PetHealthForm> {
     _controller.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,7 +50,11 @@ class _PetHealthFormState extends State<PetHealthForm> {
                   onPressed: () {
                     setState(() {
                       _subPageIndex = 0;
-                      _controller.animateToPage(_subPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                      _controller.animateToPage(
+                        _subPageIndex,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeOut,
+                      );
                     });
                   },
                   empty: _subPageIndex != _controller.initialPage,
@@ -61,7 +66,11 @@ class _PetHealthFormState extends State<PetHealthForm> {
                   onPressed: () {
                     setState(() {
                       _subPageIndex = 1;
-                      _controller.animateToPage(_subPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                      _controller.animateToPage(
+                        _subPageIndex,
+                        duration: Duration(milliseconds: 500),
+                        curve: Curves.easeOut,
+                      );
                     });
                   },
                   empty: _subPageIndex == _controller.initialPage,
@@ -85,60 +94,61 @@ class _PetHealthFormState extends State<PetHealthForm> {
           height: 10,
         ),
         Expanded(
-          child: PageView(
-            controller: _controller,
-            onPageChanged: (index){
-              setState(() {
-                _subPageIndex = index;
-              });
-            },
-            children: [
-              ListView(
-                padding: generalScreenPadding,
-                children: [
-                  ...widget.petModel
-                      .getAllergies()
-                      .map((e) => FormGenerator.addCheckableListTile(
-                    text: e,
-                    onTap: () {
-                      setState(() {
-                        if (widget.petModel.allergies.contains(e)) {
-                          widget.petModel.allergies.remove(e);
-                        } else {
-                          widget.petModel.allergies.add(e);
-                        }
-                      });
-
-                    },
-                    checked: widget.petModel.allergies.contains(e),
-                  )).toList(),
-                ],
-              ),
-              ListView(
-                padding: generalScreenPadding,
-                children: [
-                  ...widget.petModel
-                      .getDisabilities()
-                      .map((e) => FormGenerator.addCheckableListTile(
-                    text: e,
-                    onTap: () {
-                      setState(() {
-                        if (widget.petModel.disabilities.contains(e)) {
-                          widget.petModel.disabilities.remove(e);
-                        } else {
-                          widget.petModel.disabilities.add(e);
-                        }
-                      });
-
-                    },
-                    checked: widget.petModel.disabilities.contains(e),
-                  )).toList(),
-                ],
-              ),
-            ],
-          )
+            child: PageView(
+          controller: _controller,
+          onPageChanged: (index) {
+            setState(() {
+              _subPageIndex = index;
+            });
+          },
+          children: [
+            ListView(
+              padding: generalScreenPadding,
+              children: [
+                ...widget.petModel
+                    .getAllergies()
+                    .map((e) => FormGenerator.addCheckableListTile(
+                          text: e,
+                          onTap: () {
+                            setState(() {
+                              if (widget.petModel.allergies.contains(e)) {
+                                widget.petModel.allergies.remove(e);
+                              } else {
+                                widget.petModel.allergies.add(e);
+                              }
+                            });
+                          },
+                          checked: widget.petModel.allergies.contains(e),
+                        ))
+                    .toList(),
+              ],
+            ),
+            ListView(
+              padding: generalScreenPadding,
+              children: [
+                ...widget.petModel
+                    .getDisabilities()
+                    .map((e) => FormGenerator.addCheckableListTile(
+                          text: e,
+                          onTap: () {
+                            setState(() {
+                              if (widget.petModel.disabilities.contains(e)) {
+                                widget.petModel.disabilities.remove(e);
+                              } else {
+                                widget.petModel.disabilities.add(e);
+                              }
+                            });
+                          },
+                          checked: widget.petModel.disabilities.contains(e),
+                        ))
+                    .toList(),
+              ],
+            ),
+          ],
+        )),
+        SizedBox(
+          height: 10,
         ),
-        SizedBox(height: 10,),
         Padding(
           padding: generalScreenPadding,
           child: Row(
@@ -147,81 +157,117 @@ class _PetHealthFormState extends State<PetHealthForm> {
               BaseButton(
                 text: 'Geri',
                 onPressed: () {
-                  if(_subPageIndex == 0){
-                    widget.parentController.animateToPage(0, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                  if (_subPageIndex == 0) {
+                    widget.parentController.animateToPage(
+                      0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                    );
                     return;
                   }
                   setState(() {
                     _subPageIndex = 0;
-                    _controller.animateToPage(_subPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
+                    _controller.animateToPage(
+                      _subPageIndex,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.easeOut,
+                    );
                   });
                 },
                 width: 120,
               ),
-              _isCreating ? Spinner() : BaseButton(
-                text: _subPageIndex == 0 ? 'İleri' : 'Bitir',
-                onPressed: () async {
-
-                  if(_subPageIndex == 0){
-                    return setState(() {
-                      _subPageIndex = 1;
-                      _controller.animateToPage(_subPageIndex, duration: Duration(milliseconds: 500), curve: Curves.easeOut,);
-                    });
-                  }
-
-                  bool isConnected = await checkInternetConnection();
-                  if(!isConnected){
-                    return showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text(
-                              'Error',
-                              textAlign: TextAlign.center,
-                            ),
-                            titleTextStyle: TextStyle(
-                                color: kPrimaryColor,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w800
-                            ),
-                            content: Container(
-                              height: 100,
-                              child: Center(
-                                child: Text('No Internet Connection'),
-                              ),
-                            ),
-                          );
+              _isCreating
+                  ? Spinner()
+                  : BaseButton(
+                      text: _subPageIndex == 0 ? 'İleri' : 'Bitir',
+                      onPressed: () async {
+                        if (_subPageIndex == 0) {
+                          return setState(() {
+                            _subPageIndex = 1;
+                            _controller.animateToPage(
+                              _subPageIndex,
+                              duration: Duration(milliseconds: 500),
+                              curve: Curves.easeOut,
+                            );
+                          });
                         }
-                    );
-                  }
 
-                  setState(() {
-                    _isCreating = true;
-                  });
+                        bool isConnected = await checkInternetConnection();
+                        if (!isConnected) {
+                          return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    'Error',
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  titleTextStyle: TextStyle(
+                                      color: kPrimaryColor,
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w800),
+                                  content: Container(
+                                    height: 100,
+                                    child: Center(
+                                      child: Text('No Internet Connection'),
+                                    ),
+                                  ),
+                                );
+                              });
+                        }
 
-                  UserModel newUser = context.read<GeneralProviderData>().newUser;
+                        setState(() {
+                          _isCreating = true;
+                        });
 
-                  if(newUser != null){
-                    bool userResult = await newUser.createUser();
-                    if(userResult){
-                      bool petResult = await newUser.addPet(widget.petModel, true);
-                      if(petResult){
-                        await newUser.signOut();
-                        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-                      }
-                    }
-                  }
-                  else{
-                    bool petResult = await context.read<GeneralProviderData>().currentUser.addPet(widget.petModel, false);
-                    context.read<GeneralProviderData>().updatePetsMap(widget.petModel);
-                    if(petResult){
-                      Navigator.pop(context);
-                    }
-                  }
+                        UserModel newUser =
+                            context.read<GeneralProviderData>().newUser;
 
-                },
-                width: 120,
-              )
+                        if (newUser != null) {
+                          bool userResult = await newUser.createUser(
+                            callbackFunc: (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(value),
+                                  backgroundColor: Theme.of(context).errorColor,
+                                  duration: Duration(seconds: 5),
+                                ),
+                              );
+                            },
+                          );
+                          if (userResult) {
+                            bool petResult =
+                                await newUser.addPet(widget.petModel, true);
+                            if (petResult) {
+                              await newUser.signOut();
+                              Navigator.pushReplacementNamed(
+                                context,
+                                LoginScreen.routeName,
+                              );
+                            }
+                          } else {
+                            // Wipe all stored data and return to the login screen.
+                            context.read<GeneralProviderData>().newUser = null;
+                            Navigator.pushReplacementNamed(
+                              context,
+                              LoginScreen.routeName,
+                            );
+                          }
+                        } else {
+                          bool petResult = await context
+                              .read<GeneralProviderData>()
+                              .currentUser
+                              .addPet(widget.petModel, false);
+                          context
+                              .read<GeneralProviderData>()
+                              .updatePetsMap(widget.petModel);
+                          if (petResult) {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+                      width: 120,
+                    )
             ],
           ),
         ),

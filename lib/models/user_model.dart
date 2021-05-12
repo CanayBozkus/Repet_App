@@ -35,7 +35,7 @@ class UserModel {
   FirebaseFirestore _fireStore;
   bool newsSetterConfirmation = true;
 
-  Future<bool> createUser() async {
+  Future<bool> createUser({Function(String) callbackFunc}) async {
     /*
       Future<bool> createUser() async:
 
@@ -53,7 +53,8 @@ class UserModel {
         server and saving the data to local database finishes or process fails.
         If process was successful, then Future yields true.Yields false otherwise
     */
-    bool isCloudDataCreated = await this.createUserForCloud();
+    bool isCloudDataCreated =
+        await this.createUserForCloud(callbackFunc: callbackFunc);
     if (isCloudDataCreated) {
       bool isLocalDataCreated = this.createUserForLocal();
       return isLocalDataCreated;
@@ -61,7 +62,7 @@ class UserModel {
     return isCloudDataCreated;
   }
 
-  Future<bool> createUserForCloud() async {
+  Future<bool> createUserForCloud({Function(String) callbackFunc}) async {
     /*
       Future<bool> createUserForCloud() async:
 
@@ -103,6 +104,31 @@ class UserModel {
       // with the user.
       await _deleteUser();
       return false; // indicates that process failed.
+    } on FirebaseAuthException catch (authErr) {
+      final errCode = authErr.code.trim();
+      String uiDisplayError;
+      switch (errCode) {
+        case "email-already-in-use":
+          uiDisplayError =
+              "This email is currently being used by another user.";
+          break;
+        case "invalid-email":
+          uiDisplayError = "Please give a valid email.";
+          break;
+        case "operation-not-allowed":
+          uiDisplayError =
+              "Signing up with email and password is currently disabled, please try again later.";
+          break;
+        case "weak-password":
+          uiDisplayError = "Please set up a stronger password.";
+          break;
+        default:
+          uiDisplayError =
+              "Signing up procedure has failed due to a general error, please try again.";
+          break;
+      }
+      callbackFunc(uiDisplayError);
+      return false;
     } catch (e) {
       print(e);
       await _deleteUser();
